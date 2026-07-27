@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PoseAI - AI Fitness Trainer Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <!-- ===================== DESKTOP NAV RAIL ===================== -->
+      <header id="main-header" class="main-header nav-rail">
+        <div id="logo" class="logo">
+          <span class="logo-text">P</span>
+        </div>
+
+        <nav id="main-nav" class="main-nav">
+          <ul class="nav-links">
+            <li class="nav-item is-active">
+              <a href="#dashboard" class="nav-link" title="Dashboard">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span>Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#live-workout" class="nav-link" title="Live Workout">
+                <span class="material-symbols-outlined">fitness_center</span>
+                <span>Workout</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#todays-performance" class="nav-link" title="Analytics">
+                <span class="material-symbols-outlined">monitoring</span>
+                <span>Analytics</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#weekly-progress" class="nav-link" title="Progress">
+                <span class="material-symbols-outlined">show_chart</span>
+                <span>Progress</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#achievements" class="nav-link" title="Achievements">
+                <span class="material-symbols-outlined">military_tech</span>
+                <span>Awards</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#exercise-checklist" class="nav-link" title="Exercises">
+                <span class="material-symbols-outlined">checklist</span>
+                <span>Exercises</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#profile" class="nav-link" title="Profile">
+                <span class="material-symbols-outlined">person</span>
+                <span>Profile</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="nav-rail-footer">
+          <div
+            id="connection-status"
+            class="connection-status"
+            aria-live="polite"
+          >
+            Disconnected
+          </div>
+        </div>
+      </header>
+
+      <!-- ===================== MAIN CONTENT ===================== -->
+      <div class="main-shell">
+        <main id="dashboard" class="dashboard" aria-label="PoseAI Dashboard">
+          <!-- Mobile-only nav strip: mirrors the rail so every section stays
+               reachable when the sidebar is hidden below 900px. -->
+          <nav class="mobile-nav-strip" aria-label="Mobile navigation">
+            <div class="nav-item is-active">
+              <a href="#dashboard" class="nav-link">
+                <span class="material-symbols-outlined">dashboard</span
+                ><span>Dashboard</span>
+              </a>
+            </div>
+            <div class="nav-item">
+              <a href="#live-workout" class="nav-link">
+                <span class="material-symbols-outlined">fitness_center</span
+                ><span>Workout</span>
+              </a>
+            </div>
+            <div class="nav-item">
+              <a href="#todays-performance" class="nav-link">
+                <span class="material-symbols-outlined">monitoring</span
+                ><span>Analytics</span>
+              </a>
+            </div>
+            <div class="nav-item">
+              <a href="#weekly-progress" class="nav-link">
+                <span class="material-symbols-outlined">show_chart</span
+                ><span>Progress</span>
+              </a>
+            </div>
+            <div class="nav-item">
+              <a href="#achievements" class="nav-link">
+                <span class="material-symbols-outlined">military_tech</span
+                ><span>Awards</span>
+              </a>
+            </div>
+            <div class="nav-item">
+              <a href="#exercise-checklist" class="nav-link">
+                <span class="material-symbols-outlined">checklist</span
+                ><span>Exercises</span>
+              </a>
+            </div>
+            <div class="nav-item">
+              <a href="#profile" class="nav-link">
+                <span class="material-symbols-outlined">person</span
+                ><span>Profile</span>
+              </a>
+            </div>
+          </nav>
+
+          <!-- Greeting header: Welcome / Streak / Goal -->
+          <section
+            id="main-dashboard"
+            class="main-dashboard"
+            aria-label="Main Dashboard"
+          >
+            <article id="welcome-card" class="welcome-card header-greeting">
+              <h2 class="card-title">Welcome back</h2>
+              <p class="card-content">
+                Let's continue building your streak today.
+              </p>
+            </article>
+
+            <div class="header-stats">
+              <article id="current-streak" class="streak-card header-stat-chip">
+                <span class="material-symbols-outlined"
+                  >local_fire_department</span
+                >
+                <div>
+                  <h2 class="card-title">Streak</h2>
+                  <p class="card-content">--</p>
+                </div>
+              </article>
+
+              <article id="todays-goal" class="goal-card header-stat-chip">
+                <span class="material-symbols-outlined">track_changes</span>
+                <div>
+                  <h2 class="card-title">Today's Goal</h2>
+                  <p class="card-content">--</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- Live Workout + Camera -->
+          <section
+            id="hero-section"
+            class="hero-section"
+            aria-label="Hero Section"
+          >
+            <div id="hero-left" class="hero-left">
+              <div class="camera-controls" style="display:flex; gap:0.75rem; align-items:center; margin-bottom:1rem; flex-wrap:wrap;">
+                <label for="selected-exercise" class="sr-only">Select exercise</label>
+                <select id="selected-exercise" class="exercise-select" aria-label="Select exercise">
+                  <option value="1">Bicep Curl</option>
+                  <option value="2">Push-up</option>
+                  <option value="3">Squat</option>
+                  <option value="4">Triceps Pushdown</option>
+                  <option value="5">Lunges</option>
+                </select>
+                <button id="start-workout" class="action-button" type="button">Start Workout</button>
+                <button id="pause-workout" class="action-button secondary" type="button">Pause</button>
+                <button id="resume-workout" class="action-button secondary" type="button">Resume</button>
+                <button id="finish-workout" class="action-button secondary" type="button">Finish</button>
+              </div>
+              <div
+                id="camera-feed"
+                class="camera-feed"
+                data-camera-status="offline"
+              ></div>
+            </div>
+
+            <div id="hero-right" class="hero-right">
+              <section
+                id="live-workout"
+                class="live-workout-panel"
+                aria-label="Live Workout"
+              >
+                <h2 class="panel-title">Live Workout</h2>
+
+                <div id="exercise-name" class="workout-stat">
+                  <span class="stat-label">Exercise Name</span>
+                  <span class="stat-value">--</span>
+                </div>
+
+                <div class="stat-grid">
+                  <div id="current-rep" class="workout-stat">
+                    <span class="stat-label">Current Rep</span>
+                    <span class="stat-value">--</span>
+                  </div>
+
+                  <div id="goal-rep" class="workout-stat">
+                    <span class="stat-label">Goal Rep</span>
+                    <span class="stat-value">--</span>
+                  </div>
+
+                  <div id="current-set" class="workout-stat">
+                    <span class="stat-label">Current Set</span>
+                    <span class="stat-value">--</span>
+                  </div>
+
+                  <div id="current-stage" class="workout-stat">
+                    <span class="stat-label">Stage</span>
+                    <span class="stat-value">--</span>
+                  </div>
+
+                  <div id="current-angle" class="workout-stat">
+                    <span class="stat-label">Joint Angle</span>
+                    <span class="stat-value">--</span>
+                  </div>
+                </div>
+
+                <div class="stat-row">
+                  <div id="workout-timer" class="workout-stat">
+                    <span class="stat-label">Timer</span>
+                    <span class="stat-value">--</span>
+                  </div>
+
+                  <div id="calories" class="workout-stat">
+                    <span class="stat-label">Calories</span>
+                    <span class="stat-value">--</span>
+                  </div>
+                </div>
+
+                <div id="feedback" class="workout-stat">
+                  <span class="stat-label">AI Feedback</span>
+                  <span class="stat-value">--</span>
+                </div>
+              </section>
+            </div>
+          </section>
+
+          <section
+            id="active-set-progress"
+            class="active-set-progress"
+            aria-label="Active Set Progress"
+          >
+            <h2 class="section-title">Active Set Progress</h2>
+
+            <div id="set-1" class="set-progress-item">
+              <span class="set-label">Set 1</span>
+              <progress class="set-progress-bar" value="0" max="100"></progress>
+            </div>
+
+            <div id="set-2" class="set-progress-item">
+              <span class="set-label">Set 2</span>
+              <progress class="set-progress-bar" value="0" max="100"></progress>
+            </div>
+
+            <div id="set-3" class="set-progress-item">
+              <span class="set-label">Set 3</span>
+              <progress class="set-progress-bar" value="0" max="100"></progress>
+            </div>
+
+            <div id="overall-progress" class="overall-progress-item">
+              <span class="set-label">Overall Progress</span>
+              <progress
+                class="overall-progress-bar"
+                value="0"
+                max="100"
+              ></progress>
+            </div>
+          </section>
+
+          <!-- Today's Performance -->
+          <section
+            id="todays-performance"
+            class="todays-performance"
+            aria-label="Today's Performance"
+          >
+            <h2 class="section-title">Today's Performance</h2>
+
+            <div class="performance-stat-grid">
+              <div id="total-reps" class="performance-stat">
+                <div class="stat-icon">
+                  <span class="material-symbols-outlined">fitness_center</span>
+                </div>
+                <span class="stat-label">Total Reps</span>
+                <span class="stat-value">--</span>
+              </div>
+
+              <div id="workout-time" class="performance-stat">
+                <div class="stat-icon">
+                  <span class="material-symbols-outlined">timer</span>
+                </div>
+                <span class="stat-label">Workout Time</span>
+                <span class="stat-value">--</span>
+              </div>
+
+              <div id="performance-calories" class="performance-stat">
+                <div class="stat-icon">
+                  <span class="material-symbols-outlined"
+                    >local_fire_department</span
+                  >
+                </div>
+                <span class="stat-label">Calories</span>
+                <span class="stat-value">--</span>
+              </div>
+
+              <div id="xp" class="performance-stat">
+                <div class="stat-icon">
+                  <span class="material-symbols-outlined">bolt</span>
+                </div>
+                <span class="stat-label">XP</span>
+                <span class="stat-value">--</span>
+              </div>
+
+              <div id="exercises-completed" class="performance-stat">
+                <div class="stat-icon">
+                  <span class="material-symbols-outlined">task_alt</span>
+                </div>
+                <span class="stat-label">Exercises Completed</span>
+                <span class="stat-value">--</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Weekly Progress -->
+          <section
+            id="weekly-progress"
+            class="weekly-progress"
+            aria-label="Weekly Progress"
+          >
+            <h2 class="section-title">Weekly Progress</h2>
+            <div
+              id="weekly-progress-chart"
+              class="chart-container"
+              aria-label="Weekly Progress Chart"
+            ></div>
+          </section>
+
+          <!-- Achievements -->
+          <section
+            id="achievements"
+            class="achievements"
+            aria-label="Achievements"
+          >
+            <h2 class="section-title">Achievements</h2>
+            <article id="achievement-card" class="card achievement-card">
+              <h3 class="card-title">No achievements yet</h3>
+              <p class="card-content">
+                Complete workouts to start unlocking milestones.
+              </p>
+            </article>
+          </section>
+
+          <!-- AI Coach -->
+          <section id="ai-coach" class="ai-coach" aria-label="AI Coach">
+            <h2 class="section-title">AI Coach</h2>
+            <article
+              id="ai-coach-card"
+              class="card ai-coach-card"
+              data-coach-type="info"
+            >
+              <div>
+                <h3 class="card-title">AI Coach</h3>
+                <p class="card-content">
+                  Start a workout to receive real-time form feedback.
+                </p>
+              </div>
+            </article>
+          </section>
+
+          <!-- Exercise Checklist + Daily Challenge / Personal Best -->
+          <div class="secondary-row">
+            <section
+              id="exercise-checklist"
+              class="exercise-checklist"
+              aria-label="Exercise Checklist"
+            >
+              <h2 class="section-title">Exercise Checklist</h2>
+              <ul id="checklist-items" class="checklist-items">
+                <li class="checklist-item">
+                  <input
+                    type="checkbox"
+                    id="checklist-item-1"
+                    class="checklist-checkbox"
+                    disabled
+                  />
+                  <label for="checklist-item-1"
+                    >No exercises scheduled yet</label
+                  >
+                </li>
+              </ul>
+            </section>
+
+            <div class="stack">
+              <section
+                id="daily-challenge"
+                class="daily-challenge"
+                aria-label="Daily Challenge"
+              >
+                <h2 class="section-title">Daily Challenge</h2>
+                <article
+                  id="daily-challenge-card"
+                  class="card daily-challenge-card"
+                >
+                  <h3 class="card-title">No challenge active</h3>
+                  <p class="card-content">
+                    Check back once today's challenge is assigned.
+                  </p>
+                </article>
+              </section>
+
+              <section
+                id="personal-best"
+                class="personal-best"
+                aria-label="Personal Best"
+              >
+                <h2 class="section-title">Personal Best</h2>
+                <article
+                  id="personal-best-card"
+                  class="card personal-best-card"
+                >
+                  <h3 class="card-title">No records yet</h3>
+                  <p class="card-content">
+                    Your top performances will appear here.
+                  </p>
+                </article>
+              </section>
+            </div>
+          </div>
+
+          <!-- Streak Calendar -->
+          <section
+            id="streak-calendar"
+            class="streak-calendar"
+            aria-label="Streak Calendar"
+          >
+            <h2 class="section-title">Streak Calendar</h2>
+            <div
+              id="streak-calendar-grid"
+              class="streak-calendar-grid"
+              aria-label="Streak Calendar Grid"
+            ></div>
+          </section>
+
+          <!-- Session Summary -->
+          <section
+            id="session-summary"
+            class="session-summary"
+            aria-label="Session Summary"
+          >
+            <h2 class="section-title">Session Summary</h2>
+            <article
+              id="session-summary-card"
+              class="card session-summary-card"
+            >
+              <h3 class="card-title">Current Session</h3>
+              <p class="card-content">
+                Complete a workout to see your summary here.
+              </p>
+            </article>
+          </section>
+
+          <footer id="main-footer" class="main-footer">
+            <p class="footer-text">PoseAI &mdash; your AI fitness trainer</p>
+          </footer>
+        </main>
+      </div>
+    </div>
+
+    <script src="./js/api.js"></script>
+    <script src="./js/dashboard.js"></script>
+    <script src="./js/app.js"></script>
+  </body>
+</html>
