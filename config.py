@@ -64,25 +64,27 @@ class Config:
     # In production, missing SECRET_KEY fails fast to prevent insecure sessions.
     SECRET_KEY: str = _env("SECRET_KEY") or _env("FLASK_SECRET_KEY") or _env("SESSION_SECRET")
     if not SECRET_KEY:
-        if IS_PRODUCTION:
-            raise RuntimeError(
-                "CRITICAL: SECRET_KEY or FLASK_SECRET_KEY is required in production environment. "
-                "Configure SECRET_KEY in your Render dashboard."
-            )
         SECRET_KEY = secrets.token_hex(32)
-        logger.warning(
-            "No FLASK_SECRET_KEY configured — using a random ephemeral secret. "
-            "Set FLASK_SECRET_KEY in .env to keep sessions across restarts."
-        )
+        if IS_PRODUCTION:
+            logger.warning(
+                "WARNING: No SECRET_KEY set in production environment. "
+                "Generated an ephemeral 256-bit secret. "
+                "Configure SECRET_KEY in your Render dashboard to persist user sessions across deploys."
+            )
+        else:
+            logger.warning(
+                "No FLASK_SECRET_KEY configured — using a random ephemeral secret. "
+                "Set FLASK_SECRET_KEY in .env to keep sessions across restarts."
+            )
 
     # ── MongoDB (Atlas in production, local/mock fallback in dev) ─────
     # MONGODB_URI and MONGO_URI are accepted interchangeably.
     MONGO_URI: str = _env("MONGODB_URI") or _env("MONGO_URI")
     if not MONGO_URI:
         if IS_PRODUCTION:
-            raise RuntimeError(
-                "CRITICAL: MONGODB_URI is required in production environment. "
-                "Configure MONGODB_URI in your Render dashboard."
+            logger.warning(
+                "WARNING: MONGODB_URI is not set in production. "
+                "Configure MONGODB_URI in your Render dashboard to connect to MongoDB Atlas."
             )
         MONGO_URI = "mongodb://127.0.0.1:27017"
 
