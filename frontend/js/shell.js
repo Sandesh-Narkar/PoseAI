@@ -92,9 +92,9 @@
           </button>
           <div class="absolute left-0 top-full mt-2 w-48 bg-white rounded-xl shadow-lg py-1 hidden border border-slate-200 z-50" id="moreDropdown" role="menu">
             ${MORE.map(
-              (m) =>
-                `<a class="block px-4 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors" href="${m.href}" role="menuitem">${m.label}</a>`,
-            ).join("")}
+      (m) =>
+        `<a class="block px-4 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors" href="${m.href}" role="menuitem">${m.label}</a>`,
+    ).join("")}
           </div>
         </div>
       </nav>
@@ -581,7 +581,7 @@
       }
 
 
-/* ── Shared dismiss behaviour ────────────────────────────────── */
+      /* ── Shared dismiss behaviour ────────────────────────────────── */
       document.addEventListener("keydown", function (event) {
         if (event.key !== "Escape") return;
         closeAllMenus();
@@ -835,3 +835,4 @@
     boot();
   }
 })();
+

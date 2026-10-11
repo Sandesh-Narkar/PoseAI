@@ -93,8 +93,10 @@ class Config:
     MONGODB_DATABASE: str = MONGO_DB_NAME
     MONGO_CONNECT_TIMEOUT_MS: int = int(_env("MONGO_CONNECT_TIMEOUT_MS", "8000"))
 
-    # Allows in-memory mongomock fallback when unreachable if explicitly enabled.
-    MONGO_ALLOW_MOCK: bool = _as_bool(_env("MONGO_ALLOW_MOCK"), default=False)
+    # Allows fallback if real MongoDB is unreachable, preventing authentication downtime.
+    # Set MONGO_ALLOW_MOCK=0 in Render if you strictly require hard rejection on DB outage.
+    _mock_env = os.getenv("MONGO_ALLOW_MOCK")
+    MONGO_ALLOW_MOCK: bool = _as_bool(_mock_env, default=True) if _mock_env is not None else True
 
     # ── Cross-origin resource sharing ────────────────────────────────
     # Supports FRONTEND_URL, ALLOWED_ORIGINS, or legacy CORS_ORIGINS.
