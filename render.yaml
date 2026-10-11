@@ -36,7 +36,7 @@ services:
       - key: SESSION_COOKIE_SECURE
         value: "1"
       - key: SESSION_COOKIE_SAMESITE
-        value: "None"
+        value: "Lax"
       - key: MONGO_ALLOW_MOCK
         value: "0"
       - key: RATE_LIMIT_ENABLED

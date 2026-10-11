@@ -451,6 +451,46 @@ class PoseAIAuthSuite(unittest.TestCase):
         current_hash = hash_password("RehashMe12345678")
         self.assertFalse(check_needs_rehash(current_hash))
 
+    # ── Post-login dashboard access under proxy (Render) ─────────────
+    def test_login_and_navigate_to_dashboard_with_proxy_headers(self):
+        # 1. Sign up a user
+        signup_resp = self.client.post("/auth/signup", json={
+            "name": "Dashboard Tester",
+            "email": "dash.tester@poseai.test",
+            "password": self.VALID_PASSWORD,
+            "confirm_password": self.VALID_PASSWORD,
+        }, headers={"X-Forwarded-Proto": "https", "X-Forwarded-For": "198.51.100.1"})
+        self.assertEqual(signup_resp.status_code, 201)
+
+        # 2. Log in with proxy headers
+        login_resp = self.client.post("/auth/login", json={
+            "email": "dash.tester@poseai.test",
+            "password": self.VALID_PASSWORD,
+        }, headers={"X-Forwarded-Proto": "https", "X-Forwarded-For": "198.51.100.1"})
+        self.assertEqual(login_resp.status_code, 200)
+        self.assertTrue(login_resp.get_json().get("success"))
+        self.assertEqual(login_resp.get_json().get("redirect"), "/dashboard")
+
+        # 3. GET /dashboard - must serve HTML, NOT bounce back to /login (302)
+        dash_resp = self.client.get(
+            "/dashboard",
+            headers={"X-Forwarded-Proto": "https", "Accept": "text/html"}
+        )
+        self.assertEqual(dash_resp.status_code, 200)
+        dash_html = dash_resp.data.decode("utf-8")
+        self.assertIn("<!DOCTYPE html>", dash_html)
+        self.assertIn("PoseAI", dash_html)
+
+        # 4. GET /api/auth/me - must report authenticated
+        me_resp = self.client.get(
+            "/api/auth/me",
+            headers={"X-Forwarded-Proto": "https"}
+        )
+        self.assertEqual(me_resp.status_code, 200)
+        me_data = me_resp.get_json()
+        self.assertTrue(me_data.get("authenticated"))
+        self.assertEqual(me_data.get("user", {}).get("email"), "dash.tester@poseai.test")
+
 
 class GoogleProviderConfigTests(unittest.TestCase):
     """'Continue with Google' must never lead to a dead-end error."""

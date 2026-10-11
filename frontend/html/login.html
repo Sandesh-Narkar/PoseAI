@@ -451,7 +451,12 @@
           var result = await response.json().catch(function () { return {}; });
 
           if (response.ok && result.success) {
-            window.location.href = result.redirect || "/dashboard";
+            if (result.user) {
+              try {
+                localStorage.setItem("poseai_user", JSON.stringify(result.user));
+              } catch (_) {}
+            }
+            window.location.replace(result.redirect || "/dashboard");
           } else {
             setLoading(false);
             showAlert(result.message || "Invalid email or password.");

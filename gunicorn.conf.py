@@ -20,3 +20,25 @@ keepalive = int(os.environ.get("GUNICORN_KEEPALIVE", "5"))
 accesslog = "-"
 errorlog = "-"
 loglevel = "info"
+
+
+def on_starting(server):
+    """Ensure a unified SECRET_KEY is set in the master process before workers fork."""
+    import secrets
+    from pathlib import Path
+
+    if not os.environ.get("SECRET_KEY"):
+        secret_file = Path(__file__).resolve().parent / "data" / ".secret_key"
+        try:
+            if secret_file.exists():
+                stored = secret_file.read_text(encoding="utf-8").strip()
+                if stored and len(stored) >= 16:
+                    os.environ["SECRET_KEY"] = stored
+                    return
+            secret_file.parent.mkdir(parents=True, exist_ok=True)
+            new_key = secrets.token_hex(32)
+            secret_file.write_text(new_key, encoding="utf-8")
+            os.environ["SECRET_KEY"] = new_key
+        except Exception:
+            os.environ["SECRET_KEY"] = secrets.token_hex(32)
+

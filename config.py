@@ -48,6 +48,29 @@ def _as_bool(value: str | bool | None, default: bool = False) -> bool:
     return str(value).strip().lower() in {"1", "true", "yes", "on"}
 
 
+def _resolve_secret_key() -> str:
+    """Resolve a stable, persistent secret key for Flask sessions across Gunicorn workers and restarts."""
+    env_key = _env("SECRET_KEY") or _env("FLASK_SECRET_KEY") or _env("SESSION_SECRET")
+    if env_key:
+        return env_key
+
+    # Persist the generated secret to data/.secret_key so all Gunicorn workers share the exact same key
+    secret_file = Path(__file__).resolve().parent / "data" / ".secret_key"
+    try:
+        if secret_file.exists():
+            stored = secret_file.read_text(encoding="utf-8").strip()
+            if stored and len(stored) >= 16:
+                return stored
+        secret_file.parent.mkdir(parents=True, exist_ok=True)
+        new_key = secrets.token_hex(32)
+        secret_file.write_text(new_key, encoding="utf-8")
+        logger.info("Persisted stable SECRET_KEY to %s for cross-worker session sharing.", secret_file)
+        return new_key
+    except Exception as exc:
+        logger.warning("Could not persist secret key to disk (%s); generating in-memory key.", exc)
+        return secrets.token_hex(32)
+
+
 class Config:
     """Base configuration, populated from the environment / .env file."""
 
@@ -60,22 +83,8 @@ class Config:
     PORT: int = int(_env("PORT", "5000"))
 
     # ── Flask / session secret ───────────────────────────────────────
-    # SECRET_KEY and FLASK_SECRET_KEY are accepted interchangeably.
-    # In production, missing SECRET_KEY fails fast to prevent insecure sessions.
-    SECRET_KEY: str = _env("SECRET_KEY") or _env("FLASK_SECRET_KEY") or _env("SESSION_SECRET")
-    if not SECRET_KEY:
-        SECRET_KEY = secrets.token_hex(32)
-        if IS_PRODUCTION:
-            logger.warning(
-                "WARNING: No SECRET_KEY set in production environment. "
-                "Generated an ephemeral 256-bit secret. "
-                "Configure SECRET_KEY in your Render dashboard to persist user sessions across deploys."
-            )
-        else:
-            logger.warning(
-                "No FLASK_SECRET_KEY configured — using a random ephemeral secret. "
-                "Set FLASK_SECRET_KEY in .env to keep sessions across restarts."
-            )
+    # SECRET_KEY is stable across all Gunicorn workers via _resolve_secret_key
+    SECRET_KEY: str = _resolve_secret_key()
 
     # ── MongoDB (Atlas in production, local/mock fallback in dev) ─────
     # MONGODB_URI and MONGO_URI are accepted interchangeably.
@@ -111,18 +120,17 @@ class Config:
     CORS_ORIGINS: str = ALLOWED_ORIGINS
 
     # ── Session cookie security ──────────────────────────────────────
-    # Behind HTTPS / cross-origin in production, cookies require SameSite=None and Secure=True.
+    # Stable first-party cookie configuration so login/signup sessions persist reliably across page loads
+    SESSION_COOKIE_NAME: str = "poseai_session"
+    SESSION_COOKIE_PATH: str = "/"
+    SESSION_COOKIE_HTTPONLY: bool = True
+    SESSION_COOKIE_SAMESITE: str = _env("SESSION_COOKIE_SAMESITE", "Lax")
     SESSION_COOKIE_SECURE: bool = (
         _as_bool(_env("SESSION_COOKIE_SECURE"), default=True)
         if IS_PRODUCTION
-        else _as_bool(_env("SESSION_COOKIE_SECURE"), default=False)
+        else False
     )
-    SESSION_COOKIE_SAMESITE: str = (
-        _env("SESSION_COOKIE_SAMESITE", "None")
-        if IS_PRODUCTION
-        else _env("SESSION_COOKIE_SAMESITE", "Lax")
-    )
-    SESSION_COOKIE_HTTPONLY: bool = True
+    PERMANENT_SESSION_LIFETIME: int = int(_env("PERMANENT_SESSION_LIFETIME", "604800"))  # 7 days
 
     # ── Rate limiting (login/signup) ─────────────────────────────────
     RATELIMIT_STORAGE_URI: str = _env("RATELIMIT_STORAGE_URI", "memory://")

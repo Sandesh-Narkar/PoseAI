@@ -36,6 +36,7 @@ from typing import Any
 
 from flask import Flask, jsonify, request, Response, redirect, send_from_directory, session
 from werkzeug.exceptions import HTTPException
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from auth import auth_bp, limiter
 from config import Config
@@ -57,6 +58,24 @@ except ImportError:  # pragma: no cover - defensive fallback for minimal install
 app = Flask(__name__, static_folder=None)
 app.config.from_object(Config)
 app.secret_key = Config.SECRET_KEY
+
+# Ensure reverse proxies like Render pass real client protocol and host
+app.wsgi_app = ProxyFix(
+    app.wsgi_app,
+    x_for=1,
+    x_proto=1,
+    x_host=1,
+    x_port=1,
+    x_prefix=1,
+)
+
+# Explicitly ensure session cookie settings
+app.config["SESSION_COOKIE_NAME"] = Config.SESSION_COOKIE_NAME
+app.config["SESSION_COOKIE_HTTPONLY"] = Config.SESSION_COOKIE_HTTPONLY
+app.config["SESSION_COOKIE_SECURE"] = Config.SESSION_COOKIE_SECURE
+app.config["SESSION_COOKIE_SAMESITE"] = Config.SESSION_COOKIE_SAMESITE
+app.config["SESSION_COOKIE_PATH"] = Config.SESSION_COOKIE_PATH
+app.config["PERMANENT_SESSION_LIFETIME"] = Config.PERMANENT_SESSION_LIFETIME
 
 CORS_ORIGINS = Config.CORS_ORIGINS
 if CORS is not None:

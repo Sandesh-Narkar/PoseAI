@@ -541,11 +541,11 @@ def login():
     session["name"] = user.get("name") or user.get("full_name") or user.get("username", "")
     session["email"] = user.get("email", "")
 
+    session.permanent = True
     if remember:
-        session.permanent = True
         current_app.permanent_session_lifetime = timedelta(days=30)
     else:
-        session.permanent = False
+        current_app.permanent_session_lifetime = timedelta(days=7)
 
     return jsonify(
         success=True,
