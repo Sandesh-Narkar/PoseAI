@@ -187,6 +187,18 @@ class _PersistedUsers:
         return result
 
 
+def _masked_uri(raw_uri: str) -> str:
+    if "@" in raw_uri and "://" in raw_uri:
+        try:
+            prefix, rest = raw_uri.split("://", 1)
+            creds, host = rest.split("@", 1)
+            user = creds.split(":", 1)[0] if ":" in creds else creds
+            return f"{prefix}://{user}:***@{host}"
+        except Exception:
+            return "mongodb://***"
+    return raw_uri
+
+
 def _connect() -> None:
     global _client, _db, _connection_error, _using_mock
     if _db is not None:
@@ -195,20 +207,32 @@ def _connect() -> None:
     uri = Config.MONGO_URI
     db_name = Config.MONGO_DB_NAME
 
+    if Config.IS_PRODUCTION and ("127.0.0.1" in uri or "localhost" in uri):
+        logger.error(
+            "CRITICAL: MONGODB_URI is not set in Render environment variables! "
+            "Backend cannot connect to localhost in the cloud. "
+            "Add MONGODB_URI in your Render service dashboard under Environment Variables."
+        )
+
     try:
-        _client = MongoClient(uri, serverSelectionTimeoutMS=Config.MONGO_CONNECT_TIMEOUT_MS)
+        _client = MongoClient(
+            uri,
+            serverSelectionTimeoutMS=Config.MONGO_CONNECT_TIMEOUT_MS,
+            connectTimeoutMS=Config.MONGO_CONNECT_TIMEOUT_MS,
+        )
         # Force a real connection round-trip so failures surface immediately.
         _client.admin.command("ping")
         _db = _client[db_name]
         _using_mock = False
         _ensure_indexes(_db)
+        logger.info("Successfully connected to MongoDB (%s, database: %s).", _masked_uri(uri), db_name)
         return
     except PyMongoError as exc:
         _connection_error = str(exc)
     except Exception as exc:  # noqa: BLE001 - any connect failure should degrade gracefully
         _connection_error = str(exc)
 
-    logger.warning("MongoDB unreachable (%s). ", _connection_error)
+    logger.warning("MongoDB unreachable (%s: %s).", _masked_uri(uri), _connection_error)
     if not Config.MONGO_ALLOW_MOCK:
         raise MongoUnavailableError("MongoDB is not available.")
 

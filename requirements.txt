@@ -10,6 +10,8 @@ requests
 
 # Authentication (MongoDB + Argon2id + Google OAuth)
 pymongo
+dnspython
+mongomock
 argon2-cffi
 Authlib
 

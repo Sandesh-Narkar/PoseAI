@@ -32,11 +32,11 @@ load_dotenv(_ENV_FILE, override=False)
 
 
 def _env(key: str, default: str = "") -> str:
-    """Read a scalar env value with a fallback default."""
+    """Read a scalar env value with a fallback default, stripping whitespace and quotes."""
     value = os.getenv(key)
     if value is None or value.strip() == "":
         return default
-    return value.strip()
+    return value.strip().strip("'").strip('"')
 
 
 def _as_bool(value: str | bool | None, default: bool = False) -> bool:
@@ -91,11 +91,10 @@ class Config:
     MONGODB_URI: str = MONGO_URI
     MONGO_DB_NAME: str = _env("MONGODB_DATABASE") or _env("MONGO_DB_NAME", "poseai")
     MONGODB_DATABASE: str = MONGO_DB_NAME
-    MONGO_CONNECT_TIMEOUT_MS: int = int(_env("MONGO_CONNECT_TIMEOUT_MS", "4000"))
+    MONGO_CONNECT_TIMEOUT_MS: int = int(_env("MONGO_CONNECT_TIMEOUT_MS", "8000"))
 
-    # DEV ONLY — allows an in-memory mongomock fallback when unreachable.
-    # In production, mock fallback is strictly prohibited.
-    MONGO_ALLOW_MOCK: bool = False if IS_PRODUCTION else _as_bool(_env("MONGO_ALLOW_MOCK"), default=False)
+    # Allows in-memory mongomock fallback when unreachable if explicitly enabled.
+    MONGO_ALLOW_MOCK: bool = _as_bool(_env("MONGO_ALLOW_MOCK"), default=False)
 
     # ── Cross-origin resource sharing ────────────────────────────────
     # Supports FRONTEND_URL, ALLOWED_ORIGINS, or legacy CORS_ORIGINS.

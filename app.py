@@ -465,19 +465,23 @@ def api_health() -> tuple[Response, int]:
     Verifies database connectivity safely without exposing secrets.
     """
     db_status = "disconnected"
+    db_mode = "unknown"
     try:
         from database import mongo as mongo_db
         db = mongo_db.get_db()
         if db is not None:
             db.command("ping")
             db_status = "connected"
-    except Exception:
+            db_mode = "mock" if mongo_db.is_mock() else "live_mongodb"
+    except Exception as exc:
         db_status = "error"
+        db_mode = str(exc)[:120]
 
     return jsonify({
         "success": True,
         "status": "healthy",
         "database": db_status,
+        "database_mode": db_mode,
         "environment": Config.ENVIRONMENT,
     }), 200
 
