@@ -1,0 +1,470 @@
+/* PoseAI Analysis Page Styles */
+:root {
+  --analysis-font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --analysis-primary: #2563eb;
+  --analysis-primary-light: #eff6ff;
+  --analysis-primary-dark: #1d4ed8;
+  --analysis-secondary: #10b981;
+  --analysis-text-main: #0f172a;
+  --analysis-text-muted: #64748b;
+  --analysis-border: #e2e8f0;
+  --analysis-card-bg: #ffffff;
+  --analysis-bg: #f8fafc;
+  --analysis-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+  --analysis-radius: 16px;
+}
+
+html,
+body {
+  font-family: var(--analysis-font-sans);
+  background-color: var(--analysis-bg);
+  color: var(--analysis-text-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.analysis-container,
+.analysis-container *:not(.material-symbols-outlined) {
+  font-family: var(--analysis-font-sans);
+}
+
+button, input, select, textarea {
+  font-family: var(--analysis-font-sans);
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined' !important;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  display: inline-block;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}
+
+.analysis-container {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 24px 24px 64px 24px;
+}
+
+/* Page Header */
+.analysis-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+@media (min-width: 768px) {
+  .analysis-header {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+}
+
+.analysis-title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--analysis-text-main);
+  margin: 0 0 6px 0;
+}
+
+.analysis-subtitle {
+  font-size: 0.95rem;
+  color: var(--analysis-text-muted);
+  margin: 0;
+}
+
+.analysis-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.analysis-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+}
+
+.analysis-btn--primary {
+  background: var(--analysis-primary);
+  color: #ffffff;
+}
+
+.analysis-btn--primary:hover {
+  background: var(--analysis-primary-dark);
+}
+
+.analysis-btn--secondary {
+  background: #ffffff;
+  color: var(--analysis-text-main);
+  border-color: var(--analysis-border);
+}
+
+.analysis-btn--secondary:hover {
+  background: #f1f5f9;
+}
+
+/* Workout Selector Bar */
+.workout-selector-card {
+  background: var(--analysis-card-bg);
+  border: 1px solid var(--analysis-border);
+  border-radius: var(--analysis-radius);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+  box-shadow: var(--analysis-shadow);
+}
+
+@media (min-width: 640px) {
+  .workout-selector-card {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.workout-select-input {
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--analysis-text-main);
+  background: #f8fafc;
+  border: 1px solid var(--analysis-border);
+  border-radius: 8px;
+  min-width: 280px;
+  max-width: 100%;
+  cursor: pointer;
+  outline: none;
+}
+
+.workout-select-input:focus {
+  border-color: var(--analysis-primary);
+  box-shadow: 0 0 0 2px var(--analysis-primary-light);
+}
+
+/* Hero Stats Bar */
+.hero-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+@media (min-width: 768px) {
+  .hero-stats-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.hero-stat-card {
+  background: var(--analysis-card-bg);
+  border: 1px solid var(--analysis-border);
+  border-radius: var(--analysis-radius);
+  padding: 20px 18px;
+  box-shadow: var(--analysis-shadow);
+}
+
+.hero-stat-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--analysis-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.hero-stat-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--analysis-text-main);
+  line-height: 1.1;
+}
+
+.hero-stat-sub {
+  font-size: 0.78rem;
+  color: var(--analysis-text-muted);
+  margin-top: 4px;
+}
+
+/* 2-Column Analytics Layout */
+.analytics-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+@media (min-width: 1024px) {
+  .analytics-grid {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.analysis-card {
+  background: var(--analysis-card-bg);
+  border: 1px solid var(--analysis-border);
+  border-radius: var(--analysis-radius);
+  padding: 24px;
+  box-shadow: var(--analysis-shadow);
+  margin-bottom: 24px;
+}
+
+.analysis-card:last-child {
+  margin-bottom: 0;
+}
+
+.analysis-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.analysis-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--analysis-text-main);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.analysis-card-subtitle {
+  font-size: 0.82rem;
+  color: var(--analysis-text-muted);
+  margin-top: 4px;
+}
+
+/* AI Coach Card */
+.coach-card {
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  border-left: 4px solid var(--analysis-primary);
+}
+
+.coach-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #1e293b;
+  margin-bottom: 16px;
+}
+
+.strengths-weaknesses-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 640px) {
+  .strengths-weaknesses-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.sw-column {
+  background: #f8fafc;
+  border: 1px solid var(--analysis-border);
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.sw-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sw-title.success { color: #16a34a; }
+.sw-title.warning { color: #d97706; }
+
+.sw-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sw-item {
+  font-size: 0.85rem;
+  color: #334155;
+  line-height: 1.4;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+/* Biomechanical & Form Metrics Row */
+.biomech-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.biomech-item {
+  background: #f8fafc;
+  border: 1px solid var(--analysis-border);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.biomech-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--analysis-text-muted);
+  text-transform: uppercase;
+}
+
+.biomech-val {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--analysis-text-main);
+  margin-top: 4px;
+}
+
+/* Charts */
+.chart-wrap {
+  position: relative;
+  width: 100%;
+  height: 260px;
+}
+
+/* Set Table */
+.set-table-wrap {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.set-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.88rem;
+}
+
+.set-table th {
+  padding: 10px 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--analysis-text-muted);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--analysis-border);
+  white-space: nowrap;
+}
+
+.set-table td {
+  padding: 12px;
+  border-bottom: 1px solid #f1f5f9;
+  color: var(--analysis-text-main);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.badge-status {
+  display: inline-flex;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 9999px;
+}
+
+.badge-status.good {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badge-status.warning {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+/* Nutrition & Comparison Cards */
+.macro-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.macro-box {
+  background: #f8fafc;
+  border: 1px solid var(--analysis-border);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+}
+
+.comparison-box {
+  background: #f8fafc;
+  border: 1px solid var(--analysis-border);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.comparison-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.88rem;
+}
+
+.delta-tag {
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+}
+
+.delta-tag.pos { background: #dcfce7; color: #166534; }
+.delta-tag.neg { background: #fee2e2; color: #991b1b; }
+
+/* Empty States */
+.empty-analysis-state {
+  text-align: center;
+  padding: 64px 20px;
+  background: #ffffff;
+  border: 1px solid var(--analysis-border);
+  border-radius: var(--analysis-radius);
+}
+
+.empty-icon {
+  font-size: 3rem;
+  color: var(--analysis-text-muted);
+  margin-bottom: 12px;
+}

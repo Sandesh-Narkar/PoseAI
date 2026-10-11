@@ -1,0 +1,2294 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game — PoseAI Battle Mode</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Press+Start+2P&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#006194",
+              "on-primary": "#ffffff",
+              "primary-container": "#007bb9",
+              "on-primary-container": "#fdfcff",
+              surface: "#faf8ff",
+              "on-surface": "#131b2e",
+              "surface-variant": "#3f4850",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-low": "#f2f3ff",
+              "surface-container": "#eaedff",
+              "surface-container-high": "#e2e7ff",
+              "outline-variant": "#bfc7d2",
+              secondary: "#006c49",
+            },
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "ui-sans-serif", "system-ui"],
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .pixel-font {
+        font-family: "Press Start 2P", monospace;
+      }
+      .pixel-box {
+        background: #f8fafc;
+        border: 4px solid #1e293b;
+        box-shadow:
+          inset 2px 2px 0px #ffffff,
+          inset -2px -2px 0px #94a3b8,
+          4px 4px 0px rgba(0, 0, 0, 0.3);
+        position: relative;
+      }
+      .pixel-box-dark {
+        background: #1e293b;
+        border: 4px solid #0f172a;
+        box-shadow:
+          inset 2px 2px 0px #475569,
+          inset -2px -2px 0px #090d16,
+          4px 4px 0px rgba(0, 0, 0, 0.4);
+        color: #f8fafc;
+      }
+      .status-plate {
+        background: linear-gradient(180deg, #f1f5f9 0%, #cbd5e1 100%);
+        border: 4px solid #334155;
+        border-radius: 4px;
+        box-shadow:
+          inset 0 2px 0 #ffffff,
+          inset 0 -2px 0 #94a3b8,
+          3px 3px 0 rgba(0, 0, 0, 0.35);
+        position: relative;
+      }
+      .pixel-btn {
+        font-family: "Press Start 2P", monospace;
+        border: 3px solid #1e293b;
+        cursor: pointer;
+        text-transform: uppercase;
+        box-shadow:
+          inset 2px 2px 0 rgba(255, 255, 255, 0.6),
+          inset -2px -2px 0 rgba(0, 0, 0, 0.3),
+          3px 3px 0 #0f172a;
+      }
+      .pixel-btn:active:not(:disabled) {
+        transform: translate(2px, 2px);
+        box-shadow:
+          inset 2px 2px 0 rgba(0, 0, 0, 0.3),
+          inset -2px -2px 0 rgba(255, 255, 255, 0.6),
+          1px 1px 0 #0f172a;
+      }
+      .pixel-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        filter: grayscale(0.8);
+      }
+      .pixel-progress-bg {
+        background: #334155;
+        border: 2px solid #0f172a;
+        box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.5);
+        height: 14px;
+        overflow: hidden;
+      }
+      .pixel-progress-fill {
+        height: 100%;
+        transition:
+          width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+          background-color 0.3s ease;
+        box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.4);
+      }
+      @keyframes idleBob {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-4px);
+        }
+      }
+      @keyframes monsterIdle {
+        0%,
+        100% {
+          transform: scale(1) translateY(0);
+        }
+        50% {
+          transform: scale(1.02, 0.98) translateY(-3px);
+        }
+      }
+      @keyframes heroSlash {
+        0% {
+          transform: translate(0, 0) scale(1);
+        }
+        30% {
+          transform: translate(60px, -20px) scale(1.15) rotate(8deg);
+        }
+        50% {
+          transform: translate(90px, -30px) scale(1.2) rotate(12deg);
+        }
+        70% {
+          transform: translate(70px, -15px) scale(1.1);
+        }
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+      }
+      @keyframes monsterLunge {
+        0% {
+          transform: translate(0, 0);
+        }
+        30% {
+          transform: translate(-60px, 20px) scale(1.1);
+        }
+        50% {
+          transform: translate(-90px, 35px) scale(1.15);
+        }
+        100% {
+          transform: translate(0, 0);
+        }
+      }
+      @keyframes hurtFlash {
+        0%,
+        100% {
+          opacity: 1;
+          filter: none;
+        }
+        25% {
+          opacity: 0.2;
+          filter: brightness(3) saturate(0.2) drop-shadow(0 0 8px #ef4444);
+        }
+        50% {
+          opacity: 1;
+          filter: brightness(2) drop-shadow(0 0 12px #ef4444);
+        }
+        75% {
+          opacity: 0.3;
+        }
+      }
+      @keyframes victoryBounce {
+        0%,
+        100% {
+          transform: translateY(0) scale(1);
+        }
+        30% {
+          transform: translateY(-16px) scale(1.1);
+        }
+        60% {
+          transform: translateY(-4px) scale(1.05);
+        }
+      }
+      @keyframes bulletFly {
+        from {
+          transform: translate(0, 0);
+          opacity: 1;
+        }
+        to {
+          transform: translate(56vw, -16vh);
+          opacity: 0;
+        }
+      }
+      @keyframes floatUpFade {
+        0% {
+          opacity: 0;
+          transform: translateY(0) scale(0.6);
+        }
+        20% {
+          opacity: 1;
+          transform: translateY(-15px) scale(1.2);
+        }
+        80% {
+          opacity: 1;
+          transform: translateY(-35px) scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-50px) scale(0.8);
+        }
+      }
+      .anim-idle {
+        animation: idleBob 1.8s infinite ease-in-out;
+      }
+      .anim-monster-idle {
+        animation: monsterIdle 2.2s infinite ease-in-out;
+      }
+      .anim-hero-attack {
+        animation: heroSlash 0.45s ease-out;
+      }
+      .anim-monster-attack {
+        animation: monsterLunge 0.5s ease-out;
+      }
+      .anim-hurt {
+        animation: hurtFlash 0.4s 2 ease-in-out;
+      }
+      .anim-victory {
+        animation: victoryBounce 0.6s infinite ease-in-out;
+      }
+      .damage-popup {
+        position: absolute;
+        pointer-events: none;
+        animation: floatUpFade 0.9s forwards ease-out;
+        text-shadow:
+          2px 2px 0 #000,
+          -2px -2px 0 #000,
+          2px -2px 0 #000,
+          -2px 2px 0 #000;
+        z-index: 50;
+        font-family: "Press Start 2P", monospace;
+      }
+      .bullet {
+        position: absolute;
+        width: 14px;
+        height: 6px;
+        background: #38bdf8;
+        border: 2px solid #0f172a;
+        box-shadow: 0 0 6px #7dd3fc;
+        z-index: 30;
+        pointer-events: none;
+        animation: bulletFly 0.55s linear forwards;
+      }
+      .set-pop {
+        animation: setPop 0.35s ease-out;
+      }
+      @keyframes setPop {
+        from {
+          opacity: 0;
+          transform: scale(0.85);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    </style>
+    <link rel="stylesheet" href="/css/navbar.css" />
+  </head>
+  <body data-page="game" class="bg-background min-h-screen antialiased">
+    <div id="app-header"></div>
+    <!-- ======================= EXERCISE SELECT VIEW ======================= -->
+    <main id="gameSelect" class="w-full pt-20 pb-10 flex-1">
+      <div class="max-w-5xl mx-auto px-4">
+        <div class="text-center mb-6">
+          <div class="pixel-box-dark inline-block px-4 py-2 mb-3">
+            <span class="text-amber-400 text-[10px] sm:text-xs tracking-widest"
+              >POSEAI // BATTLE MODE</span
+            >
+          </div>
+          <h1 class="text-2xl md:text-3xl font-extrabold text-on-surface">
+            Choose Your Exercise
+          </h1>
+          <p class="text-sm text-on-surface-variant mt-1">
+            Your real reps are the attacks. PoseAI counts — the game only
+            reacts.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="exerciseCards">
+          <p
+            id="cardsStatus"
+            class="col-span-1 md:col-span-3 text-[9px] text-slate-500 text-center"
+          >
+            Loading exercises from the PoseAI engine...
+          </p>
+        </div>
+
+        <div class="text-center mt-6">
+          <button
+            id="btnStartBattle"
+            type="button"
+            disabled
+            class="pixel-btn bg-emerald-500 text-slate-950 px-6 py-3 text-xs font-black disabled:opacity-40"
+          >
+            [ START BATTLE ]
+          </button>
+          <p id="selectHint" class="text-[9px] text-slate-500 mt-2">
+            Select an exercise to begin. Your browser camera will open.
+          </p>
+        </div>
+      </div>
+    </main>
+    <!-- ======================= BATTLE VIEW ======================= -->
+    <main id="gameBattle" class="hidden w-full pt-20 pb-10 flex-1">
+      <div class="max-w-6xl mx-auto px-4">
+        <div
+          class="flex items-center justify-between bg-slate-800 text-slate-300 px-3 py-2 border-2 border-slate-700 mb-2 rounded text-[10px] sm:text-xs"
+        >
+          <div class="flex items-center gap-2">
+            <span
+              id="camDot"
+              class="w-2.5 h-2.5 rounded-full bg-slate-500 inline-block"
+            ></span>
+            <span class="text-amber-400 font-bold tracking-wider"
+              >POSEAI // BATTLE MODE</span
+            >
+            <span id="battleExerciseLabel" class="text-slate-400">—</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span
+              id="headerTimer"
+              class="bg-slate-900 px-2 py-1 border border-slate-700 text-emerald-400"
+              >00:00</span
+            >
+            <button
+              id="btnSound"
+              type="button"
+              class="pixel-btn bg-slate-700 text-white text-[9px] px-2 py-1"
+            >
+              SFX: <span id="soundText" class="text-green-400">ON</span>
+            </button>
+            <button
+              id="btnPause"
+              type="button"
+              class="pixel-btn bg-amber-600 text-white text-[9px] px-2 py-1"
+            >
+              PAUSE
+            </button>
+            <button
+              id="btnFinish"
+              type="button"
+              class="pixel-btn bg-red-600 text-white text-[9px] px-2 py-1"
+            >
+              FINISH
+            </button>
+          </div>
+        </div>
+
+        <div
+          id="battleArena"
+          class="relative w-full aspect-[4/3] sm:aspect-[16/9] bg-gradient-to-b from-sky-400 via-emerald-200 to-emerald-600 rounded border-4 border-slate-950 overflow-hidden shadow-inner"
+        >
+          <div class="absolute inset-0 pointer-events-none opacity-40">
+            <svg
+              class="w-full h-24 absolute top-0 left-0"
+              viewBox="0 0 400 60"
+              preserveAspectRatio="none"
+            >
+              <rect x="0" y="0" width="400" height="20" fill="#38bdf8" />
+              <rect x="0" y="20" width="400" height="20" fill="#7dd3fc" />
+              <rect x="0" y="40" width="400" height="20" fill="#bae6fd" />
+              <path
+                d="M 40 10 h 50 v 8 h -50 z M 50 4 h 30 v 6 h -30 z M 180 18 h 70 v 10 h -70 z M 195 12 h 40 v 6 h -40 z M 310 8 h 60 v 8 h -60 z"
+                fill="#ffffff"
+                opacity="0.8"
+              />
+            </svg>
+          </div>
+          <div class="absolute top-[32%] w-full h-[30%] pointer-events-none">
+            <svg
+              class="w-full h-full"
+              viewBox="0 0 600 120"
+              preserveAspectRatio="none"
+            >
+              <polygon
+                points="0,120 0,60 70,35 150,65 240,25 330,60 420,30 520,70 600,45 600,120"
+                fill="#34d399"
+                opacity="0.6"
+              />
+              <polygon
+                points="0,120 0,75 80,60 170,80 270,55 370,85 470,60 560,85 600,70 600,120"
+                fill="#4ade80"
+              />
+            </svg>
+          </div>
+          <div
+            class="absolute top-[36%] right-[6%] w-[48%] sm:w-[42%] h-[24%] pointer-events-none"
+          >
+            <svg viewBox="0 0 240 70" class="w-full h-full">
+              <ellipse cx="120" cy="40" rx="115" ry="24" fill="#ca8a04" />
+              <ellipse cx="120" cy="38" rx="112" ry="22" fill="#eab308" />
+              <ellipse cx="120" cy="34" rx="106" ry="18" fill="#15803d" />
+              <ellipse cx="120" cy="31" rx="100" ry="15" fill="#22c55e" />
+            </svg>
+          </div>
+          <div
+            class="absolute bottom-[-1%] left-[-4%] w-[58%] sm:w-[50%] h-[32%] pointer-events-none"
+          >
+            <svg viewBox="0 0 280 90" class="w-full h-full">
+              <ellipse cx="130" cy="54" rx="135" ry="32" fill="#14532d" />
+              <ellipse cx="130" cy="48" rx="128" ry="28" fill="#16a34a" />
+              <ellipse cx="130" cy="42" rx="120" ry="24" fill="#4ade80" />
+            </svg>
+          </div>
+          <!-- Monster status plate -->
+          <div
+            class="status-plate absolute top-3 left-3 sm:top-5 sm:left-5 w-[54%] sm:w-[42%] p-2 z-20"
+          >
+            <div class="flex items-center justify-between mb-1">
+              <span
+                class="text-[9px] sm:text-[11px] font-bold text-slate-800 tracking-wide truncate mr-1"
+                >CYBER BEAST</span
+              >
+              <span
+                id="monsterLevel"
+                class="text-[8px] font-semibold text-slate-700 bg-slate-300 px-1 rounded"
+                >BOSS</span
+              >
+            </div>
+            <div class="flex items-center gap-1.5 mt-1">
+              <span
+                class="bg-amber-400 text-slate-950 font-black text-[7px] sm:text-[9px] px-1 py-0.5 rounded-sm border border-amber-600 leading-none"
+                >HP</span
+              >
+              <div class="pixel-progress-bg flex-1">
+                <div
+                  id="monsterHpBar"
+                  class="pixel-progress-fill bg-emerald-500 w-full"
+                ></div>
+              </div>
+            </div>
+            <div
+              class="flex justify-between items-center mt-1 text-[7px] sm:text-[8px] text-slate-600 font-bold"
+            >
+              <span id="monsterCondition" class="text-emerald-700">NORMAL</span>
+              <span
+                ><span id="monsterHpCur">0</span>/<span id="monsterHpMax"
+                  >0</span
+                ></span
+              >
+            </div>
+          </div>
+
+          <!-- Monster sprite -->
+          <div
+            id="monsterWrapper"
+            class="absolute top-[22%] sm:top-[20%] right-[12%] sm:right-[14%] w-28 h-28 sm:w-36 sm:h-36 z-10 flex items-center justify-center"
+          >
+            <svg
+              id="monsterSprite"
+              class="w-full h-full anim-monster-idle"
+              viewBox="0 0 64 64"
+              fill="none"
+            >
+              <ellipse
+                cx="32"
+                cy="58"
+                rx="20"
+                ry="4"
+                fill="#14532d"
+                opacity="0.6"
+              />
+              <path
+                d="M 16 16 L 22 24 L 14 26 Z M 48 16 L 42 24 L 50 26 Z M 32 8 L 35 18 L 29 18 Z"
+                fill="#7f1d1d"
+              />
+              <path
+                d="M 18 18 L 22 24 L 16 25 Z M 46 18 L 42 24 L 48 25 Z M 32 10 L 34 17 L 30 17 Z"
+                fill="#ef4444"
+              />
+              <rect
+                x="20"
+                y="24"
+                width="24"
+                height="24"
+                rx="2"
+                fill="#4c1d95"
+              />
+              <rect x="24" y="28" width="16" height="18" fill="#6d28d9" />
+              <rect
+                id="monsterCore"
+                x="29"
+                y="34"
+                width="6"
+                height="6"
+                fill="#f59e0b"
+              />
+              <rect x="30" y="35" width="4" height="4" fill="#fef08a" />
+              <rect x="12" y="28" width="8" height="16" rx="2" fill="#4c1d95" />
+              <rect x="10" y="40" width="10" height="6" fill="#6d28d9" />
+              <rect x="8" y="45" width="4" height="4" fill="#fbbf24" />
+              <rect x="14" y="45" width="4" height="4" fill="#fbbf24" />
+              <rect x="44" y="26" width="8" height="16" rx="2" fill="#4c1d95" />
+              <rect x="44" y="38" width="10" height="6" fill="#6d28d9" />
+              <rect x="46" y="44" width="4" height="4" fill="#fbbf24" />
+              <rect x="52" y="44" width="4" height="4" fill="#fbbf24" />
+              <rect
+                x="22"
+                y="16"
+                width="20"
+                height="14"
+                rx="2"
+                fill="#581c87"
+              />
+              <rect x="24" y="18" width="16" height="10" fill="#7e22ce" />
+              <rect x="26" y="20" width="4" height="4" fill="#facc15" />
+              <rect x="28" y="21" width="2" height="2" fill="#b45309" />
+              <rect x="34" y="20" width="4" height="4" fill="#facc15" />
+              <rect x="34" y="21" width="2" height="2" fill="#b45309" />
+              <rect x="28" y="26" width="8" height="4" fill="#3b0764" />
+              <polygon points="29,26 31,26 30,28" fill="#f8fafc" />
+              <polygon points="33,26 35,26 34,28" fill="#f8fafc" />
+              <rect x="22" y="48" width="8" height="8" fill="#3b0764" />
+              <rect x="34" y="48" width="8" height="8" fill="#3b0764" />
+              <rect x="20" y="54" width="10" height="4" fill="#1e1b4b" />
+              <rect x="34" y="54" width="10" height="4" fill="#1e1b4b" />
+            </svg>
+            <div
+              id="monsterHitEffect"
+              class="absolute inset-0 pointer-events-none hidden items-center justify-center"
+            >
+              <svg
+                class="w-24 h-24 text-amber-300 animate-ping"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <polygon points="12,0 15,9 24,12 15,15 12,24 9,15 0,12 9,9" />
+              </svg>
+            </div>
+          </div>
+          <!-- Hero status plate -->
+          <div
+            class="status-plate absolute bottom-3 right-3 sm:bottom-4 sm:right-4 w-[56%] sm:w-[44%] p-2 z-20"
+          >
+            <div class="flex items-center justify-between mb-1">
+              <span
+                class="text-[9px] sm:text-[11px] font-bold text-slate-900 tracking-wide"
+                ><span class="text-blue-600 mr-1">&#9876;</span>POSEAI
+                HERO</span
+              >
+              <span
+                class="text-[8px] font-semibold text-slate-700 bg-slate-300 px-1 rounded"
+                >HERO</span
+              >
+            </div>
+            <div class="flex items-center gap-1.5 mt-1">
+              <span
+                class="bg-amber-400 text-slate-950 font-black text-[7px] sm:text-[9px] px-1 py-0.5 rounded-sm border border-amber-600 leading-none"
+                >HP</span
+              >
+              <div class="pixel-progress-bg flex-1">
+                <div
+                  id="heroHpBar"
+                  class="pixel-progress-fill bg-emerald-500 w-full"
+                ></div>
+              </div>
+            </div>
+            <div
+              class="flex justify-between items-center mt-1 text-[7px] sm:text-[8px] text-slate-700 font-bold"
+            >
+              <span
+                >PWR:
+                <span id="heroAtkVal" class="text-amber-700">20</span></span
+              >
+              <span
+                ><span id="heroHpCur">100</span>/<span id="heroHpMax"
+                  >100</span
+                ></span
+              >
+            </div>
+            <div class="mt-1 flex items-center gap-1">
+              <span
+                class="text-[6px] sm:text-[7px] text-slate-500 uppercase font-mono"
+                >PACER:</span
+              >
+              <div
+                class="w-full bg-slate-300 h-1.5 rounded overflow-hidden border border-slate-400"
+              >
+                <div
+                  id="inactivityBar"
+                  class="bg-blue-600 h-full w-full transition-all duration-100 ease-linear"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero sprite -->
+          <div
+            id="heroWrapper"
+            class="absolute bottom-[4%] left-[6%] sm:left-[8%] w-32 h-32 sm:w-40 sm:h-40 z-20 flex items-center justify-center"
+          >
+            <svg
+              id="heroSprite"
+              class="w-full h-full anim-idle"
+              viewBox="0 0 64 64"
+              fill="none"
+            >
+              <ellipse
+                cx="30"
+                cy="60"
+                rx="18"
+                ry="4"
+                fill="#064e3b"
+                opacity="0.6"
+              />
+              <path
+                id="heroScarf"
+                d="M 18 26 L 8 38 L 12 48 L 22 36 Z"
+                fill="#06b6d4"
+              />
+              <path d="M 12 32 L 6 42 L 10 46 L 16 38 Z" fill="#0891b2" />
+              <rect x="22" y="44" width="7" height="12" fill="#1e293b" />
+              <rect x="31" y="44" width="7" height="12" fill="#1e293b" />
+              <rect x="18" y="53" width="11" height="5" rx="1" fill="#38bdf8" />
+              <rect x="30" y="53" width="11" height="5" rx="1" fill="#38bdf8" />
+              <rect x="18" y="56" width="11" height="2" fill="#ffffff" />
+              <rect x="30" y="56" width="11" height="2" fill="#ffffff" />
+              <rect
+                x="20"
+                y="26"
+                width="19"
+                height="19"
+                rx="2"
+                fill="#0284c7"
+              />
+              <rect x="22" y="28" width="15" height="15" fill="#38bdf8" />
+              <line
+                x1="22"
+                y1="28"
+                x2="37"
+                y2="43"
+                stroke="#f59e0b"
+                stroke-width="2"
+              />
+              <line
+                x1="37"
+                y1="28"
+                x2="22"
+                y2="43"
+                stroke="#f59e0b"
+                stroke-width="2"
+              />
+              <rect x="28" y="34" width="4" height="4" fill="#facc15" />
+              <rect x="14" y="28" width="6" height="14" fill="#f87171" rx="1" />
+              <rect x="38" y="22" width="6" height="12" fill="#f87171" />
+              <rect x="42" y="14" width="4" height="22" fill="#e2e8f0" />
+              <rect x="44" y="6" width="4" height="26" fill="#38bdf8" />
+              <polygon points="44,6 48,6 46,2" fill="#f0f9ff" />
+              <rect
+                x="22"
+                y="12"
+                width="16"
+                height="14"
+                rx="2"
+                fill="#f87171"
+              />
+              <polygon points="20,12 28,4 32,12" fill="#1e293b" />
+              <polygon points="26,10 36,2 38,12" fill="#1e293b" />
+              <polygon points="18,16 12,8 22,14" fill="#1e293b" />
+              <rect x="30" y="14" width="8" height="4" fill="#06b6d4" />
+              <rect x="34" y="15" width="4" height="2" fill="#ffffff" />
+            </svg>
+            <div
+              id="heroHitEffect"
+              class="absolute inset-0 pointer-events-none hidden items-center justify-center"
+            >
+              <div
+                class="w-20 h-20 border-4 border-red-500 rounded-full animate-ping"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Center banner -->
+          <div
+            id="battleBanner"
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-all duration-200 opacity-0 scale-75 z-40"
+          >
+            <div class="pixel-box-dark px-4 py-2 text-center">
+              <div
+                id="bannerMainText"
+                class="text-amber-300 text-xs sm:text-sm font-bold tracking-wider"
+              >
+                SET COMPLETE!
+              </div>
+              <div
+                id="bannerSubText"
+                class="text-[8px] sm:text-[9px] text-white mt-0.5"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= BOTTOM HUD: CAMERA TRACKING + COACH LOG ================= -->
+        <div class="mt-2 grid grid-cols-1 md:grid-cols-12 gap-2">
+          <!-- AI Camera Tracking (live feed + skeleton overlay) -->
+          <div class="md:col-span-7 pixel-box p-3">
+            <div
+              class="flex items-center justify-between border-b-2 border-slate-300 pb-1 mb-2"
+            >
+              <span
+                class="text-[9px] sm:text-[10px] text-blue-700 font-bold tracking-wider"
+                >AI CAMERA TRACKING</span
+              >
+              <span
+                id="trackStatus"
+                class="text-[8px] font-bold text-slate-500 bg-slate-200 px-1.5 py-0.5 rounded"
+                >CAMERA OFF</span
+              >
+            </div>
+
+            <div
+              class="relative w-full aspect-[4/3] sm:aspect-[16/9] bg-slate-950 rounded overflow-hidden border-2 border-slate-700"
+            >
+              <video
+                id="camVideo"
+                class="absolute inset-0 w-full h-full object-cover opacity-80"
+                playsinline
+                muted
+              ></video>
+              <canvas
+                id="skeletonCanvas"
+                class="absolute inset-0 w-full h-full"
+              ></canvas>
+              <div
+                id="noPoseOverlay"
+                class="hidden absolute inset-0 bg-slate-950/70 flex flex-col items-center justify-center text-center p-3"
+              >
+                <div
+                  class="pixel-font text-amber-400 text-[10px] sm:text-xs mb-2"
+                >
+                  MOVE INTO CAMERA VIEW
+                </div>
+                <div class="text-[8px] text-slate-300 leading-relaxed">
+                  Stand back so your full upper body is visible.<br />PoseAI
+                  cannot count reps without tracking you.
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-4 gap-1 text-center mt-2">
+              <div class="bg-slate-100 p-1 border border-slate-300 rounded">
+                <div class="text-[7px] text-slate-500">FORM</div>
+                <div
+                  id="trackForm"
+                  class="text-[8px] sm:text-[9px] font-black text-emerald-600"
+                >
+                  --
+                </div>
+              </div>
+              <div class="bg-slate-100 p-1 border border-slate-300 rounded">
+                <div class="text-[7px] text-slate-500">ANGLE</div>
+                <div
+                  id="trackAngle"
+                  class="text-[8px] sm:text-[9px] font-black text-blue-700"
+                >
+                  --
+                </div>
+              </div>
+              <div class="bg-slate-100 p-1 border border-slate-300 rounded">
+                <div class="text-[7px] text-slate-500">STAGE</div>
+                <div
+                  id="trackStage"
+                  class="text-[8px] sm:text-[9px] font-black text-slate-800 truncate"
+                >
+                  --
+                </div>
+              </div>
+              <div class="bg-slate-100 p-1 border border-slate-300 rounded">
+                <div class="text-[7px] text-slate-500">REP</div>
+                <div
+                  id="trackRep"
+                  class="text-[8px] sm:text-[9px] font-black text-slate-800"
+                >
+                  --
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Coach Log -->
+          <div
+            class="md:col-span-5 pixel-box p-3 flex flex-col justify-between min-h-[145px] sm:min-h-[160px]"
+          >
+            <div>
+              <div
+                class="flex items-center justify-between border-b-2 border-slate-300 pb-1 mb-2"
+              >
+                <span
+                  class="text-[9px] sm:text-[10px] text-blue-700 font-bold tracking-wider"
+                  >AI COACH LOG</span
+                >
+                <span
+                  id="comboBadge"
+                  class="bg-amber-500 text-slate-950 font-black text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded shadow-sm"
+                  >COMBO &times;0</span
+                >
+              </div>
+              <div
+                id="dialogueText"
+                class="text-[10px] sm:text-[11px] leading-relaxed text-slate-800 tracking-wide"
+              >
+                &ldquo;SELECT AN EXERCISE AND START THE BATTLE!&rdquo;
+              </div>
+              <div
+                class="mt-2 text-[8px] sm:text-[9px] text-emerald-600 font-bold flex items-center"
+              >
+                <span class="mr-1">&#9889;</span
+                ><span id="feedbackText">Your real reps are the attacks.</span>
+              </div>
+            </div>
+            <div
+              class="mt-2 pt-2 border-t-2 border-slate-300 grid grid-cols-3 gap-1 text-center"
+            >
+              <div class="bg-slate-100 p-1 border border-slate-300 rounded">
+                <div class="text-[7px] text-slate-500">SET</div>
+                <div
+                  id="hudSet"
+                  class="text-[8px] sm:text-[9px] font-bold text-slate-800"
+                >
+                  -- / --
+                </div>
+              </div>
+              <div class="bg-slate-100 p-1 border border-slate-300 rounded">
+                <div class="text-[7px] text-slate-500">REPS</div>
+                <div
+                  id="hudReps"
+                  class="text-[9px] sm:text-[10px] font-black text-blue-700"
+                >
+                  00 / 00
+                </div>
+              </div>
+              <div class="bg-slate-100 p-1 border border-slate-300 rounded">
+                <div class="text-[7px] text-slate-500">CALORIES</div>
+                <div
+                  id="hudCalories"
+                  class="text-[8px] sm:text-[9px] font-bold text-amber-600"
+                >
+                  --
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="mt-2 flex flex-wrap items-center justify-between text-[8px] sm:text-[9px] text-slate-500 px-1"
+        >
+          <div>
+            &#128161; <strong>NO BUTTONS:</strong> your body performs the attack
+            &mdash; PoseAI counts every valid rep automatically.
+          </div>
+          <div class="text-slate-400">
+            Keep moving to hold your COMBO and defend against the beast.
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- SET COMPLETE (shown once per completed set) -->
+    <div
+      id="setCompleteModal"
+      class="fixed inset-0 z-50 hidden items-center justify-center p-4 sm:p-6 text-center"
+    >
+      <div
+        class="pixel-box max-w-lg w-full sm:max-w-md p-5 sm:p-6 border-emerald-600"
+      >
+        <div class="text-emerald-700 text-sm sm:text-base font-black mb-1">
+          &#9733; <span id="setCompleteTitle">SET 1 COMPLETE</span> &#9733;
+        </div>
+        <div class="text-slate-800 text-[10px] sm:text-xs font-bold mb-3">
+          GREAT WORK!
+        </div>
+        <div
+          class="bg-slate-100 p-3 sm:p-4 rounded border-2 border-slate-300 space-y-2 sm:space-y-3 text-[9px] sm:text-[10px] text-left mb-4 sm:mb-5"
+        >
+          <div class="grid grid-cols-2 gap-x-4 gap-y-2 sm:gap-x-6 sm:gap-y-3">
+            <div class="text-slate-600 font-medium">REPS</div>
+            <div class="text-right font-black text-blue-700">
+              <span id="setCompleteReps">15 / 15</span>
+            </div>
+            <div class="text-slate-600 font-medium">COMPLETION</div>
+            <div class="text-right font-bold text-slate-900">
+              <span id="setCompletePct">100%</span>
+            </div>
+            <div class="text-slate-600 font-medium">FORM ACCURACY</div>
+            <div class="text-right font-bold text-emerald-600">
+              <span id="setCompleteForm">Not measured yet</span>
+            </div>
+            <div
+              class="text-slate-600 font-medium border-t border-slate-300 pt-2 sm:pt-3"
+            >
+              NEXT UP
+            </div>
+            <div
+              class="text-right font-black text-amber-600 border-t border-slate-300 pt-2 sm:pt-3"
+            >
+              <span id="setCompleteNext">SET 2 / 3</span>
+            </div>
+          </div>
+        </div>
+        <button
+          id="setContinueBtn"
+          class="pixel-btn bg-sky-600 hover:bg-sky-500 text-white w-full py-2.5 sm:py-3 text-[10px] sm:text-xs font-black"
+        >
+          CONTINUE SET 2 &#8594;
+        </button>
+      </div>
+    </div>
+
+    <!-- VICTORY: real workout complete -->
+    <div
+      id="victoryOverlay"
+      class="fixed inset-0 bg-slate-950/90 z-50 hidden items-center justify-center p-4 sm:p-6 text-center"
+    >
+      <div class="pixel-box max-w-md w-full p-5 sm:p-6 border-emerald-600">
+        <div class="text-emerald-700 text-base sm:text-lg font-black mb-1">
+          &#9733; CYBER BEAST DEFEATED! &#9733;
+        </div>
+        <div class="text-slate-800 text-xs font-bold mb-4">
+          WORKOUT COMPLETE!
+        </div>
+        <div
+          class="bg-slate-100 p-3 rounded border-2 border-slate-300 space-y-2 text-[9px] sm:text-[10px] text-left mb-4"
+        >
+          <div class="flex justify-between">
+            <span class="text-slate-600">TOTAL REPS:</span
+            ><span id="victoryReps" class="font-bold text-slate-900">0</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-600">SETS:</span
+            ><span id="victorySets" class="font-bold text-slate-900"
+              >0 / 0</span
+            >
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-600">FORM ACCURACY:</span
+            ><span id="victoryForm" class="font-bold text-emerald-600"
+              >Not measured yet</span
+            >
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-600">BEST COMBO:</span
+            ><span id="victoryCombo" class="font-bold text-amber-600"
+              >&#215;0</span
+            >
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-600">SESSION TIME:</span
+            ><span id="victoryTime" class="font-bold text-slate-800"
+              >00:00</span
+            >
+          </div>
+          <div class="flex justify-between border-t border-slate-300 pt-1">
+            <span class="text-slate-700 font-bold">CALORIES:</span
+            ><span id="victoryCalories" class="font-black text-blue-700"
+              >--</span
+            >
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <a
+            href="/analysis"
+            id="victoryAnalysisLink"
+            class="pixel-btn bg-sky-600 hover:bg-sky-500 text-white py-2.5 text-[9px] sm:text-[10px] font-bold flex items-center justify-center"
+            >VIEW ANALYSIS</a
+          >
+          <a
+            href="/dashboard"
+            class="pixel-btn bg-emerald-600 hover:bg-emerald-500 text-white py-2.5 text-[9px] sm:text-[10px] font-bold flex items-center justify-center"
+            >DASHBOARD</a
+          >
+          <button
+            onclick="resetGame()"
+            class="pixel-btn bg-amber-500 hover:bg-amber-400 text-slate-950 py-2.5 text-[9px] sm:text-[10px] font-bold"
+          >
+            PLAY AGAIN
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- DEFEAT / PARTIAL: workout saved as partial -->
+    <div
+      id="defeatOverlay"
+      class="fixed inset-0 bg-slate-950/90 z-50 hidden items-center justify-center p-4 sm:p-6 text-center"
+    >
+      <div class="pixel-box-dark max-w-md w-full p-5 sm:p-6 border-red-600">
+        <div class="text-red-500 text-base sm:text-lg font-black mb-1">
+          BATTLE ENDED
+        </div>
+        <div class="text-slate-300 text-xs font-bold mb-4">
+          YOUR WORKOUT WAS SAVED (PARTIAL)
+        </div>
+        <div
+          class="bg-slate-900 p-3 rounded border border-slate-700 space-y-2 text-[9px] sm:text-[10px] text-left mb-4"
+        >
+          <div class="flex justify-between text-slate-300">
+            <span>COMPLETED REPS:</span
+            ><span id="defeatReps" class="text-white font-bold">0</span>
+          </div>
+          <div class="flex justify-between text-slate-300">
+            <span>COMPLETED SETS:</span
+            ><span id="defeatSets" class="text-white font-bold">0</span>
+          </div>
+          <div class="flex justify-between text-slate-300">
+            <span>FORM:</span
+            ><span id="defeatForm" class="text-emerald-400 font-bold"
+              >Not measured yet</span
+            >
+          </div>
+          <div class="flex justify-between text-slate-300">
+            <span>BEST COMBO:</span
+            ><span id="defeatCombo" class="text-amber-400 font-bold"
+              >&#215;0</span
+            >
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <a
+            id="defeatAnalysisLink"
+            href="/analysis"
+            class="pixel-btn bg-sky-600 hover:bg-sky-500 text-white py-2.5 text-[9px] sm:text-[10px] font-bold flex items-center justify-center"
+            >VIEW ANALYSIS</a
+          >
+          <button
+            onclick="resetGame()"
+            class="pixel-btn bg-amber-500 hover:bg-amber-400 text-slate-950 py-2.5 text-[9px] sm:text-[10px] font-bold"
+          >
+            PLAY AGAIN
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAUSE -->
+    <div
+      id="pauseOverlay"
+      class="fixed inset-0 bg-slate-950/80 z-40 hidden items-center justify-center p-6 text-center"
+    >
+      <div class="pixel-box max-w-xs w-full p-5 border-amber-500">
+        <div class="text-amber-600 text-sm font-black mb-3">BATTLE PAUSED</div>
+        <div class="text-[8px] sm:text-[9px] text-slate-600 mb-3">
+          Reps, timer and the beast are frozen. Your set resumes exactly where
+          you left it.
+        </div>
+        <div class="space-y-2">
+          <button
+            onclick="togglePause()"
+            class="pixel-btn bg-emerald-500 hover:bg-emerald-400 text-slate-950 w-full py-2 text-[10px] font-bold"
+          >
+            RESUME
+          </button>
+          <button
+            onclick="openFinishConfirm()"
+            class="pixel-btn bg-red-600 hover:bg-red-500 text-white w-full py-2 text-[10px] font-bold"
+          >
+            FINISH &amp; SAVE
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FINISH CONFIRM (prevents accidental + duplicate saves) -->
+    <div
+      id="finishConfirmOverlay"
+      class="fixed inset-0 bg-slate-950/90 z-50 hidden items-center justify-center p-4 text-center"
+    >
+      <div class="pixel-box max-w-xs w-full p-5 border-red-500">
+        <div class="text-red-600 text-xs sm:text-sm font-black mb-2">
+          FINISH THIS BATTLE?
+        </div>
+        <div class="text-[8px] sm:text-[9px] text-slate-600 mb-3">
+          The camera stops and your real workout progress is saved once to your
+          PoseAI history.
+        </div>
+        <div class="space-y-2">
+          <button
+            id="finishYesBtn"
+            class="pixel-btn bg-red-600 hover:bg-red-500 text-white w-full py-2 text-[10px] font-bold"
+          >
+            YES, FINISH
+          </button>
+          <button
+            onclick="closeFinishConfirm()"
+            class="pixel-btn bg-slate-500 hover:bg-slate-400 text-white w-full py-2 text-[10px] font-bold"
+          >
+            KEEP FIGHTING
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/shell.js"></script>
+    <script>
+      /* =========================================================================
+   POSEAI // BATTLE MODE — REAL ENGINE INTEGRATION
+   No fake reps. No random form. No manual rep buttons.
+   The browser camera feeds the EXISTING PoseAI engine (WebWorkoutEngine ->
+   ExerciseRouter -> workouts/*). Every valid backend rep becomes exactly
+   one attack. Fitness state comes from Python; game state reacts to it.
+   ========================================================================= */
+      "use strict";
+
+      /* ---------------- 8-bit SFX (Web Audio) ---------------- */
+      let audioCtx = null;
+      let soundEnabled = true;
+
+      function initAudio() {
+        if (!audioCtx) {
+          try {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          } catch (e) {
+            audioCtx = null;
+          }
+        }
+      }
+
+      function play8BitTone(freq, type, duration, startVol = 0.2, endVol = 0) {
+        if (!soundEnabled) return;
+        initAudio();
+        if (!audioCtx) return;
+        try {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+          gain.gain.setValueAtTime(startVol, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(
+            Math.max(endVol, 0.0001),
+            audioCtx.currentTime + duration,
+          );
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + duration);
+        } catch (e) {
+          /* audio not critical */
+        }
+      }
+
+      function playSfx(type) {
+        if (!soundEnabled) return;
+        if (type === "rep") {
+          play8BitTone(440, "triangle", 0.08, 0.2);
+          setTimeout(() => play8BitTone(660, "square", 0.12, 0.25), 60);
+        } else if (type === "crit") {
+          play8BitTone(520, "square", 0.08, 0.3);
+          setTimeout(() => play8BitTone(780, "square", 0.1, 0.3), 60);
+          setTimeout(() => play8BitTone(1040, "triangle", 0.15, 0.35), 120);
+        } else if (type === "hurt") {
+          play8BitTone(180, "sawtooth", 0.18, 0.3, 0.01);
+        } else if (type === "monsterHit") {
+          play8BitTone(220, "square", 0.1, 0.25);
+          setTimeout(() => play8BitTone(150, "sawtooth", 0.15, 0.2), 50);
+        } else if (type === "victory") {
+          [523, 659, 783, 1046].forEach((f, idx) =>
+            setTimeout(() => play8BitTone(f, "square", 0.2, 0.3), idx * 120),
+          );
+        } else if (type === "defeat") {
+          [440, 370, 311, 220].forEach((f, idx) =>
+            setTimeout(() => play8BitTone(f, "sawtooth", 0.25, 0.3), idx * 140),
+          );
+        } else if (type === "setDone") {
+          [660, 880].forEach((f, idx) =>
+            setTimeout(() => play8BitTone(f, "triangle", 0.18, 0.3), idx * 110),
+          );
+        }
+      }
+
+      /* ---------------- DOM helper ---------------- */
+      function $(id) {
+        return document.getElementById(id);
+      }
+
+      /* ---------------- GAME STATE (reacts to fitness state) ---------------- */
+      const HERO_MAX_HP = 100;
+      const MONSTER_BASE_MAX_HP = 160;
+      const HERO_BASE_DAMAGE = 20; // deterministic per-rep base damage
+
+      const state = {
+        exerciseKey: null, // real engine key ("1", "2", "3")
+        exerciseName: null,
+        gameState: "SELECT", // SELECT | STARTING | BATTLE | PAUSED | SET_MODAL | VICTORY | DEFEAT
+        stream: null,
+        frameInFlight: false, // frame lock: never flood Flask
+        frameTimer: null,
+        idleTimer: null,
+        timeSinceLastRep: 0,
+        MAX_IDLE_TIME: 3500, // ms of stillness before the beast counter-attacks
+        lastProcessedRep: 0, // dedup: one valid rep = one attack
+        lastCompletedSet: 0, // dedup: set-complete popup fires once per set
+        setModalShownForSet: -1, // dedup: set-complete modal shown once per set
+        formAccuracySamples: [], // accumulate per-frame form_accuracy for finish payload
+        combo: 0,
+        maxCombo: 0,
+        heroHp: HERO_MAX_HP,
+        heroHpMax: HERO_MAX_HP,
+        monsterHp: MONSTER_BASE_MAX_HP,
+        monsterHpMax: MONSTER_BASE_MAX_HP,
+        monsterLevel: 10,
+        damageDealt: 0,
+        bestFormSample: null, // last measured form value from the backend (may stay null)
+        totalReps: 0, // session total from backend (all sets)
+        finishedSave: false, // duplicate-save guard
+        lastPayload: null,
+        soundOn: true,
+        exerciseCatalog: [],
+        exerciseInfo: { goal: 15, sets: 3, difficulty: "Intermediate" },
+      };
+      /* ---------------- EXERCISE SELECT (real engine keys) ---------------- */
+      function selectExercise(key, name) {
+        state.exerciseKey = key;
+        state.exerciseName = name;
+        setExerciseInfo(key);
+        document
+          .querySelectorAll("#exerciseCards [data-key]")
+          .forEach((card) => {
+            const active = card.getAttribute("data-key") === key;
+            card.classList.toggle("ring-4", active);
+            card.classList.toggle("ring-amber-400", active);
+            const btn = card.querySelector(".select-btn");
+            if (btn) {
+              btn.textContent = active ? "[ SELECTED ]" : "[ SELECT ]";
+              btn.classList.toggle("bg-emerald-600", active);
+              btn.classList.toggle("bg-slate-800", !active);
+            }
+          });
+        $("selectHint").textContent =
+          name +
+          " selected. Press START BATTLE — your browser camera will open.";
+        $("btnStartBattle").disabled = false;
+      }
+
+      /* ---------------- CAMERA ---------------- */
+      async function openCamera() {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            width: { ideal: 640 },
+            height: { ideal: 480 },
+            facingMode: "user",
+          },
+          audio: false,
+        });
+        state.stream = stream;
+        const video = $("camVideo");
+        video.srcObject = stream;
+        await video.play().catch(() => {});
+        $("camDot").textContent = "CAMERA LIVE";
+        $("camDot").className = "text-[8px] font-black text-emerald-400";
+      }
+
+      function closeCamera() {
+        if (state.stream) {
+          state.stream.getTracks().forEach((t) => t.stop());
+          state.stream = null;
+        }
+        $("camVideo").srcObject = null;
+        $("camDot").textContent = "CAMERA OFF";
+        $("camDot").className = "text-[8px] font-black text-red-400";
+      }
+
+      /* ---------------- START BATTLE ---------------- */
+      async function startBattle() {
+        if (!state.exerciseKey) return;
+        try {
+          $("btnStartBattle").disabled = true;
+          $("selectHint").textContent = "Contacting PoseAI engine...";
+          // Real engine start: same endpoint + body the Workout page uses.
+          const res = await window.api.post("/api/workout/start", {
+            exercise: state.exerciseKey,
+          });
+          state.lastPayload = res && res.data ? res.data : null;
+
+          await openCamera();
+          state.gameState = "BATTLE";
+          state.combo = 0;
+          state.maxCombo = 0;
+          state.lastProcessedRep = 0;
+          state.lastCompletedSet = 0;
+          state.setModalShownForSet = -1;
+          state.formAccuracySamples = [];
+          state.damageDealt = 0;
+          state.heroHp = HERO_MAX_HP;
+          state.heroHpMax = HERO_MAX_HP;
+          state.monsterLevel = 10;
+          // Beast HP scales with the REAL workout target (reps x sets x base damage).
+          const info = state.exerciseInfo || {
+            goal: 15,
+            sets: 3,
+            difficulty: "Intermediate",
+          };
+          const targetReps =
+            (Number(info.goal) || 15) * (Number(info.sets) || 3);
+          state.monsterHpMax = Math.max(100, targetReps * HERO_BASE_DAMAGE);
+          state.monsterHp = state.monsterHpMax;
+          state.timeSinceLastRep = 0;
+          state.finishedSave = false;
+
+          $("gameSelect").classList.add("hidden");
+          $("gameBattle").classList.remove("hidden");
+          $("battleExerciseLabel").textContent =
+            state.exerciseName ||
+            (state.lastPayload && state.lastPayload.exercise) ||
+            "BATTLE";
+          const _fco2 = $("finishConfirmOverlay");
+          if (_fco2) _fco2.style.display = "none";
+          const _vo2 = $("victoryOverlay");
+          if (_vo2) _vo2.style.display = "none";
+          const _do2 = $("defeatOverlay");
+          if (_do2) _do2.style.display = "none";
+
+          setDialogue(
+            "A wild CYBER BEAST appeared!",
+            "Every REAL rep fires an attack. Move to fight!",
+          );
+          if (state.lastPayload && state.lastPayload.currentRep !== undefined)
+            renderEnginePayload(state.lastPayload);
+          startLoops();
+        } catch (err) {
+          console.error("[PoseAI] Failed to start battle:", err);
+          $("selectHint").textContent =
+            "Could not start the battle. Is the server running and are you logged in?";
+          $("btnStartBattle").disabled = false;
+        }
+      }
+
+      /* ---------------- FRAME LOOP (8 FPS, in-flight lock) ---------------- */
+      function startLoops() {
+        stopLoops();
+        // setTimeout chain (not setInterval) so a slow request never stacks frames.
+        const FRAME_MS = 125; // ~8 FPS
+        const tick = async () => {
+          if (state.gameState !== "BATTLE") return;
+          if (state.frameInFlight) {
+            scheduleNext();
+            return;
+          }
+          state.frameInFlight = true;
+          try {
+            const image = captureJpeg();
+            if (image) {
+              const res = await window.api.post("/api/workout/frame", {
+                image: image,
+                exercise: state.exerciseKey,
+              });
+              if (res && res.data) renderEnginePayload(res.data);
+            }
+          } catch (err) {
+            console.warn("[PoseAI] frame skipped:", err);
+          } finally {
+            state.frameInFlight = false;
+            scheduleNext();
+          }
+        };
+        const scheduleNext = () => {
+          state.frameTimer = setTimeout(tick, FRAME_MS);
+        };
+        scheduleNext();
+
+        // Inactivity pacer: beast counter-attacks only during REAL inactivity.
+        state.idleTimer = setInterval(() => {
+          if (state.gameState !== "BATTLE") return;
+          // Never punish while: frame pending, no pose, or pose lost.
+          const p = state.lastPayload;
+          const poseOk = p && p.pose_detected !== false;
+          if (state.frameInFlight || !poseOk) return;
+          state.timeSinceLastRep += 100;
+          const pct = Math.max(
+            0,
+            100 - (state.timeSinceLastRep / state.MAX_IDLE_TIME) * 100,
+          );
+          const bar = $("inactivityBar");
+          bar.style.width = pct + "%";
+          bar.className =
+            pct < 30
+              ? "bg-red-500 h-full transition-all duration-100 ease-linear"
+              : "bg-blue-500 h-full transition-all duration-100 ease-linear";
+          if (state.timeSinceLastRep >= state.MAX_IDLE_TIME) {
+            state.timeSinceLastRep = 0;
+            monsterCounterAttack();
+          }
+        }, 100);
+      }
+
+      function stopLoops() {
+        if (state.frameTimer) {
+          clearTimeout(state.frameTimer);
+          state.frameTimer = null;
+        }
+        if (state.idleTimer) {
+          clearInterval(state.idleTimer);
+          state.idleTimer = null;
+        }
+      }
+
+      function captureJpeg() {
+        const video = $("camVideo");
+        if (!video || video.readyState < 2 || !video.videoWidth) return null;
+        const canvas = $("skeletonCanvas");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        return canvas.toDataURL("image/jpeg", 0.6);
+      }
+      /* ---------------- DIALOGUE / BANNER / FLOATERS ---------------- */
+      function setDialogue(main, feedback) {
+        const d = $("dialogueText");
+        if (d) d.textContent = "\u201C" + main + "\u201D";
+        if (feedback) $("feedbackText").textContent = feedback;
+      }
+
+      function showFloatingBanner(main, sub) {
+        const banner = $("battleBanner");
+        $("bannerMainText").textContent = main;
+        $("bannerSubText").textContent = sub;
+        banner.classList.remove("opacity-0", "scale-75");
+        banner.classList.add("opacity-100", "scale-100");
+        setTimeout(() => {
+          banner.classList.add("opacity-0", "scale-75");
+          banner.classList.remove("opacity-100", "scale-100");
+        }, 700);
+      }
+
+      function spawnDamageNumber(amount, targetElement, color, prefix) {
+        const arena = $("battleArena");
+        const rect = targetElement.getBoundingClientRect();
+        const parentRect = arena.getBoundingClientRect();
+        const el = document.createElement("div");
+        el.className = "damage-popup text-xs sm:text-sm font-black";
+        el.style.color = color;
+        el.style.left =
+          rect.left - parentRect.left + rect.width / 2 - 20 + "px";
+        el.style.top = rect.top - parentRect.top + 10 + "px";
+        el.textContent = (prefix || "-") + amount;
+        arena.appendChild(el);
+        setTimeout(() => el.remove(), 900);
+      }
+
+      /* ---------------- HERO ATTACK (auto: REAL rep is the input) ---------------- */
+      function heroAttackAnimation() {
+        const hero = $("heroSprite");
+        hero.classList.remove("anim-idle", "anim-hero-attack");
+        void hero.offsetWidth; // restart animation
+        hero.classList.add("anim-hero-attack");
+        setTimeout(() => {
+          hero.classList.remove("anim-hero-attack");
+          if (state.gameState === "BATTLE") hero.classList.add("anim-idle");
+        }, 460);
+      }
+
+      /* Energy bolt: hero -> beast. Purely visual; the damage is the real event. */
+      function fireProjectile(onHit) {
+        const arena = $("battleArena");
+        const arenaRect = arena.getBoundingClientRect();
+        const heroRect = $("heroWrapper").getBoundingClientRect();
+        const monsterRect = $("monsterWrapper").getBoundingClientRect();
+        const bolt = document.createElement("div");
+        bolt.style.cssText =
+          "position:absolute;width:14px;height:4px;background:#38bdf8;" +
+          "box-shadow:0 0 6px #38bdf8;z-index:30;pointer-events:none;";
+        const x0 = heroRect.left - arenaRect.left + heroRect.width * 0.65;
+        const y0 = heroRect.top - arenaRect.top + heroRect.height * 0.35;
+        const x1 = monsterRect.left - arenaRect.left + monsterRect.width * 0.5;
+        const y1 = monsterRect.top - arenaRect.top + monsterRect.height * 0.5;
+        bolt.style.left = x0 + "px";
+        bolt.style.top = y0 + "px";
+        arena.appendChild(bolt);
+        bolt.animate(
+          [
+            { left: x0 + "px", top: y0 + "px", opacity: 1 },
+            { left: x1 + "px", top: y1 + "px", opacity: 0.9 },
+          ],
+          { duration: 260, easing: "linear" },
+        ).onfinish = () => {
+          bolt.remove();
+          if (typeof onHit === "function") onHit();
+        };
+      }
+      /* ---------------- DETERMINISTIC FORM -> DAMAGE ----------------
+   No randomness. The multiplier comes ONLY from the backend's measured
+   form accuracy. Unmeasured form = neutral 1.00x (never invented). */
+      function formDamageMultiplier(form) {
+        if (form == null) return 1.0;
+        const f = Number(form);
+        if (f >= 95) return 1.5;
+        if (f >= 90) return 1.25;
+        if (f >= 80) return 1.0;
+        if (f >= 70) return 0.75;
+        return 0.5;
+      }
+
+      function damageTierLabel(form) {
+        if (form == null)
+          return { main: "REP LANDED!", sub: "FORM NOT MEASURED" };
+        const f = Number(form);
+        if (f >= 95) return { main: "PERFECT FORM!", sub: "CRITICAL HIT!" };
+        if (f >= 90) return { main: "GREAT FORM!", sub: "STRONG HIT!" };
+        if (f >= 80) return { main: "GOOD REP!", sub: "SOLID HIT!" };
+        if (f >= 70)
+          return { main: "SLOPPY REP", sub: "WEAK HIT - CLEAN UP YOUR FORM" };
+        return {
+          main: "POOR FORM",
+          sub: "MINIMAL DAMAGE - FIX YOUR TECHNIQUE",
+        };
+      }
+
+      /* ONE valid backend rep = ONE attack = ONE damage event. */
+      function handleRealRep(p) {
+        state.combo++;
+        if (state.combo > state.maxCombo) state.maxCombo = state.combo;
+        state.timeSinceLastRep = 0;
+
+        const form = p.form_accuracy != null ? Number(p.form_accuracy) : null;
+        if (form != null) state.bestFormSample = form;
+        const mult = formDamageMultiplier(form);
+        const dmg = Math.max(1, Math.round(HERO_BASE_DAMAGE * mult));
+        const tier = damageTierLabel(form);
+
+        heroAttackAnimation();
+        fireProjectile(() => monsterTakeDamage(dmg, mult >= 1.25, tier));
+
+        setDialogue(
+          "REP +1! Hero strikes for " + dmg + " damage!",
+          "Combo x" + state.combo + " - keep the rhythm!",
+        );
+        if (form != null && Number(form) >= 95) playSfx("crit");
+        else playSfx("rep");
+      }
+
+      function monsterTakeDamage(dmg, isCrit, tier) {
+        if (state.gameState !== "BATTLE") return;
+        state.monsterHp = Math.max(0, state.monsterHp - dmg);
+        state.damageDealt += dmg;
+        updateGameUI();
+
+        spawnDamageNumber(
+          dmg,
+          $("monsterWrapper"),
+          isCrit ? "#f59e0b" : "#ffffff",
+          isCrit ? "CRIT! -" : "-",
+        );
+        if (tier) showFloatingBanner(tier.main, tier.sub);
+
+        const sprite = $("monsterSprite");
+        sprite.classList.remove("anim-monster-idle");
+        sprite.classList.add("anim-hurt");
+        const hit = $("monsterHitEffect");
+        hit.classList.remove("hidden");
+        hit.classList.add("flex");
+        playSfx("monsterHit");
+
+        setTimeout(() => {
+          hit.classList.add("hidden");
+          hit.classList.remove("flex");
+          sprite.classList.remove("anim-hurt");
+          if (state.gameState === "BATTLE")
+            sprite.classList.add("anim-monster-idle");
+        }, 400);
+
+        // Beast defeated early (high form finishes faster) = battle won.
+        if (state.monsterHp <= 0) setTimeout(() => handleVictory("beast"), 500);
+      }
+
+      /* ---------------- BEAST COUNTER-ATTACK (real inactivity only) ---------------- */
+      function monsterCounterAttack() {
+        if (state.gameState !== "BATTLE") return;
+        // Inactivity is the only thing that breaks a combo.
+        state.combo = 0;
+
+        const sprite = $("monsterSprite");
+        sprite.classList.remove("anim-monster-idle", "anim-monster-attack");
+        void sprite.offsetWidth;
+        sprite.classList.add("anim-monster-attack");
+
+        setDialogue(
+          "THE BEAST LUNGES! You stopped moving!",
+          "KEEP REPPING! Move to retaliate!",
+        );
+        setTimeout(() => {
+          sprite.classList.remove("anim-monster-attack");
+          if (state.gameState === "BATTLE")
+            sprite.classList.add("anim-monster-idle");
+          heroTakeDamage(12); // deterministic game damage
+        }, 260);
+      }
+
+      function heroTakeDamage(dmg) {
+        if (state.gameState !== "BATTLE") return;
+        state.heroHp = Math.max(0, state.heroHp - dmg);
+        updateGameUI();
+        spawnDamageNumber(dmg, $("heroWrapper"), "#ef4444", "OUCH! -");
+
+        const hero = $("heroSprite");
+        hero.classList.remove("anim-idle");
+        hero.classList.add("anim-hurt");
+        const hit = $("heroHitEffect");
+        hit.classList.remove("hidden");
+        hit.classList.add("flex");
+        playSfx("hurt");
+        setTimeout(() => {
+          hit.classList.add("hidden");
+          hit.classList.remove("flex");
+          hero.classList.remove("anim-hurt");
+          if (state.gameState === "BATTLE") hero.classList.add("anim-idle");
+        }, 400);
+
+        if (state.heroHp <= 0) setTimeout(handleDefeat, 400);
+      }
+      function escHtml(s) {
+        return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+          return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;",
+          }[c];
+        });
+      }
+
+      /* ---------------- DYNAMIC EXERCISE SELECTOR (from the backend) ---------------- */
+      const EXERCISE_CARD_ACCENTS = [
+        "text-blue-800",
+        "text-emerald-700",
+        "text-red-700",
+        "text-purple-700",
+        "text-teal-700",
+        "text-amber-700",
+        "text-pink-700",
+        "text-indigo-700",
+        "text-orange-700",
+        "text-cyan-700",
+        "text-lime-700",
+      ];
+
+      function buildExerciseCards(exercises) {
+        const grid = $("exerciseCards");
+        const status = $("cardsStatus");
+        if (!grid) return;
+        grid.innerHTML = "";
+        if (!exercises || !exercises.length) {
+          if (status)
+            status.textContent =
+              "Could not load the exercise catalog. Refresh to try again.";
+          return;
+        }
+        exercises.forEach(function (ex, idx) {
+          const key = String(ex.id);
+          const name = String(ex.name || "Exercise").toUpperCase();
+          const difficulty = ex.difficulty || "Intermediate";
+          const goal = Number(ex.goal) || 15;
+          const sets = Number(ex.sets) || 3;
+          const accent =
+            EXERCISE_CARD_ACCENTS[idx % EXERCISE_CARD_ACCENTS.length];
+          const muscles =
+            Array.isArray(ex.muscles) && ex.muscles.length
+              ? ex.muscles.join(" / ")
+              : "";
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.dataset.key = key;
+          btn.dataset.name = name;
+          btn.className =
+            "game-card pixel-box text-left p-4 hover:-translate-y-0.5 transition-transform";
+          btn.innerHTML =
+            '<div class="text-[11px] font-black ' +
+            accent +
+            ' tracking-wide mb-1">' +
+            escHtml(name) +
+            "</div>" +
+            '<div class="text-[8px] text-slate-600 mb-2">' +
+            escHtml(muscles) +
+            (muscles ? " &middot; " : "") +
+            "Difficulty: " +
+            escHtml(difficulty) +
+            "</div>" +
+            '<div class="text-[8px] text-slate-700 leading-relaxed">' +
+            "<div>&#10003; Real rep tracking</div>" +
+            "<div>&#10003; Form-based damage</div>" +
+            (ex.description
+              ? "<div>&#10003; " + escHtml(ex.description) + "</div>"
+              : "") +
+            "<div>&#10003; Target: " +
+            goal +
+            " reps &times; " +
+            sets +
+            " sets</div>" +
+            "</div>" +
+            '<div class="mt-3 text-[9px] font-black text-white bg-slate-800 inline-block px-2 py-1 select-btn">[ SELECT ]</div>';
+          btn.addEventListener("click", function () {
+            selectExercise(key, name);
+          });
+          grid.appendChild(btn);
+        });
+      }
+
+      // Only used when the backend /api/exercises call fails, so the battle page
+      // always works offline-style (exact mirror of core/exercise_data.py).
+      const FALLBACK_EXERCISES = [
+        {
+          id: "1",
+          name: "Bicep Curl",
+          difficulty: "Easy",
+          goal: 15,
+          sets: 3,
+          muscles: ["Biceps"],
+          description: "Elbow tracking",
+        },
+        {
+          id: "2",
+          name: "Push-up",
+          difficulty: "Intermediate",
+          goal: 12,
+          sets: 3,
+          muscles: ["Chest", "Triceps"],
+          description: "Upper body tracking",
+        },
+        {
+          id: "3",
+          name: "Squat",
+          difficulty: "Beginner",
+          goal: 15,
+          sets: 3,
+          muscles: ["Quads", "Glutes"],
+          description: "Knee + hip tracking",
+        },
+        {
+          id: "4",
+          name: "Triceps Pushdown",
+          difficulty: "Easy",
+          goal: 15,
+          sets: 3,
+          muscles: ["Triceps"],
+          description: "Elbow tracking",
+        },
+        {
+          id: "5",
+          name: "Lunges",
+          difficulty: "Intermediate",
+          goal: 12,
+          sets: 3,
+          muscles: ["Quads", "Glutes", "Hamstrings"],
+          description: "Stride tracking",
+        },
+        {
+          id: "6",
+          name: "Jumping Jacks",
+          difficulty: "Easy",
+          goal: 20,
+          sets: 3,
+          muscles: ["Full Body", "Cardio"],
+          description: "Full body tracking",
+        },
+        {
+          id: "7",
+          name: "Shoulder Press",
+          difficulty: "Intermediate",
+          goal: 12,
+          sets: 3,
+          muscles: ["Shoulders", "Triceps"],
+          description: "Overhead press tracking",
+        },
+        {
+          id: "8",
+          name: "Burpees",
+          difficulty: "Advanced",
+          goal: 10,
+          sets: 3,
+          muscles: ["Full Body", "Cardio"],
+          description: "Full body tracking",
+        },
+        {
+          id: "9",
+          name: "Warrior II",
+          difficulty: "Intermediate",
+          goal: 8,
+          sets: 2,
+          muscles: ["Legs", "Core", "Balance"],
+          description: "Pose tracking",
+        },
+        {
+          id: "g",
+          name: "Goblet Squat",
+          difficulty: "Intermediate",
+          goal: 12,
+          sets: 3,
+          muscles: ["Quads", "Glutes", "Core"],
+          description: "Knee + hip tracking",
+        },
+        {
+          id: "t",
+          name: "Crossover Toe Touches",
+          difficulty: "Beginner",
+          goal: 15,
+          sets: 3,
+          muscles: ["Core", "Obliques"],
+          description: "Torso rotation tracking",
+        },
+      ];
+
+      async function loadExerciseCatalog() {
+        try {
+          const res = await window.api.get("/api/exercises");
+          const list = res && res.data ? res.data : [];
+          state.exerciseCatalog =
+            Array.isArray(list) && list.length ? list : FALLBACK_EXERCISES;
+        } catch (err) {
+          console.warn(
+            "[PoseAI] Exercise catalog fallback used:",
+            err && err.message,
+          );
+          state.exerciseCatalog = FALLBACK_EXERCISES;
+        }
+        buildExerciseCards(state.exerciseCatalog);
+        const status = $("cardsStatus");
+        if (status && status.parentNode) status.parentNode.removeChild(status);
+      }
+
+      function setExerciseInfo(key) {
+        const info = (state.exerciseCatalog || []).find(function (e) {
+          return String(e.id) === String(key);
+        });
+        state.exerciseInfo = info
+          ? {
+              goal: Number(info.goal) || 15,
+              sets: Number(info.sets) || 3,
+              difficulty: info.difficulty || "Intermediate",
+            }
+          : { goal: 15, sets: 3, difficulty: "Intermediate" };
+      }
+
+      /* ---------------- ENGINE PAYLOAD -> GAME STATE ---------------- */
+      function normalizeEnginePayload(raw) {
+        const norm = raw || {};
+        const pose = norm.pose_detected === true || norm.poseDetected === true;
+        return {
+          exercise: norm.exercise,
+          currentRep:
+            Number(
+              norm.currentRep != null ? norm.currentRep : norm.current_rep,
+            ) || 0,
+          goalRep:
+            Number(norm.goalRep != null ? norm.goalRep : norm.goal_rep) || 0,
+          currentSet:
+            Number(
+              norm.currentSet != null ? norm.currentSet : norm.current_set,
+            ) || 0,
+          goalSet:
+            Number(norm.goalSet != null ? norm.goalSet : norm.goal_set) || 0,
+          totalReps:
+            Number(
+              norm.total_reps != null ? norm.total_reps : norm.totalReps,
+            ) || 0,
+          setCompleted:
+            norm.set_completed === true || norm.setCompleted === true,
+          completedSets:
+            Number(
+              norm.completed_sets != null
+                ? norm.completed_sets
+                : norm.completedSets,
+            ) || 0,
+          stage: pose ? norm.stage || "WAITING" : "MOVE INTO CAMERA VIEW",
+          angle: pose
+            ? norm.angle != null
+              ? norm.angle
+              : norm.joint_angle
+            : null,
+          formAccuracy: pose
+            ? norm.form_accuracy != null
+              ? norm.form_accuracy
+              : norm.formAccuracy
+            : null,
+          calories: Number(norm.calories) || 0,
+          workoutTime: norm.workoutTime || norm.workout_time || "00:00",
+          feedback:
+            norm.feedback || (pose ? "Tracking..." : "Move Into Camera View"),
+          poseDetected: pose,
+          cameraStatus: norm.cameraStatus || (pose ? "tracking" : "no-pose"),
+        };
+      }
+
+      function renderEnginePayload(raw) {
+        if (state.gameState !== "BATTLE") return;
+        const p = normalizeEnginePayload(raw);
+        state.lastPayload = p;
+        // Accumulate form_accuracy samples for the finish payload.
+        if (p.formAccuracy != null && typeof p.formAccuracy === "number") {
+          state.formAccuracySamples.push(p.formAccuracy);
+        }
+        state.totalReps = p.totalReps;
+
+        const form = p.formAccuracy;
+        $("trackForm").textContent =
+          form != null ? Math.round(form) + "%" : "--";
+        $("trackAngle").textContent =
+          p.angle != null ? Math.round(p.angle) + "\u00B0" : "--";
+        $("trackStage").textContent = p.stage || "--";
+        $("trackRep").textContent = p.currentRep;
+        const activeSet = Math.max(p.currentSet, p.completedSets);
+        $("hudSet").textContent =
+          p.goalSet > 0 ? activeSet + " / " + p.goalSet : "--";
+        $("hudReps").textContent =
+          String(p.currentRep).padStart(2, "0") +
+          " / " +
+          String(p.goalRep).padStart(2, "0");
+        $("hudCalories").textContent =
+          p.calories > 0 ? Math.round(p.calories) + " kcal" : "--";
+        $("headerTimer").textContent = p.workoutTime || "00:00";
+        $("trackStatus").textContent = p.poseDetected
+          ? "TRACKING"
+          : p.cameraStatus === "paused"
+            ? "PAUSED"
+            : "NO POSE";
+        const noPose = $("noPoseOverlay");
+        if (noPose) noPose.classList.toggle("hidden", !!p.poseDetected);
+
+        // ONE real backend rep = ONE attack (dedup by the monotonic session total).
+        if (p.totalReps > state.lastProcessedRep) {
+          const landed = Math.min(p.totalReps - state.lastProcessedRep, 3);
+          for (let i = 0; i < landed; i++) {
+            state.lastProcessedRep += 1;
+            handleRealRep(p);
+          }
+        }
+
+        // Set / workout completion — read from the engine's set_completed flag.
+        if (p.setCompleted && p.goalSet > 0 && p.currentSet >= p.goalSet) {
+          if (p.currentSet !== state.lastCompletedSet) {
+            state.lastCompletedSet = p.currentSet;
+            setTimeout(function () {
+              handleVictory("sets");
+            }, 500);
+          }
+        } else if (p.setCompleted && p.currentSet > 0) {
+          if (p.currentSet !== state.lastCompletedSet) {
+            state.lastCompletedSet = p.currentSet;
+            stopLoops();
+            state.gameState = "SET_MODAL";
+            showSetModal(p);
+          }
+        }
+      }
+
+      /* ---------------- SET COMPLETE MODAL (shown once per set) ---------------- */
+      async function showSetModal(p) {
+        const setNum = Number(p.currentSet) || 1;
+        const reps = Number(p.currentRep) || 0;
+        const goalRep = Number(p.goalRep) || 0;
+        const goalSet = Number(p.goalSet) || 0;
+        const pct =
+          goalRep > 0 ? Math.min(100, Math.round((reps / goalRep) * 100)) : 0;
+        const nextSet =
+          goalSet > 0 ? Math.min(setNum + 1, goalSet) : setNum + 1;
+        const form = p.formAccuracy != null ? Number(p.formAccuracy) : null;
+
+        $("setCompleteTitle").textContent = "SET " + setNum + " COMPLETE";
+        $("setCompleteReps").textContent = reps + " / " + goalRep;
+        $("setCompletePct").textContent = pct + "%";
+        $("setCompleteForm").textContent =
+          form != null ? Math.round(form) + "%" : "Not measured yet";
+        $("setCompleteNext").textContent = "SET " + nextSet + " / " + goalSet;
+        const cont = $("setContinueBtn");
+        if (cont) cont.textContent = "CONTINUE SET " + nextSet + " \u2192";
+        const _sm = $("setCompleteModal");
+        if (_sm) _sm.style.display = "flex";
+        playSfx("setDone");
+      }
+
+      async function continueFromSetModal() {
+        const _sm2 = $("setCompleteModal");
+        if (_sm2) _sm2.style.display = "none";
+        try {
+          const res = await window.api.post("/api/workout/continue", {});
+          if (res && res.data) {
+            state.lastPayload = res.data;
+            // Sync dedup counter so set-transition rep jumps don't cause missed
+            // attacks or duplicate deduplication on the next frame.
+            // The continue endpoint returns get_status() which uses statistics.totalReps;
+            // the frame endpoint returns _build_payload() which uses total_reps at top level.
+            const tr =
+              res.data.total_reps != null
+                ? res.data.total_reps
+                : res.data.statistics && res.data.statistics.totalReps != null
+                  ? res.data.statistics.totalReps
+                  : null;
+            if (tr != null) state.lastProcessedRep = tr;
+          }
+        } catch (err) {
+          console.warn("[PoseAI] continue failed:", err);
+        }
+        state.gameState = "BATTLE";
+        startLoops();
+      }
+
+      /* ---------------- UI REFRESH ---------------- */
+      function updateGameUI() {
+        const heroPct = Math.max(
+          0,
+          Math.min(100, (state.heroHp / state.heroHpMax) * 100),
+        );
+        $("heroHpBar").style.width = heroPct + "%";
+        $("heroHpBar").className =
+          "pixel-progress-fill " +
+          (heroPct > 55
+            ? "bg-emerald-500"
+            : heroPct > 25
+              ? "bg-amber-500"
+              : "bg-red-500");
+        $("heroHpCur").textContent = Math.round(state.heroHp);
+        $("heroHpMax").textContent = Math.round(state.heroHpMax);
+        $("heroAtkVal").textContent = HERO_BASE_DAMAGE;
+
+        const monPct = Math.max(
+          0,
+          Math.min(100, (state.monsterHp / state.monsterHpMax) * 100),
+        );
+        $("monsterHpBar").style.width = monPct + "%";
+        $("monsterHpBar").className =
+          "pixel-progress-fill " +
+          (monPct > 55
+            ? "bg-emerald-500"
+            : monPct > 25
+              ? "bg-amber-500"
+              : "bg-red-500");
+        $("monsterHpCur").textContent = Math.round(state.monsterHp);
+        $("monsterHpMax").textContent = Math.round(state.monsterHpMax);
+        const cond = $("monsterCondition");
+        cond.textContent =
+          monPct > 55 ? "NORMAL" : monPct > 25 ? "WOUNDED" : "CRITICAL";
+        cond.className =
+          monPct > 55
+            ? "text-emerald-700"
+            : monPct > 25
+              ? "text-amber-600"
+              : "text-red-600";
+        $("comboBadge").textContent = "COMBO \u00D7" + state.combo;
+      }
+
+      /* ---------------- PAUSE / FINISH CONFIRM / RESET ---------------- */
+      async function togglePause() {
+        if (state.gameState !== "BATTLE" && state.gameState !== "PAUSED")
+          return;
+        if (state.gameState === "BATTLE") {
+          state.gameState = "PAUSED";
+          stopLoops();
+          const _po = $("pauseOverlay");
+          if (_po) _po.style.display = "flex";
+          $("btnPause").textContent = "RESUME";
+          $("trackStatus").textContent = "PAUSED";
+          $("camDot").textContent = "PAUSED";
+          $("camDot").className = "text-[8px] font-black text-amber-400";
+          try {
+            await window.api.post("/api/workout/pause");
+          } catch (_) {}
+        } else {
+          state.gameState = "BATTLE";
+          const _po2 = $("pauseOverlay");
+          if (_po2) _po2.style.display = "none";
+          $("btnPause").textContent = "PAUSE";
+          $("camDot").textContent = "CAMERA LIVE";
+          $("camDot").className = "text-[8px] font-black text-emerald-400";
+          try {
+            await window.api.post("/api/workout/resume");
+          } catch (_) {}
+          startLoops();
+        }
+      }
+
+      let stateBeforeConfirm = "BATTLE";
+
+      function openFinishConfirm() {
+        if (state.gameState !== "BATTLE" && state.gameState !== "PAUSED")
+          return;
+        stateBeforeConfirm = state.gameState;
+        stopLoops();
+        state.gameState = "FINISH_CONFIRM";
+        const _fco = $("finishConfirmOverlay");
+        if (_fco) _fco.style.display = "flex";
+      }
+
+      function closeFinishConfirm() {
+        const _fco2 = $("finishConfirmOverlay");
+        if (_fco2) _fco2.style.display = "none";
+        state.gameState = stateBeforeConfirm;
+        $("btnPause").textContent =
+          state.gameState === "PAUSED" ? "RESUME" : "PAUSE";
+        if (state.gameState === "BATTLE") {
+          try {
+            window.api.post("/api/workout/resume");
+          } catch (_) {}
+          startLoops();
+        }
+      }
+
+      async function onFinishConfirmed() {
+        stateBeforeConfirm = "BATTLE";
+        closeFinishConfirm();
+        await handleDefeat();
+      }
+
+      /* ---------------- SAVE (exactly once, same collection as normal workouts) ---------------- */
+      async function saveBattle(battleResult, workoutStatus) {
+        if (state.finishedSave) return { saved: false, ctx: null };
+        state.finishedSave = true;
+        const p = state.lastPayload || {};
+        try {
+          const res = await window.api.post("/api/workout/finish", {
+            exercise: state.exerciseName || p.exercise || "",
+            currentRep: p.currentRep || 0,
+            currentSet: p.currentSet || 0,
+            total_reps: state.totalReps || 0,
+            completed_sets: state.lastCompletedSet || p.completedSets || 0,
+            target_sets: p.goalSet || 0,
+            target_reps: p.goalRep || 0,
+            calories: p.calories || 0,
+            workoutTime: p.workoutTime || "00:00",
+            feedback: p.feedback || "",
+            game_mode: "battle",
+            battle_result: battleResult,
+            best_combo: state.maxCombo,
+            damage_dealt: state.damageDealt,
+            workout_status: workoutStatus,
+            // Average form accuracy from accumulated per-frame samples.
+            accuracy:
+              state.formAccuracySamples.length > 0
+                ? Math.round(
+                    state.formAccuracySamples.reduce((a, b) => a + b, 0) /
+                      state.formAccuracySamples.length,
+                  )
+                : 0,
+          });
+          const ctx = res && res.data ? res.data : {};
+          if (ctx.workout_id) {
+            const query =
+              "/analysis?workoutId=" + encodeURIComponent(ctx.workout_id);
+            const vLink = $("victoryAnalysisLink");
+            if (vLink) vLink.href = query;
+            const dLink = $("defeatAnalysisLink");
+            if (dLink) dLink.href = query;
+          }
+          return { saved: true, ctx: ctx };
+        } catch (err) {
+          state.finishedSave = false; // allow a retry after the alert
+          console.error("[PoseAI] Save battle failed:", err);
+          alert("Could not save workout: " + err.message);
+          return { saved: false, ctx: null };
+        }
+      }
+
+      /* ---------------- VICTORY / DEFEAT ---------------- */
+      async function handleVictory(reason) {
+        if (state.gameState === "VICTORY") return;
+        state.gameState = "VICTORY";
+        stopLoops();
+        playSfx("victory");
+        const p = state.lastPayload || {};
+        $("victoryReps").textContent = state.totalReps || 0;
+        $("victorySets").textContent =
+          (state.lastCompletedSet || p.completedSets || p.currentSet || 0) +
+          " / " +
+          (p.goalSet || 0);
+        $("victoryForm").textContent =
+          state.bestFormSample != null
+            ? Math.round(state.bestFormSample) + "%"
+            : "Not measured yet";
+        $("victoryCombo").textContent = "\u00D7" + state.maxCombo;
+        $("victoryTime").textContent = p.workoutTime || "00:00";
+        $("victoryCalories").textContent =
+          p.calories > 0 ? Math.round(p.calories) + " kcal" : "--";
+        const _vo = $("victoryOverlay");
+        if (_vo) _vo.style.display = "flex";
+        closeCamera();
+        await saveBattle("victory", "completed");
+      }
+
+      async function handleDefeat() {
+        if (state.gameState === "DEFEAT" || state.gameState === "VICTORY")
+          return;
+        state.gameState = "DEFEAT";
+        stopLoops();
+        playSfx("defeat");
+        const p = state.lastPayload || {};
+        $("defeatReps").textContent = state.totalReps || 0;
+        $("defeatSets").textContent =
+          state.lastCompletedSet || p.completedSets || 0;
+        $("defeatForm").textContent =
+          state.bestFormSample != null
+            ? Math.round(state.bestFormSample) + "%"
+            : "Not measured yet";
+        $("defeatCombo").textContent = "\u00D7" + state.maxCombo;
+        const _do = $("defeatOverlay");
+        if (_do) _do.style.display = "flex";
+        closeCamera();
+        await saveBattle("defeat", "partial");
+      }
+
+      function resetGame() {
+        stopLoops();
+        closeCamera();
+        state.gameState = "SELECT";
+        state.lastProcessedRep = 0;
+        state.lastCompletedSet = 0;
+        state.combo = 0;
+        state.maxCombo = 0;
+        state.heroHp = HERO_MAX_HP;
+        state.heroHpMax = HERO_MAX_HP;
+        state.monsterHp = 0;
+        state.monsterHpMax = 0;
+        state.damageDealt = 0;
+        state.bestFormSample = null;
+        state.totalReps = 0;
+        state.finishedSave = false;
+        state.lastPayload = null;
+
+        [
+          "victoryOverlay",
+          "defeatOverlay",
+          "pauseOverlay",
+          "finishConfirmOverlay",
+          "setCompleteModal",
+        ].forEach(function (id) {
+          $(id).classList.add("hidden");
+        });
+        const battle = $("gameBattle");
+        if (battle) battle.classList.add("hidden");
+        const select = $("gameSelect");
+        if (select) select.classList.remove("hidden");
+        $("btnStartBattle").disabled = state.exerciseKey == null;
+        const pauseBtn = $("btnPause");
+        if (pauseBtn) pauseBtn.textContent = "PAUSE";
+        $("selectHint").textContent = state.exerciseKey
+          ? state.exerciseName +
+            " selected. Press START BATTLE \u2014 your browser camera will open."
+          : "Select an exercise to begin. Your browser camera will open.";
+      }
+
+      /* ---------------- SOUND TOGGLE ---------------- */
+      function toggleSound() {
+        state.soundOn = !state.soundOn;
+        soundEnabled = state.soundOn;
+        const label = $("soundText");
+        if (label) label.textContent = state.soundOn ? "ON" : "OFF";
+      }
+
+      /* ---------------- BOOT / EVENT WIRING ---------------- */
+      (function wireGamePage() {
+        document
+          .querySelectorAll("#exerciseCards [data-key]")
+          .forEach(function (card) {
+            card.addEventListener("click", function () {
+              selectExercise(
+                card.getAttribute("data-key"),
+                card.getAttribute("data-name"),
+              );
+            });
+          });
+        const startBtn = $("btnStartBattle");
+        if (startBtn) startBtn.addEventListener("click", startBattle);
+        const pauseBtn = $("btnPause");
+        if (pauseBtn)
+          pauseBtn.addEventListener("click", function () {
+            if (state.gameState === "BATTLE" || state.gameState === "PAUSED")
+              togglePause();
+          });
+        const finishBtn = $("btnFinish");
+        if (finishBtn) finishBtn.addEventListener("click", openFinishConfirm);
+        const soundBtn = $("btnSound");
+        if (soundBtn) soundBtn.addEventListener("click", toggleSound);
+        const contBtn = $("setContinueBtn");
+        if (contBtn) contBtn.addEventListener("click", continueFromSetModal);
+        const yesBtn = $("finishYesBtn");
+        if (yesBtn) yesBtn.addEventListener("click", onFinishConfirmed);
+      })();
+
+      loadExerciseCatalog();
+    </script>
+  </body>
+</html>

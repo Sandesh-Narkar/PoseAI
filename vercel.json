@@ -1,0 +1,59 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    },
+    {
+      "source": "/(css|js|images)/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "source": "/", "destination": "/frontend/html/index.html" },
+    { "source": "/dashboard", "destination": "/frontend/html/index.html" },
+    { "source": "/workout", "destination": "/frontend/html/workout.html" },
+    { "source": "/analysis", "destination": "/frontend/html/analysis.html" },
+    { "source": "/progress", "destination": "/frontend/html/progress.html" },
+    { "source": "/profile", "destination": "/frontend/html/profile.html" },
+    { "source": "/exercises", "destination": "/frontend/html/exercises.html" },
+    { "source": "/achievements", "destination": "/frontend/html/achievements.html" },
+    { "source": "/game", "destination": "/frontend/html/game.html" },
+    { "source": "/nutrition", "destination": "/frontend/html/nutrition.html" },
+    { "source": "/fitness-market", "destination": "/frontend/html/fitness_market.html" },
+    { "source": "/market", "destination": "/frontend/html/fitness_market.html" },
+    { "source": "/cart", "destination": "/frontend/html/cart.html" },
+    { "source": "/checkout", "destination": "/frontend/html/checkout.html" },
+    { "source": "/orders", "destination": "/frontend/html/orders.html" },
+    { "source": "/favorites", "destination": "/frontend/html/favorites.html" },
+    { "source": "/products", "destination": "/frontend/html/products.html" },
+    { "source": "/login", "destination": "/frontend/html/login.html" },
+    { "source": "/signup", "destination": "/frontend/html/signup.html" },
+    { "source": "/js/:path*", "destination": "/frontend/js/:path*" },
+    { "source": "/css/:path*", "destination": "/frontend/css/:path*" },
+    { "source": "/images/:path*", "destination": "/frontend/images/:path*" },
+    { "source": "/market/images/:path*", "destination": "/frontend/images/market_products/:path*" },
+    { "source": "/fitness_market_product_image/:path*", "destination": "/frontend/images/market_products/:path*" }
+  ]
+}

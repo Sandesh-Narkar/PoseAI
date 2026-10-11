@@ -1,5 +1,31 @@
 Flask
+gunicorn
+python-dotenv
+flask-cors
+Flask-Limiter
+Flask-WTF
+WTForms
+Flask-SQLAlchemy
+requests
+
+# Authentication (MongoDB + Argon2id + Google OAuth)
+pymongo
+argon2-cffi
+Authlib
+
+# Computer-vision pose engine
 opencv-python-headless
 mediapipe
 numpy
-gunicorn
+
+# PDF/CSV report generation (core/report.py)
+reportlab
+
+# Nutrition scanner — Gemini 2.5 Flash + OCR + barcode detection
+# Note: opencv-contrib-python-headless provides cv2.barcode.BarcodeDetector
+# easyocr provides the OCR engine for label reading
+# Pillow is used for image format conversion
+google-genai
+pydantic
+easyocr
+Pillow

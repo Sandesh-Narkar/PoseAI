@@ -1,0 +1,1912 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-surface-variant": "#3f4850",
+              "on-secondary-container": "#00714d",
+              primary: "#006194",
+              "on-surface": "#131b2e",
+              "surface-container-low": "#f2f3ff",
+              outline: "#707881",
+              secondary: "#006c49",
+              "on-secondary-fixed-variant": "#005236",
+              "surface-container-highest": "#dae2fd",
+              "on-tertiary-fixed-variant": "#653e00",
+              "surface-tint": "#006398",
+              "error-container": "#ffdad6",
+              "surface-container": "#eaedff",
+              "on-primary": "#ffffff",
+              "primary-fixed-dim": "#93ccff",
+              "inverse-primary": "#93ccff",
+              "on-secondary-fixed": "#002113",
+              "secondary-container": "#6cf8bb",
+              "surface-dim": "#d2d9f4",
+              surface: "#faf8ff",
+              "on-secondary": "#ffffff",
+              "surface-variant": "#dae2fd",
+              "surface-bright": "#faf8ff",
+              "tertiary-container": "#a36700",
+              "on-primary-fixed": "#001d31",
+              "inverse-on-surface": "#eef0ff",
+              "on-primary-fixed-variant": "#004b73",
+              error: "#ba1a1a",
+              "primary-container": "#007bb9",
+              "inverse-surface": "#283044",
+              tertiary: "#825100",
+              "primary-fixed": "#cce5ff",
+              "on-tertiary-container": "#fffbff",
+              "on-tertiary": "#ffffff",
+              "tertiary-fixed": "#ffddb8",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed-dim": "#4edea3",
+              "on-error-container": "#93000a",
+              "on-error": "#ffffff",
+              "on-tertiary-fixed": "#2a1700",
+              "on-background": "#131b2e",
+              "outline-variant": "#bfc7d2",
+              background: "#faf8ff",
+              "secondary-fixed": "#6ffbbe",
+              "tertiary-fixed-dim": "#ffb95f",
+              "on-primary-container": "#fdfcff",
+              "surface-container-high": "#e2e7ff",
+            },
+            borderRadius: {
+              DEFAULT: "1rem",
+              lg: "2rem",
+              xl: "3rem",
+              full: "9999px",
+            },
+            spacing: {
+              "space-xl": "2rem",
+              "margin-mobile": "1rem",
+              "gutter-mobile": "1rem",
+              margin: "2.5rem",
+              "space-lg": "1.5rem",
+              gutter: "1.5rem",
+              "space-md": "1rem",
+              "space-xs": "0.25rem",
+              "space-2xl": "3rem",
+              "space-sm": "0.5rem",
+            },
+            fontFamily: {
+              "label-md": ["Plus Jakarta Sans"],
+              "headline-lg": ["Plus Jakarta Sans"],
+              "metric-stat": ["Plus Jakarta Sans"],
+              "display-lg-mobile": ["Plus Jakarta Sans"],
+              "body-lg": ["Plus Jakarta Sans"],
+              "label-lg": ["Plus Jakarta Sans"],
+              "body-md": ["Plus Jakarta Sans"],
+              caption: ["Plus Jakarta Sans"],
+              "display-lg": ["Plus Jakarta Sans"],
+              "headline-sm": ["Plus Jakarta Sans"],
+              "headline-md": ["Plus Jakarta Sans"],
+            },
+            fontSize: {
+              "label-md": [
+                "12px",
+                {
+                  lineHeight: "16px",
+                  letterSpacing: "0.02em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-lg": [
+                "28px",
+                {
+                  lineHeight: "36px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+              "metric-stat": [
+                "32px",
+                {
+                  lineHeight: "36px",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "800",
+                },
+              ],
+              "display-lg-mobile": [
+                "30px",
+                {
+                  lineHeight: "38px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+              "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "label-lg": [
+                "14px",
+                {
+                  lineHeight: "20px",
+                  letterSpacing: "0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "body-md": ["14px", { lineHeight: "22px", fontWeight: "400" }],
+              caption: [
+                "11px",
+                {
+                  lineHeight: "14px",
+                  letterSpacing: "0.02em",
+                  fontWeight: "500",
+                },
+              ],
+              "display-lg": [
+                "40px",
+                {
+                  lineHeight: "48px",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "700",
+                },
+              ],
+              "headline-sm": [
+                "18px",
+                {
+                  lineHeight: "26px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-md": [
+                "22px",
+                {
+                  lineHeight: "30px",
+                  letterSpacing: "-0.015em",
+                  fontWeight: "600",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-background font-body-md text-on-surface min-h-screen antialiased flex flex-col"
+  >
+    <header
+      class="fixed top-0 left-0 right-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"
+    >
+      <div
+        class="h-20 max-w-7xl mx-auto px-margin-mobile md:px-margin flex items-center justify-between gap-space-md"
+      >
+        <div class="flex items-center gap-space-lg">
+          <a
+            class="flex items-center gap-space-sm focus:outline-none"
+            data-path="dashboard"
+            href="#"
+            ><img
+              alt="PoseAI Logo"
+              class="h-8 w-auto object-contain"
+              src="https://lh3.googleusercontent.com/aida/AEtjO1V-v98pUA9o4U6cX1--icYSOIleTEKxDWirF2zkkoLGotbzGV3ou0HBF2BtboSeEoQ-xSTjdnZLLeoW_qjDzoGXOpvQaRduN9-Jb1X9l2Jf3ejdOWIjb0rrmHHRC4AanbvLJYwYoiIHS3auOiGKsOaH34upGvpKLjhp4NoC8xBltTmnNYYw6KNwdUrA3tPND7tD9S5TIBmTRt1E7SQDRgMAJaLwGJLqFteSQqoBJeHQ8w7T7HSibZ0Yw4I"
+            /><span
+              class="font-headline-sm text-headline-sm tracking-tight text-on-surface"
+              >PoseAI</span
+            ></a
+          >
+          <nav
+            class="hidden lg:flex items-center gap-space-xs bg-surface-container-low p-space-xs rounded-full"
+            data-active-classes="bg-primary-container text-on-primary-container font-label-lg text-label-lg shadow-sm"
+          >
+            <a
+              aria-current="page"
+              class="px-space-md py-space-xs rounded-full transition-colors bg-primary-container text-on-primary-container font-label-lg text-label-lg shadow-sm"
+              data-path="dashboard"
+              href="#"
+              >Dashboard</a
+            ><a
+              class="px-space-md py-space-xs rounded-full font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+              data-path="workout"
+              href="#"
+              >Workout</a
+            ><a
+              class="px-space-md py-space-xs rounded-full font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+              data-path="analysis"
+              href="#"
+              >Analysis</a
+            ><a
+              class="px-space-md py-space-xs rounded-full font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+              data-path="progress"
+              href="#"
+              >Progress</a
+            >
+            <div class="relative group">
+              <button
+                class="flex items-center gap-1 px-space-md py-space-xs rounded-full font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors focus:outline-none"
+                type="button"
+              >
+                <span>More</span
+                ><span class="material-symbols-outlined text-[18px]"
+                  >expand_more</span
+                >
+              </button>
+              <div
+                class="absolute left-0 top-full mt-2 w-48 bg-surface-container-lowest rounded-xl shadow-[0_8px_32px_0_rgba(15,23,42,0.08)] py-2 hidden group-hover:block transition-all"
+              >
+                <a
+                  class="block px-4 py-2 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+                  data-path="achievements"
+                  href="#"
+                  >Achievements</a
+                ><a
+                  class="block px-4 py-2 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+                  data-path="exercises"
+                  href="#"
+                  >Exercises Library</a
+                ><a
+                  class="block px-4 py-2 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+                  data-path="settings"
+                  href="#"
+                  >Settings</a
+                >
+              </div>
+            </div>
+          </nav>
+        </div>
+        <div class="flex items-center gap-space-sm md:gap-space-md">
+          <div
+            class="hidden md:flex items-center bg-surface-container-low rounded-full px-space-md py-space-xs text-on-surface-variant focus-within:ring-2 focus-within:ring-primary focus-within:bg-surface-container-lowest transition-all"
+          >
+            <span
+              class="material-symbols-outlined text-[20px] mr-2 text-outline"
+              >search</span
+            ><input
+              class="bg-transparent border-none outline-none font-body-md text-body-md text-on-surface placeholder:text-outline w-44 lg:w-56"
+              placeholder="Search telemetry, plans..."
+              type="text"
+            />
+          </div>
+          <div
+            class="hidden sm:flex items-center gap-1 px-space-sm py-1 rounded-full bg-surface-container border border-surface-container-high"
+          >
+            <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span
+            ><span
+              class="font-caption text-caption text-secondary uppercase tracking-wider font-bold"
+              >CV Live</span
+            >
+          </div>
+          <button
+            aria-label="Notifications"
+            class="relative w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors focus:outline-none"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-[22px]"
+              >notifications</span
+            ><span
+              class="absolute top-2 right-2 w-2 h-2 rounded-full bg-primary ring-2 ring-surface-container-lowest"
+            ></span>
+          </button>
+          <div class="flex items-center gap-space-sm pl-space-xs">
+            <div
+              class="flex items-center gap-2 p-1 rounded-full hover:bg-surface-container-low transition-colors cursor-pointer"
+            >
+              <img
+                alt="Profile"
+                class="w-8 h-8 rounded-full object-cover ring-2 ring-surface-container-high"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDK0pe27buXIvLjbhnIXYF-qJRoOpNdSJwldWkj4gEA3Wcx6h5Pm534p-jX3jauLNRwXQgyMRH8QRaFQPPPPFNq4gYRY82B7JqcCats8h5vSvX659teNleFWLD6nDkGtgnWThFGShjWaA8fjd_8LLXol8E8QUsQExSTI3cnCQK-tcSOufIos_a8CRxOq5x_ylqRAdqVkyeBPg4wXHQn3nPiishJ4Pvc-DbmAQ6uavPCYSzBIwK8l-8u"
+              />
+              <div class="hidden xl:flex flex-col text-left">
+                <span
+                  class="font-label-md text-label-md text-on-surface leading-none"
+                  >Sandesh</span
+                ><span
+                  class="font-caption text-caption text-on-surface-variant leading-tight"
+                  >Pro Member</span
+                >
+              </div>
+            </div>
+          </div>
+          <button
+            aria-label="Toggle Menu"
+            class="lg:hidden w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors focus:outline-none"
+            onclick="
+              document
+                .getElementById('mobile-drawer')
+                .classList.toggle('hidden')
+            "
+            type="button"
+          >
+            <span class="material-symbols-outlined text-[24px]">menu</span>
+          </button>
+        </div>
+      </div>
+      <div
+        class="hidden lg:hidden border-t border-surface-container-high bg-surface-container-lowest px-margin-mobile py-space-lg shadow-lg"
+        id="mobile-drawer"
+      >
+        <nav
+          class="flex flex-col gap-space-xs"
+          data-active-classes="bg-primary-container text-on-primary-container font-bold"
+        >
+          <a
+            aria-current="page"
+            class="px-space-md py-space-sm rounded-lg bg-primary-container text-on-primary-container font-bold"
+            data-path="dashboard"
+            href="#"
+            >Dashboard</a
+          ><a
+            class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+            data-path="workout"
+            href="#"
+            >Workout</a
+          ><a
+            class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+            data-path="analysis"
+            href="#"
+            >Analysis</a
+          ><a
+            class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+            data-path="progress"
+            href="#"
+            >Progress</a
+          ><a
+            class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+            data-path="achievements"
+            href="#"
+            >Achievements</a
+          ><a
+            class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+            data-path="exercises"
+            href="#"
+            >Exercises</a
+          ><a
+            class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+            data-path="profile"
+            href="#"
+            >Profile</a
+          >
+        </nav>
+      </div>
+    </header>
+    <main class="w-full pt-20 bg-background flex-1">
+      <div
+        class="max-w-7xl mx-auto px-margin-mobile md:px-margin py-space-lg md:py-space-xl"
+      >
+        <div class="flex flex-col w-full">
+          <!-- Simulator / Prototype States Switcher -->
+          <div
+            class="w-full bg-surface-container-low rounded-2xl p-space-sm mb-space-lg shadow-sm flex flex-wrap items-center justify-between gap-space-sm"
+          >
+            <div class="flex items-center gap-space-xs">
+              <span class="material-symbols-outlined text-primary text-[20px]"
+                >science</span
+              >
+              <span
+                class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant font-bold"
+                >Preview States:</span
+              >
+            </div>
+            <div class="flex items-center flex-wrap gap-space-xs">
+              <button
+                class="px-space-md py-1.5 rounded-full font-label-md text-label-md bg-primary text-on-primary transition-all shadow-sm flex items-center gap-1"
+                id="btn-state-active"
+                onclick="switchState('active')"
+              >
+                <span class="material-symbols-outlined text-[16px]"
+                  >verified</span
+                >
+                <span>Active (8/12)</span>
+              </button>
+              <button
+                class="px-space-md py-1.5 rounded-full font-label-md text-label-md bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-high transition-all"
+                id="btn-state-skeleton"
+                onclick="switchState('skeleton')"
+              >
+                Skeleton Shimmer
+              </button>
+              <button
+                class="px-space-md py-1.5 rounded-full font-label-md text-label-md bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-high transition-all"
+                id="btn-state-empty"
+                onclick="switchState('empty')"
+              >
+                New User (0/12)
+              </button>
+              <button
+                class="px-space-md py-1.5 rounded-full font-label-md text-label-md bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-high transition-all"
+                id="btn-state-error"
+                onclick="switchState('error')"
+              >
+                Error State
+              </button>
+            </div>
+          </div>
+          <!-- STATE: SKELETON LOADING -->
+          <div
+            class="hidden flex-col gap-space-lg w-full animate-pulse"
+            id="state-skeleton"
+          >
+            <div class="h-14 bg-surface-container-high rounded-2xl w-2/3"></div>
+            <div
+              class="h-44 bg-surface-container-lowest rounded-3xl p-space-lg shadow-sm"
+            ></div>
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md"
+            >
+              <div class="h-56 bg-surface-container-lowest rounded-2xl"></div>
+              <div class="h-56 bg-surface-container-lowest rounded-2xl"></div>
+              <div class="h-56 bg-surface-container-lowest rounded-2xl"></div>
+            </div>
+          </div>
+          <!-- STATE: EMPTY (NEW USER) -->
+          <div
+            class="hidden flex-col items-center justify-center p-space-2xl bg-surface-container-lowest rounded-3xl shadow-sm text-center my-space-lg"
+            id="state-empty"
+          >
+            <div
+              class="w-20 h-20 rounded-full bg-primary-fixed flex items-center justify-center mb-space-md text-primary"
+            >
+              <span class="material-symbols-outlined text-[44px]"
+                >military_tech</span
+              >
+            </div>
+            <h3
+              class="font-headline-lg text-headline-lg text-on-surface mb-space-xs"
+            >
+              No Milestones Unlocked Yet
+            </h3>
+            <p
+              class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mb-space-lg"
+            >
+              Complete your very first computer vision session to start
+              recording joint-angle telemetry and ignite your achievement path!
+            </p>
+            <a
+              class="px-space-xl py-space-md rounded-full bg-primary text-on-primary font-label-lg text-label-lg shadow-md hover:bg-primary-container transition-all flex items-center gap-2"
+              href="workout.html"
+            >
+              <span class="material-symbols-outlined">bolt</span>
+              <span>Start Your First Workout</span>
+            </a>
+          </div>
+          <!-- STATE: ERROR -->
+          <div
+            class="hidden flex-col items-center justify-center p-space-2xl bg-surface-container-lowest rounded-3xl shadow-sm text-center my-space-lg"
+            id="state-error"
+          >
+            <div
+              class="w-20 h-20 rounded-full bg-error-container flex items-center justify-center mb-space-md text-error"
+            >
+              <span class="material-symbols-outlined text-[44px]"
+                >sync_problem</span
+              >
+            </div>
+            <h3
+              class="font-headline-lg text-headline-lg text-on-surface mb-space-xs"
+            >
+              Unable to Load Telemetry Badges
+            </h3>
+            <p
+              class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mb-space-lg"
+            >
+              We encountered a synchronization timeout reading your
+              computer-vision rep logs from MongoDB.
+            </p>
+            <button
+              class="px-space-xl py-space-md rounded-full bg-error text-on-error font-label-lg text-label-lg shadow-md hover:opacity-90 transition-all flex items-center gap-2"
+              onclick="switchState('active')"
+            >
+              <span class="material-symbols-outlined">refresh</span>
+              <span>Try Again</span>
+            </button>
+          </div>
+          <!-- STATE: ACTIVE DATA (Default) -->
+          <div class="flex flex-col gap-space-xl w-full" id="state-active">
+            <!-- Header Title Area -->
+            <div
+              class="flex flex-col md:flex-row md:items-end justify-between gap-space-md"
+            >
+              <div>
+                <div
+                  class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container/30 text-on-secondary-container mb-space-xs"
+                >
+                  <span
+                    class="material-symbols-outlined text-[16px] text-secondary"
+                    >verified</span
+                  >
+                  <span class="font-label-md text-label-md font-bold"
+                    >Biomechanical Milestones</span
+                  >
+                </div>
+                <h1
+                  class="font-display-lg text-display-lg text-on-surface tracking-tight"
+                >
+                  Achievements &amp; Milestones
+                </h1>
+                <p class="font-body-lg text-body-lg text-on-surface-variant">
+                  Celebrate your daily consistency, rep cadence, and
+                  sub-millimeter pose precision.
+                </p>
+              </div>
+              <!-- Quick Summary Stats -->
+              <div
+                class="flex items-center gap-space-sm bg-surface-container-lowest p-space-sm rounded-2xl shadow-sm"
+              >
+                <div class="px-space-md py-space-xs text-left">
+                  <span
+                    class="font-caption text-caption text-on-surface-variant block uppercase"
+                    >Tier Rank</span
+                  >
+                  <span
+                    class="font-headline-sm text-headline-sm text-primary font-bold"
+                    >Level 4 CV</span
+                  >
+                </div>
+                <div class="h-8 w-px bg-surface-container-high"></div>
+                <div class="px-space-md py-space-xs text-left">
+                  <span
+                    class="font-caption text-caption text-on-surface-variant block uppercase"
+                    >Total Reps</span
+                  >
+                  <span
+                    class="font-headline-sm text-headline-sm text-on-surface font-bold"
+                    >244 Reps</span
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- SECTION 1: Overall Progress Card -->
+            <div
+              class="w-full bg-surface-container-lowest rounded-3xl p-space-lg md:p-space-xl shadow-sm relative overflow-hidden"
+            >
+              <div
+                class="absolute -right-12 -top-12 w-64 h-64 rounded-full bg-gradient-to-br from-primary-fixed/40 to-transparent pointer-events-none blur-2xl"
+              ></div>
+              <div
+                class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-center relative z-10"
+              >
+                <!-- Metric & Dial Details -->
+                <div class="lg:col-span-8 flex flex-col gap-space-md">
+                  <div
+                    class="flex flex-wrap items-center justify-between gap-space-xs"
+                  >
+                    <div class="flex items-center gap-space-sm">
+                      <div
+                        class="w-12 h-12 rounded-2xl bg-primary-fixed flex items-center justify-center text-primary"
+                      >
+                        <span class="material-symbols-outlined text-[28px]"
+                          >military_tech</span
+                        >
+                      </div>
+                      <div>
+                        <span
+                          class="font-caption text-caption uppercase tracking-wider text-primary font-bold"
+                          >Total Mastery</span
+                        >
+                        <h2
+                          class="font-headline-md text-headline-md text-on-surface font-bold"
+                        >
+                          8 of 12 Badges Unlocked
+                        </h2>
+                      </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <span
+                        class="font-metric-stat text-metric-stat text-primary font-extrabold"
+                        >67%</span
+                      >
+                      <span
+                        class="font-label-md text-label-md text-on-surface-variant font-medium"
+                        >Completed</span
+                      >
+                    </div>
+                  </div>
+                  <!-- Progress Bar -->
+                  <div
+                    class="w-full bg-surface-container-low rounded-full h-4 overflow-hidden p-0.5"
+                  >
+                    <div
+                      class="bg-gradient-to-r from-primary to-secondary h-full rounded-full transition-all duration-700 w-2/3 shadow-sm"
+                    ></div>
+                  </div>
+                  <!-- Sub Badges / Criteria Metadata -->
+                  <div
+                    class="grid grid-cols-1 sm:grid-cols-3 gap-space-sm pt-space-xs"
+                  >
+                    <div
+                      class="p-space-sm rounded-xl bg-surface-container-low flex items-center gap-space-sm"
+                    >
+                      <span
+                        class="material-symbols-outlined text-secondary text-[22px]"
+                        >lock_open</span
+                      >
+                      <div class="text-left">
+                        <span
+                          class="font-label-md text-label-md text-on-surface font-bold block"
+                          >8 Earned</span
+                        >
+                        <span
+                          class="font-caption text-caption text-on-surface-variant"
+                          >Validated telemetry</span
+                        >
+                      </div>
+                    </div>
+                    <div
+                      class="p-space-sm rounded-xl bg-surface-container-low flex items-center gap-space-sm"
+                    >
+                      <span
+                        class="material-symbols-outlined text-tertiary text-[22px]"
+                        >hourglass_top</span
+                      >
+                      <div class="text-left">
+                        <span
+                          class="font-label-md text-label-md text-on-surface font-bold block"
+                          >4 In-Progress</span
+                        >
+                        <span
+                          class="font-caption text-caption text-on-surface-variant"
+                          >Next badge at 500 reps</span
+                        >
+                      </div>
+                    </div>
+                    <div
+                      class="p-space-sm rounded-xl bg-surface-container-low flex items-center gap-space-sm"
+                    >
+                      <span
+                        class="material-symbols-outlined text-primary text-[22px]"
+                        >upgrade</span
+                      >
+                      <div class="text-left">
+                        <span
+                          class="font-label-md text-label-md text-on-surface font-bold block"
+                          >Next Tier: L5</span
+                        >
+                        <span
+                          class="font-caption text-caption text-on-surface-variant"
+                          >Unlock 2 more badges</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Mini Visual Gauge / Biomechanical Radial Preview -->
+                <div
+                  class="lg:col-span-4 flex flex-col items-center justify-center p-space-md bg-surface-container-low rounded-2xl"
+                >
+                  <div
+                    class="relative w-28 h-28 flex items-center justify-center"
+                  >
+                    <svg
+                      class="w-full h-full transform -rotate-90"
+                      viewbox="0 0 36 36"
+                    >
+                      <path
+                        class="text-surface-container-highest"
+                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="3.5"
+                      ></path>
+                      <path
+                        class="text-primary"
+                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-dasharray="67, 100"
+                        stroke-linecap="round"
+                        stroke-width="3.5"
+                      ></path>
+                    </svg>
+                    <div
+                      class="absolute flex flex-col items-center text-center"
+                    >
+                      <span
+                        class="material-symbols-outlined text-secondary text-[24px]"
+                        >workspace_premium</span
+                      >
+                      <span
+                        class="font-label-md text-label-md font-bold text-on-surface"
+                        >Tier IV</span
+                      >
+                    </div>
+                  </div>
+                  <span
+                    class="font-label-md text-label-md text-on-surface mt-2 font-bold"
+                    >Biomechanical Elite</span
+                  >
+                  <span
+                    class="font-caption text-caption text-on-surface-variant text-center"
+                    >Top 8% accuracy among community</span
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- SECTION 2: Category Filter Bar -->
+            <div
+              class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm"
+            >
+              <div class="flex items-center gap-2">
+                <span
+                  class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant font-bold"
+                  >Filter By Category:</span
+                >
+              </div>
+              <div
+                class="flex flex-wrap items-center gap-space-xs"
+                id="filter-container"
+              >
+                <button
+                  class="category-pill active-pill px-space-md py-1.5 rounded-full font-label-md text-label-md bg-primary text-on-primary transition-all shadow-sm"
+                  onclick="filterCategory('all', this)"
+                >
+                  All (12)
+                </button>
+                <button
+                  class="category-pill px-space-md py-1.5 rounded-full font-label-md text-label-md bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-high transition-all"
+                  onclick="filterCategory('streak', this)"
+                >
+                  🔥 Streak (3)
+                </button>
+                <button
+                  class="category-pill px-space-md py-1.5 rounded-full font-label-md text-label-md bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-high transition-all"
+                  onclick="filterCategory('workouts', this)"
+                >
+                  🏋️ Workouts (3)
+                </button>
+                <button
+                  class="category-pill px-space-md py-1.5 rounded-full font-label-md text-label-md bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-high transition-all"
+                  onclick="filterCategory('form', this)"
+                >
+                  🎯 Form (3)
+                </button>
+                <button
+                  class="category-pill px-space-md py-1.5 rounded-full font-label-md text-label-md bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-high transition-all"
+                  onclick="filterCategory('reps', this)"
+                >
+                  💪 Reps (3)
+                </button>
+              </div>
+            </div>
+            <!-- SECTION 3: Unlocked Achievements -->
+            <div class="flex flex-col gap-space-md">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <h2
+                    class="font-headline-md text-headline-md text-on-surface font-bold"
+                  >
+                    🏆 Unlocked Achievements
+                  </h2>
+                  <span
+                    class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-md text-label-md font-bold"
+                    >8 Unlocked</span
+                  >
+                </div>
+                <span
+                  class="font-caption text-caption text-on-surface-variant hidden sm:inline"
+                  >Tap any badge for sub-millimeter CV logs</span
+                >
+              </div>
+              <div
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md"
+                id="unlocked-grid"
+              >
+                <!-- Card 1 (Streak) -->
+                <div
+                  class="achievement-card group cursor-pointer bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+                  data-category="streak"
+                  onclick="
+                    openBadgeModal(
+                      '7 Day Streak',
+                      'Workout 7 consecutive days without missing a scheduled cadence.',
+                      'Sep 12, 2026',
+                      '84 CV Reps',
+                      '100% Consistency',
+                      'streak',
+                      'local_fire_department',
+                    )
+                  "
+                >
+                  <div>
+                    <div class="flex items-start justify-between mb-space-md">
+                      <div
+                        class="w-14 h-14 rounded-2xl bg-tertiary-fixed flex items-center justify-center text-tertiary shadow-sm group-hover:scale-105 transition-transform"
+                      >
+                        <span class="material-symbols-outlined text-[32px]"
+                          >local_fire_department</span
+                        >
+                      </div>
+                      <span
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-container/50 text-on-secondary-container font-label-md text-label-md font-bold"
+                      >
+                        <span class="material-symbols-outlined text-[14px]"
+                          >check_circle</span
+                        >
+                        <span>Unlocked</span>
+                      </span>
+                    </div>
+                    <span
+                      class="font-caption text-caption uppercase text-tertiary tracking-wider font-bold"
+                      >Streak Milestone</span
+                    >
+                    <h3
+                      class="font-headline-sm text-headline-sm text-on-surface font-bold group-hover:text-primary transition-colors"
+                    >
+                      7 Day Streak
+                    </h3>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant mt-1"
+                    >
+                      Workout 7 consecutive days using live telemetry.
+                    </p>
+                  </div>
+                  <div
+                    class="pt-space-md mt-space-md bg-surface-container-low/50 rounded-xl p-space-sm flex items-center justify-between"
+                  >
+                    <div class="flex flex-col">
+                      <span
+                        class="font-caption text-caption text-on-surface-variant"
+                        >Unlocked</span
+                      >
+                      <span
+                        class="font-label-md text-label-md text-on-surface font-semibold"
+                        >Sep 12, 2026</span
+                      >
+                    </div>
+                    <div class="flex flex-col text-right">
+                      <span
+                        class="font-caption text-caption text-on-surface-variant"
+                        >CV Log</span
+                      >
+                      <span
+                        class="font-label-md text-label-md text-secondary font-bold"
+                        >84 Reps</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <!-- Card 2 (Form) -->
+                <div
+                  class="achievement-card group cursor-pointer bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+                  data-category="form"
+                  onclick="
+                    openBadgeModal(
+                      'Perfect Form',
+                      'Achieve 95%+ Biomechanical Form Score across a full session.',
+                      'Sep 10, 2026',
+                      '96.2% Peak Form',
+                      'Squats &amp; Curls',
+                      'form',
+                      'sports_score',
+                    )
+                  "
+                >
+                  <div>
+                    <div class="flex items-start justify-between mb-space-md">
+                      <div
+                        class="w-14 h-14 rounded-2xl bg-secondary-container flex items-center justify-center text-on-secondary-container shadow-sm group-hover:scale-105 transition-transform"
+                      >
+                        <span class="material-symbols-outlined text-[32px]"
+                          >sports_score</span
+                        >
+                      </div>
+                      <span
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-container/50 text-on-secondary-container font-label-md text-label-md font-bold"
+                      >
+                        <span class="material-symbols-outlined text-[14px]"
+                          >check_circle</span
+                        >
+                        <span>Unlocked</span>
+                      </span>
+                    </div>
+                    <span
+                      class="font-caption text-caption uppercase text-secondary tracking-wider font-bold"
+                      >Form Precision</span
+                    >
+                    <h3
+                      class="font-headline-sm text-headline-sm text-on-surface font-bold group-hover:text-primary transition-colors"
+                    >
+                      Perfect Form
+                    </h3>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant mt-1"
+                    >
+                      95%+ Form Score across full computer vision session.
+                    </p>
+                  </div>
+                  <div
+                    class="pt-space-md mt-space-md bg-surface-container-low/50 rounded-xl p-space-sm flex items-center justify-between"
+                  >
+                    <div class="flex flex-col">
+                      <span
+                        class="font-caption text-caption text-on-surface-variant"
+                        >Unlocked</span
+                      >
+                      <span
+                        class="font-label-md text-label-md text-on-surface font-semibold"
+                        >Sep 10, 2026</span
+                      >
+                    </div>
+                    <div class="flex flex-col text-right">
+                      <span
+                        class="font-caption text-caption text-on-surface-variant"
+                        >Biomechanical Acc.</span
+                      >
+                      <span
+                        class="font-label-md text-label-md text-primary font-bold"
+                        >96.2% Peak</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <!-- Card 3 (Reps) -->
+                <div
+                  class="achievement-card group cursor-pointer bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+                  data-category="reps"
+                  onclick="
+                    openBadgeModal(
+                      '100 Reps Century',
+                      'Complete 100 Total verified computer vision repetitions with sub-pixel depth.',
+                      'Sep 08, 2026',
+                      '100 / 100 Reps',
+                      'Bicep Curl &amp; Squat',
+                      'reps',
+                      'fitness_center',
+                    )
+                  "
+                >
+                  <div>
+                    <div class="flex items-start justify-between mb-space-md">
+                      <div
+                        class="w-14 h-14 rounded-2xl bg-primary-fixed flex items-center justify-center text-primary shadow-sm group-hover:scale-105 transition-transform"
+                      >
+                        <span class="material-symbols-outlined text-[32px]"
+                          >fitness_center</span
+                        >
+                      </div>
+                      <span
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-container/50 text-on-secondary-container font-label-md text-label-md font-bold"
+                      >
+                        <span class="material-symbols-outlined text-[14px]"
+                          >check_circle</span
+                        >
+                        <span>Unlocked</span>
+                      </span>
+                    </div>
+                    <span
+                      class="font-caption text-caption uppercase text-primary tracking-wider font-bold"
+                      >Rep Volume</span
+                    >
+                    <h3
+                      class="font-headline-sm text-headline-sm text-on-surface font-bold group-hover:text-primary transition-colors"
+                    >
+                      100 Reps Century
+                    </h3>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant mt-1"
+                    >
+                      100 total verified computer vision repetitions logged.
+                    </p>
+                  </div>
+                  <div
+                    class="pt-space-md mt-space-md bg-surface-container-low/50 rounded-xl p-space-sm flex items-center justify-between"
+                  >
+                    <div class="flex flex-col">
+                      <span
+                        class="font-caption text-caption text-on-surface-variant"
+                        >Unlocked</span
+                      >
+                      <span
+                        class="font-label-md text-label-md text-on-surface font-semibold"
+                        >Sep 08, 2026</span
+                      >
+                    </div>
+                    <div class="flex flex-col text-right">
+                      <span
+                        class="font-caption text-caption text-on-surface-variant"
+                        >Exercise Profile</span
+                      >
+                      <span
+                        class="font-label-md text-label-md text-on-surface font-bold"
+                        >Bicep &amp; Squat</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <!-- Card 4 (Workouts) -->
+                <div
+                  class="achievement-card group cursor-pointer bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+                  data-category="workouts"
+                  onclick="
+                    openBadgeModal(
+                      'Workout Pioneer',
+                      'Complete first 20 guided computer vision workouts.',
+                      'Sep 05, 2026',
+                      '24 Completed',
+                      'Upper &amp; Core',
+                      'workouts',
+                      'military_tech',
+                    )
+                  "
+                >
+                  <div>
+                    <div class="flex items-start justify-between mb-space-md">
+                      <div
+                        class="w-14 h-14 rounded-2xl bg-surface-container-high flex items-center justify-center text-primary shadow-sm group-hover:scale-105 transition-transform"
+                      >
+                        <span class="material-symbols-outlined text-[32px]"
+                          >military_tech</span
+                        >
+                      </div>
+                      <span
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-container/50 text-on-secondary-container font-label-md text-label-md font-bold"
+                      >
+                        <span class="material-symbols-outlined text-[14px]"
+                          >check_circle</span
+                        >
+                        <span>Unlocked</span>
+                      </span>
+                    </div>
+                    <span
+                      class="font-caption text-caption uppercase text-primary tracking-wider font-bold"
+                      >Workouts Total</span
+                    >
+                    <h3
+                      class="font-headline-sm text-headline-sm text-on-surface font-bold group-hover:text-primary transition-colors"
+                    >
+                      Workout Pioneer
+                    </h3>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant mt-1"
+                    >
+                      Complete your first 20 workouts with AI pose estimation.
+                    </p>
+                  </div>
+                  <div
+                    class="pt-space-md mt-space-md bg-surface-container-low/50 rounded-xl p-space-sm flex items-center justify-between"
+                  >
+                    <div class="flex flex-col">
+                      <span
+                        class="font-caption text-caption text-on-surface-variant"
+                        >Unlocked</span
+                      >
+                      <span
+                        class="font-label-md text-label-md text-on-surface font-semibold"
+                        >Sep 05, 2026</span
+                      >
+                    </div>
+                    <div class="flex flex-col text-right">
+                      <span
+                        class="font-caption text-caption text-on-surface-variant"
+                        >Current Tally</span
+                      >
+                      <span
+                        class="font-label-md text-label-md text-secondary font-bold"
+                        >24 Completed</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <!-- Card 5 (Form) -->
+                <div
+                  class="achievement-card group cursor-pointer bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+                  data-category="form"
+                  onclick="
+                    openBadgeModal(
+                      'Elbow Lock Master',
+                      'Maintain bilateral elbow axis stability for 3 straight sets without joint flare.',
+                      'Aug 29, 2026',
+                      '0 Cadence Flags',
+                      'Bicep Isolation',
+                      'form',
+                      'accessibility_new',
+                    )
+                  "
+                >
+                  <div>
+                    <div class="flex items-start justify-between mb-space-md">
+                      <div
+                        class="w-14 h-14 rounded-2xl bg-secondary-container flex items-center justify-center text-on-secondary-container shadow-sm group-hover:scale-105 transition-transform"
+                      >
+                        <span class="material-symbols-outlined text-[32px]"
+                          >accessibility_new</span
+                        >
+                      </div>
+                      <span
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-container/50 text-on-secondary-container font-label-md text-label-md font-bold"
+                      >
+                        <span class="material-symbols-outlined text-[14px]"
+                          >check_circle</span
+                        >
+                        <span>Unlocked</span>
+                      </span>
+                    </div>
+                    <span
+                      class="font-caption text-caption uppercase text-secondary tracking-wider font-bold"
+                      >Form Precision</span
+                    >
+                    <h3
+                      class="font-headline-sm text-headline-sm text-on-surface font-bold group-hover:text-primary transition-colors"
+                    >
+                      Elbow Lock Master
+                    </h3>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant mt-1"
+                    >
+                      Maintain bilateral elbow stability for 3 sets
+                      consecutively.
+                    </p>
+                  </div>
+                  <div
+                    class="pt-space-md mt-space-md bg-surface-container-low/50 rounded-xl p-space-sm flex items-center justify-between"
+                  >
+                    <div class="flex flex-col">
+                      <span
+                        class="font-caption text-caption text-on-surface-variant"
+                        >Unlocked</span
+                      >
+                      <span
+                        class="font-label-md text-label-md text-on-surface font-semibold"
+                        >Aug 29, 2026</span
+                      >
+                    </div>
+                    <div class="flex flex-col text-right">
+                      <span
+                        class="font-caption text-caption text-on-surface-variant"
+                        >Cadence Penalty</span
+                      >
+                      <span
+                        class="font-label-md text-label-md text-secondary font-bold"
+                        >0 Joint Flares</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <!-- Card 6 (Streak) -->
+                <div
+                  class="achievement-card group cursor-pointer bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+                  data-category="streak"
+                  onclick="
+                    openBadgeModal(
+                      'Weekend Warrior',
+                      'Log computer vision sessions on consecutive Saturday and Sunday slots.',
+                      'Aug 24, 2026',
+                      '+150 CV XP',
+                      'Weekend Rhythm',
+                      'streak',
+                      'calendar_month',
+                    )
+                  "
+                >
+                  <div>
+                    <div class="flex items-start justify-between mb-space-md">
+                      <div
+                        class="w-14 h-14 rounded-2xl bg-tertiary-fixed flex items-center justify-center text-tertiary shadow-sm group-hover:scale-105 transition-transform"
+                      >
+                        <span class="material-symbols-outlined text-[32px]"
+                          >calendar_month</span
+                        >
+                      </div>
+                      <span
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-container/50 text-on-secondary-container font-label-md text-label-md font-bold"
+                      >
+                        <span class="material-symbols-outlined text-[14px]"
+                          >check_circle</span
+                        >
+                        <span>Unlocked</span>
+                      </span>
+                    </div>
+                    <span
+                      class="font-caption text-caption uppercase text-tertiary tracking-wider font-bold"
+                      >Streak Milestone</span
+                    >
+                    <h3
+                      class="font-headline-sm text-headline-sm text-on-surface font-bold group-hover:text-primary transition-colors"
+                    >
+                      Weekend Warrior
+                    </h3>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant mt-1"
+                    >
+                      Log CV sessions on consecutive weekend days.
+                    </p>
+                  </div>
+                  <div
+                    class="pt-space-md mt-space-md bg-surface-container-low/50 rounded-xl p-space-sm flex items-center justify-between"
+                  >
+                    <div class="flex flex-col">
+                      <span
+                        class="font-caption text-caption text-on-surface-variant"
+                        >Unlocked</span
+                      >
+                      <span
+                        class="font-label-md text-label-md text-on-surface font-semibold"
+                        >Aug 24, 2026</span
+                      >
+                    </div>
+                    <div class="flex flex-col text-right">
+                      <span
+                        class="font-caption text-caption text-on-surface-variant"
+                        >Reward XP</span
+                      >
+                      <span
+                        class="font-label-md text-label-md text-tertiary font-bold"
+                        >+150 XP</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- SECTION 4: In Progress & Locked Achievements -->
+            <div class="flex flex-col gap-space-md">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <h2
+                    class="font-headline-md text-headline-md text-on-surface font-bold"
+                  >
+                    🔒 In Progress &amp; Locked
+                  </h2>
+                  <span
+                    class="px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md font-bold"
+                    >4 Remaining</span
+                  >
+                </div>
+              </div>
+              <div
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md"
+                id="locked-grid"
+              >
+                <!-- Locked 1 (Reps) - CLOSEST HIGHLIGHT -->
+                <div
+                  class="achievement-card group cursor-pointer bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between relative overflow-hidden ring-2 ring-primary/20"
+                  data-category="reps"
+                  onclick="
+                    openBadgeModal(
+                      '500 Reps Titan',
+                      'Accumulate 500 computer vision verified reps across any body weight or dumbbell exercise.',
+                      'In Progress',
+                      '244 / 500 Reps',
+                      '49% Completed (256 reps left)',
+                      'reps',
+                      'fitness_center',
+                    )
+                  "
+                >
+                  <div
+                    class="absolute top-0 right-0 bg-primary text-on-primary font-caption text-caption uppercase px-3 py-1 rounded-bl-xl font-bold"
+                  >
+                    Closest Milestone
+                  </div>
+                  <div>
+                    <div class="flex items-start justify-between mb-space-md">
+                      <div
+                        class="w-14 h-14 rounded-2xl bg-surface-container-low flex items-center justify-center text-primary shadow-sm group-hover:scale-105 transition-transform"
+                      >
+                        <span class="material-symbols-outlined text-[32px]"
+                          >fitness_center</span
+                        >
+                      </div>
+                      <span
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-md text-label-md font-bold mr-16"
+                      >
+                        49% Done
+                      </span>
+                    </div>
+                    <span
+                      class="font-caption text-caption uppercase text-primary tracking-wider font-bold"
+                      >Rep Volume</span
+                    >
+                    <h3
+                      class="font-headline-sm text-headline-sm text-on-surface font-bold"
+                    >
+                      500 Reps Titan
+                    </h3>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant mt-1"
+                    >
+                      Reach 500 verified reps in live CV tracking.
+                    </p>
+                  </div>
+                  <div class="pt-space-md mt-space-md">
+                    <div class="flex justify-between items-center mb-1.5">
+                      <span
+                        class="font-caption text-caption text-on-surface-variant"
+                        >Progress</span
+                      >
+                      <span
+                        class="font-label-md text-label-md text-primary font-bold"
+                        >244 / 500 reps</span
+                      >
+                    </div>
+                    <div
+                      class="w-full bg-surface-container-low h-2.5 rounded-full overflow-hidden"
+                    >
+                      <div
+                        class="bg-primary h-full rounded-full"
+                        style="width: 49%"
+                      ></div>
+                    </div>
+                    <span
+                      class="font-caption text-caption text-on-surface-variant mt-2 block"
+                      >256 reps to unlock</span
+                    >
+                  </div>
+                </div>
+                <!-- Locked 2 (Streak) -->
+                <div
+                  class="achievement-card group cursor-pointer bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+                  data-category="streak"
+                  onclick="
+                    openBadgeModal(
+                      '30 Day Iron Streak',
+                      'Workout for 30 consecutive calendar days with registered camera telemetry.',
+                      'In Progress',
+                      '7 / 30 Days',
+                      '23% Completed',
+                      'streak',
+                      'whatshot',
+                    )
+                  "
+                >
+                  <div>
+                    <div class="flex items-start justify-between mb-space-md">
+                      <div
+                        class="w-14 h-14 rounded-2xl bg-surface-container-low flex items-center justify-center text-tertiary shadow-sm group-hover:scale-105 transition-transform"
+                      >
+                        <span class="material-symbols-outlined text-[32px]"
+                          >whatshot</span
+                        >
+                      </div>
+                      <span
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md font-bold"
+                      >
+                        <span class="material-symbols-outlined text-[14px]"
+                          >lock</span
+                        >
+                        <span>Locked</span>
+                      </span>
+                    </div>
+                    <span
+                      class="font-caption text-caption uppercase text-tertiary tracking-wider font-bold"
+                      >Streak Milestone</span
+                    >
+                    <h3
+                      class="font-headline-sm text-headline-sm text-on-surface font-bold"
+                    >
+                      30 Day Streak
+                    </h3>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant mt-1"
+                    >
+                      Exercise 30 consecutive days without interruption.
+                    </p>
+                  </div>
+                  <div class="pt-space-md mt-space-md">
+                    <div class="flex justify-between items-center mb-1.5">
+                      <span
+                        class="font-caption text-caption text-on-surface-variant"
+                        >Current Rhythm</span
+                      >
+                      <span
+                        class="font-label-md text-label-md text-on-surface font-bold"
+                        >7 / 30 days</span
+                      >
+                    </div>
+                    <div
+                      class="w-full bg-surface-container-low h-2.5 rounded-full overflow-hidden"
+                    >
+                      <div
+                        class="bg-tertiary-container h-full rounded-full"
+                        style="width: 23%"
+                      ></div>
+                    </div>
+                    <span
+                      class="font-caption text-caption text-on-surface-variant mt-2 block"
+                      >23 days to go</span
+                    >
+                  </div>
+                </div>
+                <!-- Locked 3 (Form) -->
+                <div
+                  class="achievement-card group cursor-pointer bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+                  data-category="form"
+                  onclick="
+                    openBadgeModal(
+                      'Form Legend',
+                      'Achieve 98%+ Form Score on an intensive 20+ minute exercise block.',
+                      'In Progress',
+                      '92% Peak / 98% Goal',
+                      '94% Relative Accuracy',
+                      'form',
+                      'psychology',
+                    )
+                  "
+                >
+                  <div>
+                    <div class="flex items-start justify-between mb-space-md">
+                      <div
+                        class="w-14 h-14 rounded-2xl bg-surface-container-low flex items-center justify-center text-secondary shadow-sm group-hover:scale-105 transition-transform"
+                      >
+                        <span class="material-symbols-outlined text-[32px]"
+                          >psychology</span
+                        >
+                      </div>
+                      <span
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md font-bold"
+                      >
+                        <span class="material-symbols-outlined text-[14px]"
+                          >lock</span
+                        >
+                        <span>Locked</span>
+                      </span>
+                    </div>
+                    <span
+                      class="font-caption text-caption uppercase text-secondary tracking-wider font-bold"
+                      >Form Precision</span
+                    >
+                    <h3
+                      class="font-headline-sm text-headline-sm text-on-surface font-bold"
+                    >
+                      Form Legend
+                    </h3>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant mt-1"
+                    >
+                      Hit 98%+ overall accuracy across a 20+ min session.
+                    </p>
+                  </div>
+                  <div class="pt-space-md mt-space-md">
+                    <div class="flex justify-between items-center mb-1.5">
+                      <span
+                        class="font-caption text-caption text-on-surface-variant"
+                        >Accuracy Peak</span
+                      >
+                      <span
+                        class="font-label-md text-label-md text-secondary font-bold"
+                        >92% / 98%</span
+                      >
+                    </div>
+                    <div
+                      class="w-full bg-surface-container-low h-2.5 rounded-full overflow-hidden"
+                    >
+                      <div
+                        class="bg-secondary h-full rounded-full"
+                        style="width: 94%"
+                      ></div>
+                    </div>
+                    <span
+                      class="font-caption text-caption text-on-surface-variant mt-2 block"
+                      >6% precision margin needed</span
+                    >
+                  </div>
+                </div>
+                <!-- Locked 4 (Workouts) -->
+                <div
+                  class="achievement-card group cursor-pointer bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+                  data-category="workouts"
+                  onclick="
+                    openBadgeModal(
+                      'Centurion 100',
+                      'Log 100 total completed sessions inside PoseAI.',
+                      'In Progress',
+                      '24 / 100 Workouts',
+                      '24% Complete',
+                      'workouts',
+                      'workspace_premium',
+                    )
+                  "
+                >
+                  <div>
+                    <div class="flex items-start justify-between mb-space-md">
+                      <div
+                        class="w-14 h-14 rounded-2xl bg-surface-container-low flex items-center justify-center text-on-surface-variant shadow-sm group-hover:scale-105 transition-transform"
+                      >
+                        <span class="material-symbols-outlined text-[32px]"
+                          >workspace_premium</span
+                        >
+                      </div>
+                      <span
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md font-bold"
+                      >
+                        <span class="material-symbols-outlined text-[14px]"
+                          >lock</span
+                        >
+                        <span>Locked</span>
+                      </span>
+                    </div>
+                    <span
+                      class="font-caption text-caption uppercase text-on-surface-variant tracking-wider font-bold"
+                      >Workout Milestone</span
+                    >
+                    <h3
+                      class="font-headline-sm text-headline-sm text-on-surface font-bold"
+                    >
+                      Centurion 100
+                    </h3>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant mt-1"
+                    >
+                      Complete 100 logged sessions with computer vision
+                      telemetry.
+                    </p>
+                  </div>
+                  <div class="pt-space-md mt-space-md">
+                    <div class="flex justify-between items-center mb-1.5">
+                      <span
+                        class="font-caption text-caption text-on-surface-variant"
+                        >Sessions</span
+                      >
+                      <span
+                        class="font-label-md text-label-md text-on-surface font-bold"
+                        >24 / 100</span
+                      >
+                    </div>
+                    <div
+                      class="w-full bg-surface-container-low h-2.5 rounded-full overflow-hidden"
+                    >
+                      <div
+                        class="bg-primary h-full rounded-full"
+                        style="width: 24%"
+                      ></div>
+                    </div>
+                    <span
+                      class="font-caption text-caption text-on-surface-variant mt-2 block"
+                      >76 sessions to go</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- SECTION 5: Next Closest Unlock (Contextual Hero Callout) -->
+            <div
+              class="w-full bg-gradient-to-r from-primary-container via-primary to-primary-container text-on-primary rounded-3xl p-space-lg md:p-space-xl shadow-lg relative overflow-hidden"
+            >
+              <div
+                class="absolute -right-16 -bottom-16 w-80 h-80 bg-surface-container-lowest/10 rounded-full blur-2xl pointer-events-none"
+              ></div>
+              <div
+                class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg relative z-10"
+              >
+                <div class="flex items-start gap-space-md max-w-2xl">
+                  <div
+                    class="w-16 h-16 rounded-2xl bg-surface-container-lowest/20 backdrop-blur-md flex items-center justify-center shrink-0"
+                  >
+                    <span
+                      class="material-symbols-outlined text-[36px] text-white"
+                      >fitness_center</span
+                    >
+                  </div>
+                  <div>
+                    <div
+                      class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/20 backdrop-blur-sm text-white font-caption text-caption uppercase tracking-wider font-bold mb-space-xs"
+                    >
+                      <span
+                        class="w-2 h-2 rounded-full bg-secondary-container animate-ping"
+                      ></span>
+                      <span>Next Closest Milestone</span>
+                    </div>
+                    <h3
+                      class="font-headline-lg text-headline-lg font-bold text-white"
+                    >
+                      500 Reps Titan (256 reps to go!)
+                    </h3>
+                    <p class="font-body-md text-body-md text-white/90 mt-1">
+                      You are almost halfway! Logging 3 bicep curl sets with our
+                      live joint analysis will get you 36 calibrated reps closer
+                      right now.
+                    </p>
+                    <div class="flex items-center gap-2 mt-space-sm">
+                      <span
+                        class="material-symbols-outlined text-[18px] text-white/80"
+                        >timelapse</span
+                      >
+                      <span class="font-caption text-caption text-white/80"
+                        >Est. 7 sessions remaining at your current cadence</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="shrink-0">
+                  <a
+                    class="inline-flex items-center gap-2 px-space-xl py-space-md rounded-full bg-surface-container-lowest text-primary font-label-lg text-label-lg font-bold shadow-md hover:scale-105 transition-all"
+                    href="workout.html"
+                  >
+                    <span class="material-symbols-outlined text-primary"
+                      >bolt</span
+                    >
+                    <span>Start a Workout to Earn Reps</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Detail Modal / Badge Inspection Modal -->
+          <div
+            class="fixed inset-0 z-50 hidden flex items-center justify-center p-space-md bg-inverse-surface/40 backdrop-blur-sm"
+            id="achievementModal"
+          >
+            <div
+              class="bg-surface-container-lowest rounded-3xl p-space-xl max-w-lg w-full shadow-2xl relative animate-in fade-in zoom-in duration-200"
+            >
+              <button
+                class="absolute top-4 right-4 w-9 h-9 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                onclick="closeBadgeModal()"
+              >
+                <span class="material-symbols-outlined text-[20px]">close</span>
+              </button>
+              <div class="flex flex-col items-center text-center">
+                <div
+                  class="w-20 h-20 rounded-3xl bg-primary-fixed flex items-center justify-center text-primary mb-space-md shadow-sm"
+                  id="modal-icon-container"
+                >
+                  <span
+                    class="material-symbols-outlined text-[42px]"
+                    id="modal-icon"
+                    >military_tech</span
+                  >
+                </div>
+                <span
+                  class="font-caption text-caption uppercase tracking-wider text-primary font-bold mb-1"
+                  id="modal-category"
+                  >Milestone</span
+                >
+                <h3
+                  class="font-headline-lg text-headline-lg text-on-surface font-bold mb-space-xs"
+                  id="modal-title"
+                >
+                  Achievement Name
+                </h3>
+                <p
+                  class="font-body-md text-body-md text-on-surface-variant max-w-sm mb-space-lg"
+                  id="modal-description"
+                >
+                  Achievement requirement description goes here.
+                </p>
+                <!-- Biomechanical Telemetry Block -->
+                <div
+                  class="w-full bg-surface-container-low rounded-2xl p-space-md text-left mb-space-lg flex flex-col gap-space-xs"
+                >
+                  <div
+                    class="flex justify-between items-center text-on-surface"
+                  >
+                    <span
+                      class="font-caption text-caption text-on-surface-variant uppercase font-semibold"
+                      >Status / Date</span
+                    >
+                    <span
+                      class="font-label-md text-label-md font-bold text-on-surface"
+                      id="modal-date"
+                      >Sep 12, 2026</span
+                    >
+                  </div>
+                  <div
+                    class="flex justify-between items-center text-on-surface"
+                  >
+                    <span
+                      class="font-caption text-caption text-on-surface-variant uppercase font-semibold"
+                      >Telemetry Tally</span
+                    >
+                    <span
+                      class="font-label-md text-label-md font-bold text-secondary"
+                      id="modal-tally"
+                      >84 Reps</span
+                    >
+                  </div>
+                  <div
+                    class="flex justify-between items-center text-on-surface"
+                  >
+                    <span
+                      class="font-caption text-caption text-on-surface-variant uppercase font-semibold"
+                      >Engine Verification</span
+                    >
+                    <span
+                      class="font-label-md text-label-md font-bold text-primary"
+                      id="modal-verification"
+                      >MediaPipe Blazepose</span
+                    >
+                  </div>
+                </div>
+                <!-- Action cluster -->
+                <div class="flex items-center gap-space-sm w-full">
+                  <button
+                    class="flex-1 py-space-sm rounded-full bg-surface-container-low text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors flex items-center justify-center gap-1.5"
+                    onclick="shareAchievement()"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >share</span
+                    >
+                    <span>Share Badge</span>
+                  </button>
+                  <button
+                    class="flex-1 py-space-sm rounded-full bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors font-bold"
+                    onclick="closeBadgeModal()"
+                  >
+                    Done
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>
+          // Prototype State Switching
+          function switchState(stateName) {
+            const states = ["active", "skeleton", "empty", "error"];
+            states.forEach((s) => {
+              const el = document.getElementById("state-" + s);
+              const btn = document.getElementById("btn-state-" + s);
+              if (el) {
+                if (s === stateName) {
+                  el.classList.remove("hidden");
+                  if (s === "active" || s === "skeleton")
+                    el.classList.add("flex");
+                } else {
+                  el.classList.add("hidden");
+                  el.classList.remove("flex");
+                }
+              }
+              if (btn) {
+                if (s === stateName) {
+                  btn.className =
+                    "px-space-md py-1.5 rounded-full font-label-md text-label-md bg-primary text-on-primary transition-all shadow-sm flex items-center gap-1";
+                } else {
+                  btn.className =
+                    "px-space-md py-1.5 rounded-full font-label-md text-label-md bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-high transition-all";
+                }
+              }
+            });
+          }
+
+          // Interactive Category Filter
+          function filterCategory(category, buttonEl) {
+            // Update active button pills
+            const pills = document.querySelectorAll(".category-pill");
+            pills.forEach((p) => {
+              p.className =
+                "category-pill px-space-md py-1.5 rounded-full font-label-md text-label-md bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-high transition-all";
+            });
+            buttonEl.className =
+              "category-pill active-pill px-space-md py-1.5 rounded-full font-label-md text-label-md bg-primary text-on-primary transition-all shadow-sm";
+
+            // Filter Cards in both sections
+            const cards = document.querySelectorAll(".achievement-card");
+            cards.forEach((card) => {
+              const cardCategory = card.getAttribute("data-category");
+              if (category === "all" || cardCategory === category) {
+                card.style.display = "flex";
+              } else {
+                card.style.display = "none";
+              }
+            });
+          }
+
+          // Achievement Modal Functions
+          function openBadgeModal(
+            title,
+            description,
+            date,
+            tally,
+            verification,
+            category,
+            icon,
+          ) {
+            document.getElementById("modal-title").textContent = title;
+            document.getElementById("modal-description").textContent =
+              description;
+            document.getElementById("modal-date").textContent = date;
+            document.getElementById("modal-tally").textContent = tally;
+            document.getElementById("modal-verification").textContent =
+              verification;
+            document.getElementById("modal-category").textContent =
+              category.toUpperCase() + " MILESTONE";
+            document.getElementById("modal-icon").textContent =
+              icon || "military_tech";
+
+            document
+              .getElementById("achievementModal")
+              .classList.remove("hidden");
+          }
+
+          function closeBadgeModal() {
+            document.getElementById("achievementModal").classList.add("hidden");
+          }
+
+          function shareAchievement() {
+            const title = document.getElementById("modal-title").textContent;
+            if (navigator.share) {
+              navigator
+                .share({
+                  title: "PoseAI Milestone Unlocked!",
+                  text:
+                    'I just unlocked the "' +
+                    title +
+                    '" milestone on PoseAI with computer vision telemetry!',
+                  url: window.location.href,
+                })
+                .catch(() => {});
+            } else {
+              alert("Badge link copied to clipboard: " + title);
+            }
+          }
+
+          // Close modal on ESC key or backdrop click
+          document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") closeBadgeModal();
+          });
+          document
+            .getElementById("achievementModal")
+            .addEventListener("click", (e) => {
+              if (e.target === document.getElementById("achievementModal"))
+                closeBadgeModal();
+            });
+        </script>
+      </div>
+    </main>
+    <footer
+      class="w-full bg-surface-container-lowest border-t border-surface-container"
+    >
+      <div
+        class="max-w-7xl mx-auto px-margin-mobile md:px-margin py-space-xl flex flex-col md:flex-row items-center justify-between gap-space-md"
+      >
+        <div class="flex items-center gap-space-sm">
+          <img
+            alt="PoseAI Logo"
+            class="h-6 w-auto object-contain opacity-80"
+            src="https://lh3.googleusercontent.com/aida/AEtjO1V-v98pUA9o4U6cX1--icYSOIleTEKxDWirF2zkkoLGotbzGV3ou0HBF2BtboSeEoQ-xSTjdnZLLeoW_qjDzoGXOpvQaRduN9-Jb1X9l2Jf3ejdOWIjb0rrmHHRC4AanbvLJYwYoiIHS3auOiGKsOaH34upGvpKLjhp4NoC8xBltTmnNYYw6KNwdUrA3tPND7tD9S5TIBmTRt1E7SQDRgMAJaLwGJLqFteSQqoBJeHQ8w7T7HSibZ0Yw4I"
+          /><span class="font-label-lg text-label-lg text-on-surface-variant"
+            >© 2024 PoseAI Systems Inc. All rights reserved.</span
+          >
+        </div>
+        <div class="flex items-center gap-space-lg">
+          <a
+            class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
+            href="#"
+            >Privacy Policy</a
+          ><a
+            class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
+            href="#"
+            >Telemetry Terms</a
+          ><a
+            class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
+            href="#"
+            >System Status</a
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

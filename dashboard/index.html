@@ -1,486 +1,1518 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PoseAI - AI Fitness Trainer Dashboard</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..700,0..1&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./css/style.css" />
-  </head>
-  <body>
-    <div class="app-shell">
-      <!-- ===================== DESKTOP NAV RAIL ===================== -->
-      <header id="main-header" class="main-header nav-rail">
-        <div id="logo" class="logo">
-          <span class="logo-text">P</span>
-        </div>
+<html lang="en" style="">
 
-        <nav id="main-nav" class="main-nav">
-          <ul class="nav-links">
-            <li class="nav-item is-active">
-              <a href="#dashboard" class="nav-link" title="Dashboard">
-                <span class="material-symbols-outlined">dashboard</span>
-                <span>Dashboard</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#live-workout" class="nav-link" title="Live Workout">
-                <span class="material-symbols-outlined">fitness_center</span>
-                <span>Workout</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#todays-performance" class="nav-link" title="Analytics">
-                <span class="material-symbols-outlined">monitoring</span>
-                <span>Analytics</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#weekly-progress" class="nav-link" title="Progress">
-                <span class="material-symbols-outlined">show_chart</span>
-                <span>Progress</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#achievements" class="nav-link" title="Achievements">
-                <span class="material-symbols-outlined">military_tech</span>
-                <span>Awards</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#exercise-checklist" class="nav-link" title="Exercises">
-                <span class="material-symbols-outlined">checklist</span>
-                <span>Exercises</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#profile" class="nav-link" title="Profile">
-                <span class="material-symbols-outlined">person</span>
-                <span>Profile</span>
-              </a>
-            </li>
-          </ul>
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <style>
+    @layer base {
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        overscroll-behavior: none;
+      }
+
+      main> :first-child {
+        margin-top: 0 !important;
+      }
+
+      main> :last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-surface-variant": "#3f4850",
+            "on-secondary-container": "#00714d",
+            primary: "#006194",
+            "on-surface": "#131b2e",
+            "surface-container-low": "#f2f3ff",
+            outline: "#707881",
+            secondary: "#006c49",
+            "on-secondary-fixed-variant": "#005236",
+            "surface-container-highest": "#dae2fd",
+            "on-tertiary-fixed-variant": "#653e00",
+            "surface-tint": "#006398",
+            "error-container": "#ffdad6",
+            "surface-container": "#eaedff",
+            "on-primary": "#ffffff",
+            "primary-fixed-dim": "#93ccff",
+            "inverse-primary": "#93ccff",
+            "on-secondary-fixed": "#002113",
+            "secondary-container": "#6cf8bb",
+            "surface-dim": "#d2d9f4",
+            surface: "#faf8ff",
+            "on-secondary": "#ffffff",
+            "surface-variant": "#dae2fd",
+            "surface-bright": "#faf8ff",
+            "tertiary-container": "#a36700",
+            "on-primary-fixed": "#001d31",
+            "inverse-on-surface": "#eef0ff",
+            "on-primary-fixed-variant": "#004b73",
+            error: "#ba1a1a",
+            "primary-container": "#007bb9",
+            "inverse-surface": "#283044",
+            tertiary: "#825100",
+            "primary-fixed": "#cce5ff",
+            "on-tertiary-container": "#fffbff",
+            "on-tertiary": "#ffffff",
+            "tertiary-fixed": "#ffddb8",
+            "surface-container-lowest": "#ffffff",
+            "secondary-fixed-dim": "#4edea3",
+            "on-error-container": "#93000a",
+            "on-error": "#ffffff",
+            "on-tertiary-fixed": "#2a1700",
+            "on-background": "#131b2e",
+            "outline-variant": "#bfc7d2",
+            background: "#faf8ff",
+            "secondary-fixed": "#6ffbbe",
+            "tertiary-fixed-dim": "#ffb95f",
+            "on-primary-container": "#fdfcff",
+            "surface-container-high": "#e2e7ff",
+          },
+          borderRadius: {
+            DEFAULT: "1rem",
+            lg: "2rem",
+            xl: "3rem",
+            full: "9999px",
+          },
+          spacing: {
+            "space-xl": "2rem",
+            "margin-mobile": "1rem",
+            "gutter-mobile": "1rem",
+            margin: "2.5rem",
+            "space-lg": "1.5rem",
+            gutter: "1.5rem",
+            "space-md": "1rem",
+            "space-xs": "0.25rem",
+            "space-2xl": "3rem",
+            "space-sm": "0.5rem",
+          },
+          fontFamily: {
+            "label-md": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "metric-stat": ["Plus Jakarta Sans"],
+            "display-lg-mobile": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "label-lg": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            caption: ["Plus Jakarta Sans"],
+            "display-lg": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+          },
+          fontSize: {
+            "label-md": [
+              "12px",
+              {
+                lineHeight: "16px",
+                letterSpacing: "0.02em",
+                fontWeight: "600",
+              },
+            ],
+            "headline-lg": [
+              "28px",
+              {
+                lineHeight: "36px",
+                letterSpacing: "-0.02em",
+                fontWeight: "700",
+              },
+            ],
+            "metric-stat": [
+              "32px",
+              {
+                lineHeight: "36px",
+                letterSpacing: "-0.03em",
+                fontWeight: "800",
+              },
+            ],
+            "display-lg-mobile": [
+              "30px",
+              {
+                lineHeight: "38px",
+                letterSpacing: "-0.02em",
+                fontWeight: "700",
+              },
+            ],
+            "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+            "label-lg": [
+              "14px",
+              {
+                lineHeight: "20px",
+                letterSpacing: "0.01em",
+                fontWeight: "600",
+              },
+            ],
+            "body-md": ["14px", { lineHeight: "22px", fontWeight: "400" }],
+            caption: [
+              "11px",
+              {
+                lineHeight: "14px",
+                letterSpacing: "0.02em",
+                fontWeight: "500",
+              },
+            ],
+            "display-lg": [
+              "40px",
+              {
+                lineHeight: "48px",
+                letterSpacing: "-0.03em",
+                fontWeight: "700",
+              },
+            ],
+            "headline-sm": [
+              "18px",
+              {
+                lineHeight: "26px",
+                letterSpacing: "-0.01em",
+                fontWeight: "600",
+              },
+            ],
+            "headline-md": [
+              "22px",
+              {
+                lineHeight: "30px",
+                letterSpacing: "-0.015em",
+                fontWeight: "600",
+              },
+            ],
+          },
+        },
+      },
+    };
+  </script>
+</head>
+
+<body class="bg-background font-body-md text-on-surface min-h-screen antialiased flex flex-col">
+  <svg class="inline-defs-container" aria-hidden="true"
+    style="position: absolute; width: 0; height: 0; overflow: hidden"></svg>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <style>
+    @layer base {
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        overscroll-behavior: none;
+      }
+
+      main> :first-child {
+        margin-top: 0 !important;
+      }
+
+      main> :last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-surface-variant": "#3f4850",
+            "on-secondary-container": "#00714d",
+            primary: "#006194",
+            "on-surface": "#131b2e",
+            "surface-container-low": "#f2f3ff",
+            outline: "#707881",
+            secondary: "#006c49",
+            "on-secondary-fixed-variant": "#005236",
+            "surface-container-highest": "#dae2fd",
+            "on-tertiary-fixed-variant": "#653e00",
+            "surface-tint": "#006398",
+            "error-container": "#ffdad6",
+            "surface-container": "#eaedff",
+            "on-primary": "#ffffff",
+            "primary-fixed-dim": "#93ccff",
+            "inverse-primary": "#93ccff",
+            "on-secondary-fixed": "#002113",
+            "secondary-container": "#6cf8bb",
+            "surface-dim": "#d2d9f4",
+            surface: "#faf8ff",
+            "on-secondary": "#ffffff",
+            "surface-variant": "#dae2fd",
+            "surface-bright": "#faf8ff",
+            "tertiary-container": "#a36700",
+            "on-primary-fixed": "#001d31",
+            "inverse-on-surface": "#eef0ff",
+            "on-primary-fixed-variant": "#004b73",
+            error: "#ba1a1a",
+            "primary-container": "#007bb9",
+            "inverse-surface": "#283044",
+            tertiary: "#825100",
+            "primary-fixed": "#cce5ff",
+            "on-tertiary-container": "#fffbff",
+            "on-tertiary": "#ffffff",
+            "tertiary-fixed": "#ffddb8",
+            "surface-container-lowest": "#ffffff",
+            "secondary-fixed-dim": "#4edea3",
+            "on-error-container": "#93000a",
+            "on-error": "#ffffff",
+            "on-tertiary-fixed": "#2a1700",
+            "on-background": "#131b2e",
+            "outline-variant": "#bfc7d2",
+            background: "#faf8ff",
+            "secondary-fixed": "#6ffbbe",
+            "tertiary-fixed-dim": "#ffb95f",
+            "on-primary-container": "#fdfcff",
+            "surface-container-high": "#e2e7ff",
+          },
+          borderRadius: {
+            DEFAULT: "1rem",
+            lg: "2rem",
+            xl: "3rem",
+            full: "9999px",
+          },
+          spacing: {
+            "space-xl": "2rem",
+            "margin-mobile": "1rem",
+            "gutter-mobile": "1rem",
+            margin: "2.5rem",
+            "space-lg": "1.5rem",
+            gutter: "1.5rem",
+            "space-md": "1rem",
+            "space-xs": "0.25rem",
+            "space-2xl": "3rem",
+            "space-sm": "0.5rem",
+          },
+          fontFamily: {
+            "label-md": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "metric-stat": ["Plus Jakarta Sans"],
+            "display-lg-mobile": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "label-lg": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            caption: ["Plus Jakarta Sans"],
+            "display-lg": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+          },
+          fontSize: {
+            "label-md": [
+              "12px",
+              {
+                lineHeight: "16px",
+                letterSpacing: "0.02em",
+                fontWeight: "600",
+              },
+            ],
+            "headline-lg": [
+              "28px",
+              {
+                lineHeight: "36px",
+                letterSpacing: "-0.02em",
+                fontWeight: "700",
+              },
+            ],
+            "metric-stat": [
+              "32px",
+              {
+                lineHeight: "36px",
+                letterSpacing: "-0.03em",
+                fontWeight: "800",
+              },
+            ],
+            "display-lg-mobile": [
+              "30px",
+              {
+                lineHeight: "38px",
+                letterSpacing: "-0.02em",
+                fontWeight: "700",
+              },
+            ],
+            "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+            "label-lg": [
+              "14px",
+              {
+                lineHeight: "20px",
+                letterSpacing: "0.01em",
+                fontWeight: "600",
+              },
+            ],
+            "body-md": ["14px", { lineHeight: "22px", fontWeight: "400" }],
+            caption: [
+              "11px",
+              {
+                lineHeight: "14px",
+                letterSpacing: "0.02em",
+                fontWeight: "500",
+              },
+            ],
+            "display-lg": [
+              "40px",
+              {
+                lineHeight: "48px",
+                letterSpacing: "-0.03em",
+                fontWeight: "700",
+              },
+            ],
+            "headline-sm": [
+              "18px",
+              {
+                lineHeight: "26px",
+                letterSpacing: "-0.01em",
+                fontWeight: "600",
+              },
+            ],
+            "headline-md": [
+              "22px",
+              {
+                lineHeight: "30px",
+                letterSpacing: "-0.015em",
+                fontWeight: "600",
+              },
+            ],
+          },
+        },
+      },
+    };
+  </script>
+  <header
+    class="fixed top-0 left-0 right-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+    <div class="h-20 max-w-7xl mx-auto px-margin-mobile md:px-margin flex items-center justify-between gap-space-md">
+      <div class="flex items-center gap-space-lg">
+        <a class="flex items-center gap-space-sm focus:outline-none" href="index.html"><span
+            class="font-headline-sm text-headline-sm tracking-tight text-on-surface">PoseAI</span></a>
+        <nav class="hidden lg:flex items-center gap-space-xs bg-surface-container-low p-space-xs rounded-full"
+          data-active-classes="bg-primary-container text-on-primary-container font-label-lg text-label-lg shadow-sm">
+          <a aria-current="page"
+            class="px-space-md py-space-xs rounded-full transition-colors bg-primary-container text-on-primary-container font-label-lg text-label-lg shadow-sm"
+            data-path="dashboard" href="index.html">Dashboard</a><a
+            class="px-space-md py-space-xs rounded-full font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            data-path="workout" href="workout.html">Workout</a><a
+            class="px-space-md py-space-xs rounded-full font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            data-path="analysis" href="analysis.html">Analysis</a><a
+            class="px-space-md py-space-xs rounded-full font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            data-path="progress" href="progress.html">Progress</a>
+          <div class="relative group">
+            <button
+              class="flex items-center gap-1 px-space-md py-space-xs rounded-full font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors focus:outline-none"
+              type="button">
+              <span class="">More</span><span class="material-symbols-outlined text-[18px]">expand_more</span>
+            </button>
+            <div
+              class="absolute left-0 top-full mt-2 w-48 bg-surface-container-lowest rounded-xl shadow-[0_8px_32px_0_rgba(15,23,42,0.08)] py-2 hidden group-hover:block transition-all border border-surface-container-high">
+              <a class="block px-4 py-2 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+                data-path="exercises" href="exercises.html">Exercises</a><a
+                class="block px-4 py-2 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+                data-path="achievements" href="achievements.html">Achievements</a>
+            </div>
+          </div>
         </nav>
-
-        <div class="nav-rail-footer">
+      </div>
+      <div class="flex items-center gap-space-sm md:gap-space-md">
+        <div
+          class="hidden md:flex items-center bg-surface-container-low rounded-full px-space-md py-space-xs text-on-surface-variant focus-within:ring-2 focus-within:ring-primary focus-within:bg-surface-container-lowest transition-all">
+          <span class="material-symbols-outlined text-[20px] mr-2 text-outline">search</span><input
+            class="bg-transparent border-none outline-none font-body-md text-body-md text-on-surface placeholder:text-outline w-44 lg:w-56"
+            placeholder="Search telemetry, plans..." type="text" />
+        </div>
+        <div
+          class="hidden sm:flex items-center gap-1 px-space-sm py-1 rounded-full bg-surface-container border border-surface-container-high">
+          <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span
+            class="font-caption text-caption text-secondary uppercase tracking-wider font-bold">CV LIVE</span>
+        </div>
+        <button aria-label="Notifications"
+          class="relative w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors focus:outline-none"
+          type="button">
+          <span class="material-symbols-outlined text-[22px]">notifications</span><span
+            class="absolute top-2 right-2 w-2 h-2 rounded-full bg-primary ring-2 ring-surface-container-lowest"></span>
+        </button>
+        <div class="relative group flex items-center gap-space-sm pl-space-xs">
+          <button
+            class="flex items-center gap-2 p-1 rounded-full hover:bg-surface-container-low transition-colors cursor-pointer focus:outline-none"
+            type="button">
+            <img alt="Sandesh Profile Avatar"
+              class="w-8 h-8 rounded-full object-cover ring-2 ring-surface-container-high"
+              src="https://lh3.googleusercontent.com/aida/AEtjO1WnuN-mYomLjxOWLN7fMF6gDr7Pa7tydqC8E4dSlHpga5AAakpxSq7jKYrdQ-TXaITSo3nfNVc4IpWjAsuWSqskrfQ25cDmCwOll-xzr5uYrtI0KKPLgq-5iYQ3jfI1kwvrxrgb3zBCfbZHyzP2EY_GAi4lSRuEX60dOe7e93BAOJF4nP4loanniS4TA8ZRSzx5y2yNWouPfqwK2VrxSmkM9fsZ58xPWN4RlHLWqCpr1c-uQffRSEhhtPc" />
+            <div class="hidden xl:flex flex-col text-left">
+              <span class="font-label-md text-label-md text-on-surface leading-none">Sandesh</span><span
+                class="font-caption text-caption text-on-surface-variant leading-tight">Pro Member</span>
+            </div>
+            <span
+              class="material-symbols-outlined text-[16px] text-on-surface-variant hidden xl:block">expand_more</span>
+          </button>
           <div
-            id="connection-status"
-            class="connection-status"
-            aria-live="polite"
-          >
-            Disconnected
+            class="absolute right-0 top-full mt-2 w-48 bg-surface-container-lowest rounded-xl shadow-[0_8px_32px_0_rgba(15,23,42,0.08)] py-2 hidden group-hover:block transition-all border border-surface-container-high z-50">
+            <a class="flex items-center gap-2 px-4 py-2 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+              href="profile.html"><span class="material-symbols-outlined text-[18px]">person</span>Profile</a><a
+              class="flex items-center gap-2 px-4 py-2 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+              href="#settings"><span class="material-symbols-outlined text-[18px]">settings</span>Settings</a>
+            <div class="my-1 border-t border-surface-container"></div>
+            <a class="flex items-center gap-2 px-4 py-2 font-label-md text-label-md text-error hover:bg-surface-container-low"
+              href="login.html"><span class="material-symbols-outlined text-[18px]">logout</span>Logout</a>
           </div>
         </div>
-      </header>
-
-      <!-- ===================== MAIN CONTENT ===================== -->
-      <div class="main-shell">
-        <main id="dashboard" class="dashboard" aria-label="PoseAI Dashboard">
-          <!-- Mobile-only nav strip: mirrors the rail so every section stays
-               reachable when the sidebar is hidden below 900px. -->
-          <nav class="mobile-nav-strip" aria-label="Mobile navigation">
-            <div class="nav-item is-active">
-              <a href="#dashboard" class="nav-link">
-                <span class="material-symbols-outlined">dashboard</span
-                ><span>Dashboard</span>
-              </a>
-            </div>
-            <div class="nav-item">
-              <a href="#live-workout" class="nav-link">
-                <span class="material-symbols-outlined">fitness_center</span
-                ><span>Workout</span>
-              </a>
-            </div>
-            <div class="nav-item">
-              <a href="#todays-performance" class="nav-link">
-                <span class="material-symbols-outlined">monitoring</span
-                ><span>Analytics</span>
-              </a>
-            </div>
-            <div class="nav-item">
-              <a href="#weekly-progress" class="nav-link">
-                <span class="material-symbols-outlined">show_chart</span
-                ><span>Progress</span>
-              </a>
-            </div>
-            <div class="nav-item">
-              <a href="#achievements" class="nav-link">
-                <span class="material-symbols-outlined">military_tech</span
-                ><span>Awards</span>
-              </a>
-            </div>
-            <div class="nav-item">
-              <a href="#exercise-checklist" class="nav-link">
-                <span class="material-symbols-outlined">checklist</span
-                ><span>Exercises</span>
-              </a>
-            </div>
-            <div class="nav-item">
-              <a href="#profile" class="nav-link">
-                <span class="material-symbols-outlined">person</span
-                ><span>Profile</span>
-              </a>
-            </div>
-          </nav>
-
-          <!-- Greeting header: Welcome / Streak / Goal -->
-          <section
-            id="main-dashboard"
-            class="main-dashboard"
-            aria-label="Main Dashboard"
-          >
-            <article id="welcome-card" class="welcome-card header-greeting">
-              <h2 class="card-title">Welcome back</h2>
-              <p class="card-content">
-                Let's continue building your streak today.
-              </p>
-            </article>
-
-            <div class="header-stats">
-              <article id="current-streak" class="streak-card header-stat-chip">
-                <span class="material-symbols-outlined"
-                  >local_fire_department</span
-                >
-                <div>
-                  <h2 class="card-title">Streak</h2>
-                  <p class="card-content">--</p>
-                </div>
-              </article>
-
-              <article id="todays-goal" class="goal-card header-stat-chip">
-                <span class="material-symbols-outlined">track_changes</span>
-                <div>
-                  <h2 class="card-title">Today's Goal</h2>
-                  <p class="card-content">--</p>
-                </div>
-              </article>
-            </div>
-          </section>
-
-          <!-- Live Workout + Camera -->
-          <section
-            id="hero-section"
-            class="hero-section"
-            aria-label="Hero Section"
-          >
-            <div id="hero-left" class="hero-left">
-              <div class="camera-controls" style="display:flex; gap:0.75rem; align-items:center; margin-bottom:1rem; flex-wrap:wrap;">
-                <label for="selected-exercise" class="sr-only">Select exercise</label>
-                <select id="selected-exercise" class="exercise-select" aria-label="Select exercise">
-                  <option value="1">Bicep Curl</option>
-                  <option value="2">Push-up</option>
-                  <option value="3">Squat</option>
-                  <option value="4">Triceps Pushdown</option>
-                  <option value="5">Lunges</option>
-                </select>
-                <button id="start-workout" class="action-button" type="button">Start Workout</button>
-                <button id="pause-workout" class="action-button secondary" type="button">Pause</button>
-                <button id="resume-workout" class="action-button secondary" type="button">Resume</button>
-                <button id="finish-workout" class="action-button secondary" type="button">Finish</button>
-              </div>
-              <div
-                id="camera-feed"
-                class="camera-feed"
-                data-camera-status="offline"
-              ></div>
-            </div>
-
-            <div id="hero-right" class="hero-right">
-              <section
-                id="live-workout"
-                class="live-workout-panel"
-                aria-label="Live Workout"
-              >
-                <h2 class="panel-title">Live Workout</h2>
-
-                <div id="exercise-name" class="workout-stat">
-                  <span class="stat-label">Exercise Name</span>
-                  <span class="stat-value">--</span>
-                </div>
-
-                <div class="stat-grid">
-                  <div id="current-rep" class="workout-stat">
-                    <span class="stat-label">Current Rep</span>
-                    <span class="stat-value">--</span>
-                  </div>
-
-                  <div id="goal-rep" class="workout-stat">
-                    <span class="stat-label">Goal Rep</span>
-                    <span class="stat-value">--</span>
-                  </div>
-
-                  <div id="current-set" class="workout-stat">
-                    <span class="stat-label">Current Set</span>
-                    <span class="stat-value">--</span>
-                  </div>
-
-                  <div id="current-stage" class="workout-stat">
-                    <span class="stat-label">Stage</span>
-                    <span class="stat-value">--</span>
-                  </div>
-
-                  <div id="current-angle" class="workout-stat">
-                    <span class="stat-label">Joint Angle</span>
-                    <span class="stat-value">--</span>
-                  </div>
-                </div>
-
-                <div class="stat-row">
-                  <div id="workout-timer" class="workout-stat">
-                    <span class="stat-label">Timer</span>
-                    <span class="stat-value">--</span>
-                  </div>
-
-                  <div id="calories" class="workout-stat">
-                    <span class="stat-label">Calories</span>
-                    <span class="stat-value">--</span>
-                  </div>
-                </div>
-
-                <div id="feedback" class="workout-stat">
-                  <span class="stat-label">AI Feedback</span>
-                  <span class="stat-value">--</span>
-                </div>
-              </section>
-            </div>
-          </section>
-
-          <section
-            id="active-set-progress"
-            class="active-set-progress"
-            aria-label="Active Set Progress"
-          >
-            <h2 class="section-title">Active Set Progress</h2>
-
-            <div id="set-1" class="set-progress-item">
-              <span class="set-label">Set 1</span>
-              <progress class="set-progress-bar" value="0" max="100"></progress>
-            </div>
-
-            <div id="set-2" class="set-progress-item">
-              <span class="set-label">Set 2</span>
-              <progress class="set-progress-bar" value="0" max="100"></progress>
-            </div>
-
-            <div id="set-3" class="set-progress-item">
-              <span class="set-label">Set 3</span>
-              <progress class="set-progress-bar" value="0" max="100"></progress>
-            </div>
-
-            <div id="overall-progress" class="overall-progress-item">
-              <span class="set-label">Overall Progress</span>
-              <progress
-                class="overall-progress-bar"
-                value="0"
-                max="100"
-              ></progress>
-            </div>
-          </section>
-
-          <!-- Today's Performance -->
-          <section
-            id="todays-performance"
-            class="todays-performance"
-            aria-label="Today's Performance"
-          >
-            <h2 class="section-title">Today's Performance</h2>
-
-            <div class="performance-stat-grid">
-              <div id="total-reps" class="performance-stat">
-                <div class="stat-icon">
-                  <span class="material-symbols-outlined">fitness_center</span>
-                </div>
-                <span class="stat-label">Total Reps</span>
-                <span class="stat-value">--</span>
-              </div>
-
-              <div id="workout-time" class="performance-stat">
-                <div class="stat-icon">
-                  <span class="material-symbols-outlined">timer</span>
-                </div>
-                <span class="stat-label">Workout Time</span>
-                <span class="stat-value">--</span>
-              </div>
-
-              <div id="performance-calories" class="performance-stat">
-                <div class="stat-icon">
-                  <span class="material-symbols-outlined"
-                    >local_fire_department</span
-                  >
-                </div>
-                <span class="stat-label">Calories</span>
-                <span class="stat-value">--</span>
-              </div>
-
-              <div id="xp" class="performance-stat">
-                <div class="stat-icon">
-                  <span class="material-symbols-outlined">bolt</span>
-                </div>
-                <span class="stat-label">XP</span>
-                <span class="stat-value">--</span>
-              </div>
-
-              <div id="exercises-completed" class="performance-stat">
-                <div class="stat-icon">
-                  <span class="material-symbols-outlined">task_alt</span>
-                </div>
-                <span class="stat-label">Exercises Completed</span>
-                <span class="stat-value">--</span>
-              </div>
-            </div>
-          </section>
-
-          <!-- Weekly Progress -->
-          <section
-            id="weekly-progress"
-            class="weekly-progress"
-            aria-label="Weekly Progress"
-          >
-            <h2 class="section-title">Weekly Progress</h2>
-            <div
-              id="weekly-progress-chart"
-              class="chart-container"
-              aria-label="Weekly Progress Chart"
-            ></div>
-          </section>
-
-          <!-- Achievements -->
-          <section
-            id="achievements"
-            class="achievements"
-            aria-label="Achievements"
-          >
-            <h2 class="section-title">Achievements</h2>
-            <article id="achievement-card" class="card achievement-card">
-              <h3 class="card-title">No achievements yet</h3>
-              <p class="card-content">
-                Complete workouts to start unlocking milestones.
-              </p>
-            </article>
-          </section>
-
-          <!-- AI Coach -->
-          <section id="ai-coach" class="ai-coach" aria-label="AI Coach">
-            <h2 class="section-title">AI Coach</h2>
-            <article
-              id="ai-coach-card"
-              class="card ai-coach-card"
-              data-coach-type="info"
-            >
-              <div>
-                <h3 class="card-title">AI Coach</h3>
-                <p class="card-content">
-                  Start a workout to receive real-time form feedback.
-                </p>
-              </div>
-            </article>
-          </section>
-
-          <!-- Exercise Checklist + Daily Challenge / Personal Best -->
-          <div class="secondary-row">
-            <section
-              id="exercise-checklist"
-              class="exercise-checklist"
-              aria-label="Exercise Checklist"
-            >
-              <h2 class="section-title">Exercise Checklist</h2>
-              <ul id="checklist-items" class="checklist-items">
-                <li class="checklist-item">
-                  <input
-                    type="checkbox"
-                    id="checklist-item-1"
-                    class="checklist-checkbox"
-                    disabled
-                  />
-                  <label for="checklist-item-1"
-                    >No exercises scheduled yet</label
-                  >
-                </li>
-              </ul>
-            </section>
-
-            <div class="stack">
-              <section
-                id="daily-challenge"
-                class="daily-challenge"
-                aria-label="Daily Challenge"
-              >
-                <h2 class="section-title">Daily Challenge</h2>
-                <article
-                  id="daily-challenge-card"
-                  class="card daily-challenge-card"
-                >
-                  <h3 class="card-title">No challenge active</h3>
-                  <p class="card-content">
-                    Check back once today's challenge is assigned.
-                  </p>
-                </article>
-              </section>
-
-              <section
-                id="personal-best"
-                class="personal-best"
-                aria-label="Personal Best"
-              >
-                <h2 class="section-title">Personal Best</h2>
-                <article
-                  id="personal-best-card"
-                  class="card personal-best-card"
-                >
-                  <h3 class="card-title">No records yet</h3>
-                  <p class="card-content">
-                    Your top performances will appear here.
-                  </p>
-                </article>
-              </section>
-            </div>
-          </div>
-
-          <!-- Streak Calendar -->
-          <section
-            id="streak-calendar"
-            class="streak-calendar"
-            aria-label="Streak Calendar"
-          >
-            <h2 class="section-title">Streak Calendar</h2>
-            <div
-              id="streak-calendar-grid"
-              class="streak-calendar-grid"
-              aria-label="Streak Calendar Grid"
-            ></div>
-          </section>
-
-          <!-- Session Summary -->
-          <section
-            id="session-summary"
-            class="session-summary"
-            aria-label="Session Summary"
-          >
-            <h2 class="section-title">Session Summary</h2>
-            <article
-              id="session-summary-card"
-              class="card session-summary-card"
-            >
-              <h3 class="card-title">Current Session</h3>
-              <p class="card-content">
-                Complete a workout to see your summary here.
-              </p>
-            </article>
-          </section>
-
-          <footer id="main-footer" class="main-footer">
-            <p class="footer-text">PoseAI &mdash; your AI fitness trainer</p>
-          </footer>
-        </main>
+        <button aria-label="Toggle Menu"
+          class="lg:hidden w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors focus:outline-none"
+          onclick="
+              document
+                .getElementById('mobile-drawer')
+                .classList.toggle('hidden')
+            " type="button">
+          <span class="material-symbols-outlined text-[24px]">menu</span>
+        </button>
       </div>
     </div>
+    <div
+      class="hidden lg:hidden border-t border-surface-container-high bg-surface-container-lowest px-margin-mobile py-space-lg shadow-lg"
+      id="mobile-drawer">
+      <nav class="flex flex-col gap-space-xs">
+        <a aria-current="page"
+          class="px-space-md py-space-sm rounded-lg bg-primary-container text-on-primary-container font-bold"
+          data-path="dashboard" href="index.html">Dashboard</a><a
+          class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+          data-path="workout" href="workout.html">Workout</a><a
+          class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+          data-path="analysis" href="analysis.html">Analysis</a><a
+          class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+          data-path="progress" href="progress.html">Progress</a><a
+          class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+          data-path="exercises" href="exercises.html">Exercises</a><a
+          class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+          data-path="achievements" href="achievements.html">Achievements</a>
+        <div class="my-1 border-t border-surface-container"></div>
+        <a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+          href="profile.html">Profile</a><a
+          class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+          href="#settings">Settings</a><a
+          class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-error hover:bg-surface-container-low"
+          href="login.html">Logout</a>
+      </nav>
+    </div>
+  </header>
+  <main class="w-full pt-20 bg-background flex-1">
+    <div class="max-w-7xl mx-auto px-margin-mobile md:px-margin py-space-lg md:py-space-xl">
+      <div class="flex flex-col w-full gap-y-space-xl">
+        <!-- Interactive View State Controller & Page Sub-Bar -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+          <div>
+            <h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+              Good morning, Sandesh 👋
+            </h1>
+            <p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+              Ready to calibrate and improve your movement form today?
+            </p>
+          </div>
+          <!-- Data State Switcher Pills -->
+          <div
+            class="flex items-center gap-1.5 p-1 bg-surface-container-high rounded-full self-start sm:self-auto shadow-sm">
+            <button
+              class="px-space-md py-1 rounded-full font-label-md text-label-md transition-all duration-200 bg-surface-container-lowest text-primary shadow-sm"
+              id="btn-state-active" onclick="switchState('active')" type="button">
+              Active User
+            </button>
+            <button
+              class="px-space-md py-1 rounded-full font-label-md text-label-md transition-all duration-200 text-on-surface-variant hover:text-on-surface"
+              id="btn-state-empty" onclick="switchState('empty')" type="button">
+              First-Time User
+            </button>
+            <button
+              class="flex items-center gap-1 px-space-md py-1 rounded-full font-label-md text-label-md transition-all duration-200 text-on-surface-variant hover:text-on-surface"
+              id="btn-state-live" onclick="toggleLiveModal(true)" type="button">
+              <span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+              Live Camera
+            </button>
+          </div>
+        </div>
+        <!-- SECTION 1: TODAY'S FEATURED ROUTINE (Hero Pose Estimation Workout Card) -->
+        <section
+          class="w-full bg-surface-container-lowest rounded-lg p-space-lg md:p-space-xl shadow-sm relative overflow-hidden">
+          <div
+            class="absolute -right-20 -bottom-20 w-96 h-96 bg-primary-fixed/25 rounded-full blur-3xl pointer-events-none">
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center relative z-10">
+            <!-- Left Details Column -->
+            <div class="lg:col-span-7 flex flex-col gap-space-md">
+              <div class="flex flex-wrap items-center gap-space-xs">
+                <span
+                  class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-surface-container-high text-primary font-caption text-caption tracking-wider uppercase font-bold">
+                  <span class="material-symbols-outlined text-[14px]">psychology</span>
+                  Today's Featured Routine
+                </span>
+                <span
+                  class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-caption text-caption font-semibold">
+                  Sub-millimeter Telemetry
+                </span>
+              </div>
+              <div>
+                <h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface tracking-tight">
+                  Bicep Curl Session
+                </h2>
+                <p class="font-body-md text-body-md text-on-surface-variant mt-1 max-w-xl">
+                  Real-time optical joint-angle kinematics tracking elbow
+                  hinge stability, rep cadence, and eccentric deceleration.
+                </p>
+              </div>
+              <!-- Routine Key Parameters -->
+              <div class="flex flex-wrap items-center gap-space-sm pt-1">
+                <div
+                  class="flex items-center gap-2 px-space-md py-2 rounded-2xl bg-surface-container-low text-on-surface">
+                  <span class="material-symbols-outlined text-[20px] text-primary">fitness_center</span>
+                  <div>
+                    <span class="font-caption text-caption text-on-surface-variant block uppercase">Target</span>
+                    <span class="font-label-lg text-label-lg font-bold">12 Reps / 3 Sets</span>
+                  </div>
+                </div>
+                <div
+                  class="flex items-center gap-2 px-space-md py-2 rounded-2xl bg-surface-container-low text-on-surface">
+                  <span class="material-symbols-outlined text-[20px] text-tertiary">timer</span>
+                  <div>
+                    <span class="font-caption text-caption text-on-surface-variant block uppercase">Est. Time</span>
+                    <span class="font-label-lg text-label-lg font-bold">5 Mins</span>
+                  </div>
+                </div>
+                <div
+                  class="flex items-center gap-2 px-space-md py-2 rounded-2xl bg-surface-container-low text-on-surface">
+                  <span class="material-symbols-outlined text-[20px] text-secondary">straighten</span>
+                  <div>
+                    <span class="font-caption text-caption text-on-surface-variant block uppercase">Focus</span>
+                    <span class="font-label-lg text-label-lg font-bold">Elbow Plane Lock</span>
+                  </div>
+                </div>
+              </div>
+              <!-- CTA Trigger -->
+              <div class="pt-space-sm flex flex-col sm:flex-row sm:items-center gap-space-md">
+                <button
+                  class="inline-flex items-center justify-center gap-2 px-space-xl py-3.5 rounded-full bg-primary-container text-on-primary-container font-label-lg text-label-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 cursor-pointer"
+                  onclick="toggleLiveModal(true)" type="button">
+                  <span class="material-symbols-outlined text-[20px]">videocam</span>
+                  <span class="">START REAL-TIME CAMERA WORKOUT</span>
+                  <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                </button>
+                <span class="font-caption text-caption text-on-surface-variant">
+                  Zero wearable hardware needed • 1080p 60fps edge CV
+                </span>
+              </div>
+            </div>
+            <!-- Right Biomechanical Illustration / Visual Telemetry Diagram -->
+            <div class="lg:col-span-5 flex justify-center">
+              <div
+                class="w-full max-w-sm relative rounded-2xl md:rounded-3xl overflow-hidden shadow-lg group border border-surface-container-high">
+                <img
+                  src="https://lh3.googleusercontent.com/aida/AEtjO1XMCqmIgIGxttNfhM3ODXkCGhaV8apptMHVlRUH-_VccIfUF898Td7PoryVOp_UBa5g8sPJjzvzQ4oLh7PBmkLkKA4C08xD_r3DGd2m92WA34oScAVAuHNxhCEg4seIqNuxeuoz4ovsWfK8mLSHzV63X5xpiRdWT88Jmq7MlZMarQ3dFQ5Kjx6EvXx09PuhmfhORoCBicmA5I9Yx2bQb9RUixfVvNHurZt4BOrDW5s2yPv1zL-7f_mQsBA"
+                  alt="Athletic person performing bicep curl with computer vision posture tracking mesh"
+                  class="w-full h-80 md:h-96 object-cover" />
+                <div
+                  class="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 via-transparent to-inverse-surface/30 pointer-events-none">
+                </div>
+                <div class="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
+                  <span
+                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md text-secondary font-caption text-caption font-bold shadow-sm"><span
+                      class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>CV Live Tracking</span><span
+                    class="px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md text-on-surface font-caption text-caption font-semibold shadow-sm">Node
+                    14-16 Hinge</span>
+                </div>
+                <div
+                  class="absolute bottom-3 left-3 right-3 p-3 bg-surface-container-lowest/90 backdrop-blur-md rounded-xl flex items-center justify-between shadow-md">
+                  <div class="flex items-center gap-2">
+                    <div
+                      class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+                      <span class="material-symbols-outlined text-[18px]">center_focus_strong</span>
+                    </div>
+                    <div class="flex flex-col">
+                      <span class="font-label-md text-label-md text-on-surface font-bold leading-tight">33 3D Spatial
+                        Joints</span><span class="font-caption text-caption text-on-surface-variant leading-tight">Elbow
+                        plane aligned</span>
+                    </div>
+                  </div>
+                  <span class="font-label-md text-label-md text-secondary font-bold">99.8% Conf.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- SECTION 2: PERFORMANCE SUMMARY METRICS -->
+        <section class="w-full">
+          <div class="flex items-center justify-between mb-space-sm">
+            <h3 class="font-caption text-caption text-on-surface-variant font-bold tracking-wider uppercase">
+              Performance Summary
+            </h3>
+            <span class="font-caption text-caption text-on-surface-variant" id="metric-window-label">Last 7 rolling
+              days</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-space-md md:gap-space-lg">
+            <!-- Metric Card 1: Streak -->
+            <div
+              class="bg-surface-container-lowest rounded-lg p-space-lg shadow-sm hover:shadow-md transition-all duration-200">
+              <div class="flex items-center justify-between mb-space-md">
+                <span class="font-label-lg text-label-lg text-on-surface-variant">Current Streak</span>
+                <div class="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary">
+                  <span class="material-symbols-outlined text-[22px]">local_fire_department</span>
+                </div>
+              </div>
+              <div class="flex items-baseline gap-2">
+                <span class="font-metric-stat text-metric-stat text-on-surface" id="val-streak">7 Days</span>
+              </div>
+              <div class="mt-space-sm flex items-center gap-1.5">
+                <span
+                  class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-caption text-caption font-bold"
+                  id="badge-streak">
+                  <span class="material-symbols-outlined text-[13px]">trending_up</span>
+                  +2 days
+                </span>
+                <span class="font-caption text-caption text-on-surface-variant" id="sub-streak">Over personal
+                  average</span>
+              </div>
+            </div>
+            <!-- Metric Card 2: Total Workouts -->
+            <div
+              class="bg-surface-container-lowest rounded-lg p-space-lg shadow-sm hover:shadow-md transition-all duration-200">
+              <div class="flex items-center justify-between mb-space-md">
+                <span class="font-label-lg text-label-lg text-on-surface-variant">Total Workouts</span>
+                <div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+                  <span class="material-symbols-outlined text-[22px]">fitness_center</span>
+                </div>
+              </div>
+              <div class="flex items-baseline gap-2">
+                <span class="font-metric-stat text-metric-stat text-on-surface" id="val-workouts">24 Completed</span>
+              </div>
+              <div class="mt-space-sm flex items-center gap-1.5">
+                <span class="font-caption text-caption text-on-surface-variant" id="sub-workouts">8,420 kg biomechanical
+                  volume tracked</span>
+              </div>
+            </div>
+            <!-- Metric Card 3: Form Accuracy -->
+            <div
+              class="bg-surface-container-lowest rounded-lg p-space-lg shadow-sm hover:shadow-md transition-all duration-200">
+              <div class="flex items-center justify-between mb-space-md">
+                <span class="font-label-lg text-label-lg text-on-surface-variant">Avg Form Accuracy</span>
+                <div
+                  class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary">
+                  <span class="material-symbols-outlined text-[22px]">track_changes</span>
+                </div>
+              </div>
+              <div class="flex items-baseline gap-2">
+                <span class="font-metric-stat text-metric-stat text-on-surface" id="val-accuracy">92%</span>
+                <span
+                  class="inline-flex items-center px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-caption text-caption font-bold"
+                  id="badge-accuracy">
+                  Great
+                </span>
+              </div>
+              <div class="mt-space-sm flex items-center gap-1.5">
+                <span class="font-caption text-caption text-on-surface-variant" id="sub-accuracy">Evaluated across 410
+                  joint angle frames</span>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section
+          class="w-full bg-surface-container-lowest rounded-lg p-space-lg md:p-space-xl shadow-sm border border-surface-container-high/60 relative overflow-hidden">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md mb-space-lg">
+            <div class="flex flex-col">
+              <div class="flex items-center gap-2 mb-1">
+                <span
+                  class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary-fixed text-primary font-caption text-caption uppercase font-bold tracking-wider"><span
+                    class="material-symbols-outlined text-[14px]">show_chart</span>Biomechanical Kinematic
+                  Tracking</span><span
+                  class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-caption text-caption font-semibold"><span
+                    class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>Live Stream Synced</span>
+              </div>
+              <h3
+                class="font-headline-lg text-headline-sm md:text-headline-lg text-on-surface font-bold tracking-tight">
+                Form Accuracy &amp; Joint Stability Over Time
+              </h3>
+              <p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+                Optical computer vision joint-angle alignment across completed
+                reps and angular velocity curves.
+              </p>
+            </div>
+            <div class="flex flex-wrap items-center gap-space-sm">
+              <div
+                class="flex items-center bg-surface-container-low p-1 rounded-full border border-surface-container-high">
+                <button
+                  class="px-3 py-1 rounded-full font-label-md text-label-md bg-surface-container-lowest text-primary shadow-sm font-bold transition-all"
+                  type="button">
+                  Form Accuracy %</button><button
+                  class="px-3 py-1 rounded-full font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all"
+                  type="button">
+                  Angular Variance</button><button
+                  class="px-3 py-1 rounded-full font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all"
+                  type="button">
+                  Rep Cadence
+                </button>
+              </div>
+              <div class="flex items-center bg-surface-container p-1 rounded-full">
+                <button
+                  class="px-2.5 py-1 rounded-full font-caption text-caption bg-surface-container-lowest text-primary font-bold shadow-xs"
+                  type="button">
+                  7D</button><button
+                  class="px-2.5 py-1 rounded-full font-caption text-caption text-on-surface-variant hover:text-on-surface"
+                  type="button">
+                  14D</button><button
+                  class="px-2.5 py-1 rounded-full font-caption text-caption text-on-surface-variant hover:text-on-surface"
+                  type="button">
+                  30D</button><button
+                  class="px-2.5 py-1 rounded-full font-caption text-caption text-on-surface-variant hover:text-on-surface"
+                  type="button">
+                  90D
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="relative w-full overflow-hidden">
+            <div class="w-full h-64 md:h-72 relative">
+              <svg class="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 1000 240">
+                <defs>
+                  <linearGradient id="accuracyGradient" x1="0%" x2="0%" y1="0%" y2="100%">
+                    <stop offset="0%" stop-color="#006194" stop-opacity="0.32"></stop>
+                    <stop offset="50%" stop-color="#007bb9" stop-opacity="0.10"></stop>
+                    <stop offset="100%" stop-color="#007bb9" stop-opacity="0.0"></stop>
+                  </linearGradient>
+                  <linearGradient id="lineStroke" x1="0%" x2="100%" y1="0%" y2="0%">
+                    <stop offset="0%" stop-color="#007bb9"></stop>
+                    <stop offset="60%" stop-color="#006194"></stop>
+                    <stop offset="100%" stop-color="#006c49"></stop>
+                  </linearGradient>
+                </defs>
+                <line stroke="#dae2fd" stroke-dasharray="4 4" stroke-width="1" x1="40" x2="980" y1="30" y2="30"></line>
+                <text class="fill-on-surface-variant text-[11px] font-mono" x="10" y="34">
+                  100%
+                </text>
+                <line stroke="#dae2fd" stroke-dasharray="4 4" stroke-width="1" x1="40" x2="980" y1="80" y2="80"></line>
+                <text class="fill-on-surface-variant text-[11px] font-mono" x="10" y="84">
+                  90%
+                </text>
+                <line stroke="#6cf8bb" stroke-dasharray="2 2" stroke-opacity="0.8" stroke-width="1.5" x1="40" x2="980"
+                  y1="80" y2="80"></line>
+                <line stroke="#dae2fd" stroke-dasharray="4 4" stroke-width="1" x1="40" x2="980" y1="130" y2="130">
+                </line>
+                <text class="fill-on-surface-variant text-[11px] font-mono" x="10" y="134">
+                  80%
+                </text>
+                <line stroke="#dae2fd" stroke-dasharray="4 4" stroke-width="1" x1="40" x2="980" y1="180" y2="180">
+                </line>
+                <text class="fill-on-surface-variant text-[11px] font-mono" x="10" y="184">
+                  70%
+                </text>
+                <path
+                  d="M 70 120 C 130 110, 180 95, 220 90 C 270 85, 320 102, 370 75 C 430 45, 480 70, 530 65 C 590 60, 640 45, 690 52 C 750 60, 800 48, 850 42 C 900 38, 930 45, 960 40 L 960 210 L 70 210 Z"
+                  fill="url(#accuracyGradient)"></path>
+                <path
+                  d="M 70 120 C 130 110, 180 95, 220 90 C 270 85, 320 102, 370 75 C 430 45, 480 70, 530 65 C 590 60, 640 45, 690 52 C 750 60, 800 48, 850 42 C 900 38, 930 45, 960 40"
+                  fill="none" stroke="url(#lineStroke)" stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="3.5"></path>
+                <g class="cursor-pointer group">
+                  <circle class="fill-surface-container-lowest" cx="70" cy="120" r="5" stroke="#007bb9"
+                    stroke-width="2.5"></circle>
+                </g>
+                <g class="cursor-pointer group">
+                  <circle class="fill-surface-container-lowest" cx="220" cy="90" r="5" stroke="#007bb9"
+                    stroke-width="2.5"></circle>
+                </g>
+                <g class="cursor-pointer group">
+                  <circle class="fill-surface-container-lowest" cx="370" cy="75" r="5" stroke="#007bb9"
+                    stroke-width="2.5"></circle>
+                </g>
+                <g class="cursor-pointer group">
+                  <circle class="fill-surface-container-lowest" cx="530" cy="65" r="5" stroke="#006194"
+                    stroke-width="2.5"></circle>
+                </g>
+                <g class="cursor-pointer group">
+                  <circle class="fill-surface-container-lowest" cx="690" cy="52" r="5" stroke="#006194"
+                    stroke-width="2.5"></circle>
+                </g>
+                <g class="cursor-pointer group">
+                  <circle class="fill-surface-container-lowest" cx="850" cy="42" r="6" stroke="#006c49"
+                    stroke-width="3"></circle>
+                  <circle class="fill-secondary animate-ping opacity-75" cx="850" cy="42" r="8"></circle>
+                </g>
+                <g class="cursor-pointer group">
+                  <circle class="fill-secondary" cx="960" cy="40" r="6" stroke="#ffffff" stroke-width="2"></circle>
+                </g>
+                <rect fill="#131b2e" height="34" rx="8" width="145" x="778" y="-2"></rect>
+                <polygon fill="#131b2e" points="850,34 845,39 855,39"></polygon>
+                <text class="fill-surface text-[11px] font-bold font-mono" text-anchor="middle" x="850" y="15">
+                  Session #24: 95.8%
+                </text>
+                <text class="fill-surface-dim text-[9px] font-mono" text-anchor="middle" x="850" y="27">
+                  1.8s CAD • 0 VALGUS
+                </text>
+                <text class="fill-on-surface-variant text-[11px] font-medium text-center" text-anchor="middle" x="70"
+                  y="230">
+                  Mon May 22
+                </text>
+                <text class="fill-on-surface-variant text-[11px] font-medium text-center" text-anchor="middle" x="220"
+                  y="230">
+                  Wed May 24
+                </text>
+                <text class="fill-on-surface-variant text-[11px] font-medium text-center" text-anchor="middle" x="370"
+                  y="230">
+                  Fri May 26
+                </text>
+                <text class="fill-on-surface-variant text-[11px] font-medium text-center" text-anchor="middle" x="530"
+                  y="230">
+                  Sat May 27
+                </text>
+                <text class="fill-on-surface-variant text-[11px] font-medium text-center" text-anchor="middle" x="690"
+                  y="230">
+                  Mon May 29
+                </text>
+                <text class="fill-on-surface-variant text-[11px] font-medium text-center" text-anchor="middle" x="850"
+                  y="230">
+                  Wed May 31
+                </text>
+                <text class="fill-primary text-[11px] font-bold text-center" text-anchor="middle" x="960" y="230">
+                  Today (Sat)
+                </text>
+              </svg>
+            </div>
+            <div
+              class="mt-space-md pt-space-md border-t border-surface-container grid grid-cols-1 sm:grid-cols-3 gap-space-md">
+              <div class="flex items-center gap-3 p-2.5 rounded-2xl bg-surface-container-low">
+                <div
+                  class="w-10 h-10 rounded-xl bg-secondary-container flex items-center justify-center text-on-secondary-container flex-shrink-0">
+                  <span class="material-symbols-outlined text-[20px]">verified</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-1">
+                    <span class="font-headline-sm text-headline-sm font-bold text-on-surface">96.2%</span><span
+                      class="font-caption text-caption font-semibold text-secondary">(+4.2%)</span>
+                  </div>
+                  <span class="font-caption text-caption text-on-surface-variant block">Peak Session Form Score</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-2.5 rounded-2xl bg-surface-container-low">
+                <div
+                  class="w-10 h-10 rounded-xl bg-primary-fixed flex items-center justify-center text-primary flex-shrink-0">
+                  <span class="material-symbols-outlined text-[20px]">balance</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-1">
+                    <span class="font-headline-sm text-headline-sm font-bold text-on-surface">9.4 / 10</span><span
+                      class="font-caption text-caption font-semibold text-primary">Optimal</span>
+                  </div>
+                  <span class="font-caption text-caption text-on-surface-variant block">Kinematic Stability Index</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-2.5 rounded-2xl bg-surface-container-low">
+                <div
+                  class="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary flex-shrink-0">
+                  <span class="material-symbols-outlined text-[20px]">straighten</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-1">
+                    <span class="font-headline-sm text-headline-sm font-bold text-on-surface">± 2.1°</span><span
+                      class="font-caption text-caption font-semibold text-secondary">Low Jitter</span>
+                  </div>
+                  <span class="font-caption text-caption text-on-surface-variant block">Joint Angle Variance</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- SECTION 3 & 4: SPLIT GRID (Weekly Goal Progress & Visual Timeline) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+          <!-- Weekly Goal Progress Card (7 Cols) -->
+          <section
+            class="lg:col-span-7 bg-surface-container-lowest rounded-lg p-space-lg shadow-sm flex flex-col gap-space-md">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="font-caption text-caption text-on-surface-variant font-bold tracking-wider uppercase">
+                  Weekly Goal Progress
+                </h3>
+                <p class="font-headline-sm text-headline-sm text-on-surface font-bold mt-0.5" id="label-weekly-target">
+                  5 / 7 Days Completed
+                </p>
+              </div>
+              <!-- Circular Mini Progress Indicator -->
+              <div class="relative w-12 h-12 flex items-center justify-center">
+                <svg class="w-12 h-12 -rotate-90" viewBox="0 0 36 36">
+                  <path class="text-surface-container"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
+                    stroke="currentColor" stroke-width="3.5"></path>
+                  <path class="text-primary transition-all duration-500"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
+                    id="circle-progress" stroke="currentColor" stroke-dasharray="71, 100" stroke-linecap="round"
+                    stroke-width="3.5"></path>
+                </svg>
+                <span class="absolute font-caption text-caption font-bold text-on-surface" id="label-percent">71%</span>
+              </div>
+            </div>
+            <!-- Seven-Day Activity Visual Ribbon -->
+            <div class="w-full pt-space-xs">
+              <div class="grid grid-cols-7 gap-2 text-center" id="calendar-ribbon">
+                <!-- Mon -->
+                <div class="flex flex-col items-center gap-1.5 day-step">
+                  <span class="font-caption text-caption text-on-surface-variant">Mon</span>
+                  <div
+                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">check</span>
+                  </div>
+                  <span class="font-caption text-[10px] text-on-surface-variant">Done</span>
+                </div>
+                <!-- Tue -->
+                <div class="flex flex-col items-center gap-1.5 day-step">
+                  <span class="font-caption text-caption text-on-surface-variant">Tue</span>
+                  <div
+                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">check</span>
+                  </div>
+                  <span class="font-caption text-[10px] text-on-surface-variant">Done</span>
+                </div>
+                <!-- Wed -->
+                <div class="flex flex-col items-center gap-1.5 day-step">
+                  <span class="font-caption text-caption text-on-surface-variant">Wed</span>
+                  <div
+                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">check</span>
+                  </div>
+                  <span class="font-caption text-[10px] text-on-surface-variant">Done</span>
+                </div>
+                <!-- Thu -->
+                <div class="flex flex-col items-center gap-1.5 day-step">
+                  <span class="font-caption text-caption text-on-surface-variant">Thu</span>
+                  <div
+                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">check</span>
+                  </div>
+                  <span class="font-caption text-[10px] text-on-surface-variant">Done</span>
+                </div>
+                <!-- Fri (Rest) -->
+                <div class="flex flex-col items-center gap-1.5 day-step">
+                  <span class="font-caption text-caption text-on-surface-variant">Fri</span>
+                  <div
+                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-surface-container text-on-surface-variant flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[18px] opacity-40">bedtime</span>
+                  </div>
+                  <span class="font-caption text-[10px] text-on-surface-variant opacity-60">Rest</span>
+                </div>
+                <!-- Sat (Today) -->
+                <div class="flex flex-col items-center gap-1.5 day-step">
+                  <span class="font-caption text-caption text-primary font-bold">Sat</span>
+                  <div
+                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-md">
+                    <span class="material-symbols-outlined text-[18px]">check</span>
+                  </div>
+                  <span class="font-caption text-[10px] text-primary font-bold">Today</span>
+                </div>
+                <!-- Sun (Upcoming) -->
+                <div class="flex flex-col items-center gap-1.5 day-step">
+                  <span class="font-caption text-caption text-on-surface-variant">Sun</span>
+                  <div
+                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-surface-container-low text-on-surface-variant flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[16px] opacity-40">event</span>
+                  </div>
+                  <span class="font-caption text-[10px] text-on-surface-variant opacity-60">Plan</span>
+                </div>
+              </div>
+            </div>
+            <div class="p-3 bg-surface-container-low rounded-2xl flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">flag</span>
+                <span class="font-body-md text-body-md text-on-surface" id="text-motivation">2 days remaining to achieve
+                  full weekly goal target.</span>
+              </div>
+              <button class="text-primary font-label-md text-label-md hover:underline" type="button">
+                Adjust Goal
+              </button>
+            </div>
+          </section>
+          <!-- Biometric Sensors & Telemetry Readiness Card (5 Cols) -->
+          <section
+            class="lg:col-span-5 bg-surface-container-lowest rounded-lg p-space-lg shadow-sm flex flex-col justify-between h-full gap-space-md">
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="font-caption text-caption text-on-surface-variant font-bold tracking-wider uppercase">
+                  Pose Telemetry Engine
+                </h3>
+                <span
+                  class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-caption text-caption font-bold">Ready</span>
+              </div>
+              <p class="font-headline-sm text-headline-sm text-on-surface font-bold mt-1">
+                Edge Processing Pipeline
+              </p>
+              <p class="font-body-md text-body-md text-on-surface-variant mt-1">
+                Zero cloud video streaming: all joint tracking operates
+                entirely on local WebGL shader inference.
+              </p>
+            </div>
+            <div class="space-y-2 pt-1">
+              <div class="flex items-center justify-between p-2.5 rounded-2xl bg-surface-container-low">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[18px] text-primary">visibility</span>
+                  <span class="font-label-md text-label-md text-on-surface">Camera Joint Pipeline</span>
+                </div>
+                <span class="font-caption text-caption font-mono text-secondary font-bold">60 FPS Locked</span>
+              </div>
+              <div class="flex items-center justify-between p-2.5 rounded-2xl bg-surface-container-low">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[18px] text-primary">speed</span>
+                  <span class="font-label-md text-label-md text-on-surface">Inference Latency</span>
+                </div>
+                <span class="font-caption text-caption font-mono text-on-surface-variant font-bold">&lt; 14ms (Neural
+                  Core)</span>
+              </div>
+            </div>
+            <div
+              class="pt-space-xs flex items-center justify-between font-caption text-caption text-on-surface-variant">
+              <span class="">Hardware Acceleration: Active</span>
+              <button class="text-primary font-label-md text-label-md hover:underline inline-flex items-center gap-1"
+                onclick="toggleLiveModal(true)" type="button">
+                Run Diagnostics
+                <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+              </button>
+            </div>
+          </section>
+        </div>
+        <!-- SECTION 5: RECENT WORKOUT HISTORY (Populated vs Empty dynamically managed) -->
+        <section class="w-full bg-surface-container-lowest rounded-lg p-space-lg shadow-sm">
+          <div class="flex items-center justify-between mb-space-md">
+            <div>
+              <h3 class="font-caption text-caption text-on-surface-variant font-bold tracking-wider uppercase">
+                Recent Workout History
+              </h3>
+              <p class="font-headline-sm text-headline-sm text-on-surface font-bold mt-0.5">
+                Biomechanical Session Logs
+              </p>
+            </div>
+            <a class="font-label-lg text-label-lg text-primary hover:text-on-surface flex items-center gap-1 transition-colors"
+              data-path="analysis" href="#">
+              <span class="">View Full Analysis</span>
+              <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+            </a>
+          </div>
+          <!-- Active Populated History Table -->
+          <div class="flex flex-col gap-space-xs" id="history-container-active">
+            <!-- Session Item 1 -->
+            <div
+              class="flex flex-col md:flex-row md:items-center justify-between p-space-md rounded-2xl hover:bg-surface-container-low transition-colors duration-150 gap-space-sm">
+              <div class="flex items-center gap-space-md">
+                <div
+                  class="w-12 h-12 rounded-2xl bg-primary-fixed flex items-center justify-center text-primary flex-shrink-0">
+                  <span class="material-symbols-outlined text-[24px]">fitness_center</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h4 class="font-label-lg text-label-lg text-on-surface font-bold">
+                      Bicep Curl
+                    </h4>
+                    <span
+                      class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-caption text-caption font-bold">92%
+                      Form</span>
+                  </div>
+                  <div class="flex items-center gap-2 font-caption text-caption text-on-surface-variant mt-0.5">
+                    <span class="">12 reps • 3 sets</span>
+                    <span class="">•</span>
+                    <span class="">Today, 08:30 AM</span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center justify-between md:justify-end gap-space-md">
+                <span
+                  class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-surface-container text-on-surface font-caption text-caption font-medium">
+                  <span class="material-symbols-outlined text-[14px] text-secondary">check_circle</span>
+                  Perfect tempo &amp; elbow lock
+                </span>
+                <button
+                  class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:text-on-primary-fixed-variant px-3 py-1.5 rounded-full hover:bg-surface-container transition-all"
+                  type="button">
+                  Analysis
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+            <!-- Session Item 2 -->
+            <div
+              class="flex flex-col md:flex-row md:items-center justify-between p-space-md rounded-2xl hover:bg-surface-container-low transition-colors duration-150 gap-space-sm">
+              <div class="flex items-center gap-space-md">
+                <div
+                  class="w-12 h-12 rounded-2xl bg-secondary-container flex items-center justify-center text-on-secondary-container flex-shrink-0">
+                  <span class="material-symbols-outlined text-[24px]">accessibility_new</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h4 class="font-label-lg text-label-lg text-on-surface font-bold">
+                      Barbell Squat
+                    </h4>
+                    <span
+                      class="px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-caption text-caption font-bold">88%
+                      Form</span>
+                  </div>
+                  <div class="flex items-center gap-2 font-caption text-caption text-on-surface-variant mt-0.5">
+                    <span class="">24 reps • 4 sets</span>
+                    <span class="">•</span>
+                    <span class="">Yesterday, 06:15 PM</span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center justify-between md:justify-end gap-space-md">
+                <span
+                  class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-surface-container text-on-surface font-caption text-caption font-medium">
+                  <span class="material-symbols-outlined text-[14px] text-tertiary">info</span>
+                  Slight knee valgus detected on rep 19
+                </span>
+                <button
+                  class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:text-on-primary-fixed-variant px-3 py-1.5 rounded-full hover:bg-surface-container transition-all"
+                  type="button">
+                  Analysis
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+            <!-- Session Item 3 -->
+            <div
+              class="flex flex-col md:flex-row md:items-center justify-between p-space-md rounded-2xl hover:bg-surface-container-low transition-colors duration-150 gap-space-sm">
+              <div class="flex items-center gap-space-md">
+                <div
+                  class="w-12 h-12 rounded-2xl bg-tertiary-fixed flex items-center justify-center text-tertiary flex-shrink-0">
+                  <span class="material-symbols-outlined text-[24px]">sports_martial_arts</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h4 class="font-label-lg text-label-lg text-on-surface font-bold">
+                      Lateral Raise
+                    </h4>
+                    <span
+                      class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-caption text-caption font-bold">95%
+                      Form</span>
+                  </div>
+                  <div class="flex items-center gap-2 font-caption text-caption text-on-surface-variant mt-0.5">
+                    <span class="">15 reps • 3 sets</span>
+                    <span class="">•</span>
+                    <span class="">3 days ago</span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center justify-between md:justify-end gap-space-md">
+                <span
+                  class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-surface-container text-on-surface font-caption text-caption font-medium">
+                  <span class="material-symbols-outlined text-[14px] text-secondary">verified</span>
+                  Symmetric shoulder level maintained
+                </span>
+                <button
+                  class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:text-on-primary-fixed-variant px-3 py-1.5 rounded-full hover:bg-surface-container transition-all"
+                  type="button">
+                  Analysis
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Empty State Container (Displayed when First-Time User state is selected) -->
+          <div class="hidden flex-col items-center justify-center py-space-2xl text-center px-4"
+            id="history-container-empty">
+            <div
+              class="w-20 h-20 rounded-full bg-surface-container flex items-center justify-center text-outline mb-space-md">
+              <span class="material-symbols-outlined text-[40px]">videocam_off</span>
+            </div>
+            <h4 class="font-headline-sm text-headline-sm text-on-surface font-bold">
+              No workouts tracked yet
+            </h4>
+            <p class="font-body-md text-body-md text-on-surface-variant max-w-md mt-1 mb-space-lg">
+              Start your very first AI-guided movement session. PoseAI will
+              measure joint kinematics in real-time.
+            </p>
+            <button
+              class="inline-flex items-center gap-2 px-space-xl py-3 rounded-full bg-primary-container text-on-primary-container font-label-lg text-label-lg shadow hover:shadow-md transition-all"
+              onclick="toggleLiveModal(true)" type="button">
+              <span class="material-symbols-outlined text-[18px]">play_arrow</span>
+              Start Your First Workout
+            </button>
+          </div>
+        </section>
+        <!-- MODAL: LIVE CAMERA CONNECTION & POSE ESTIMATION PREVIEW -->
+        <div
+          class="fixed inset-0 z-50 hidden bg-inverse-surface/60 backdrop-blur-md flex items-center justify-center p-4"
+          id="live-camera-modal">
+          <div
+            class="bg-surface-container-lowest rounded-lg max-w-2xl w-full shadow-2xl overflow-hidden flex flex-col relative">
+            <!-- Modal Header -->
+            <div class="p-space-lg flex items-center justify-between border-b border-surface-container">
+              <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-secondary animate-pulse"></div>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">
+                  Optical Camera Pose Calibrator
+                </h3>
+              </div>
+              <button
+                class="w-9 h-9 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                onclick="toggleLiveModal(false)" type="button">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+              </button>
+            </div>
+            <!-- Camera Viewport Simulator -->
+            <div
+              class="relative bg-inverse-surface aspect-video w-full flex items-center justify-center overflow-hidden">
+              <!-- Live Viewport Backdrop Placeholder Image -->
+              <div class="absolute inset-0 bg-cover bg-center opacity-40"
+                data-alt="A modern athletic home gym with bright sunlight streaming through floor-to-ceiling windows. A person in minimalist performance athletic apparel stands in posture calibration distance, framed by soft ambient lighting, clean minimal aesthetics."
+                style="
+                    background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuBeN6C4NJCBP7e7E8KjFAhZvU4Qgg5aqp8au22779_7ePJyDqSXLtvO_I5i4WEL8N2atABsBqk8tWYxafJexkmHC3FVvt4sTgDDl4l6Px5CmPzBb-waySTavE-FObtYKbcgJa_JzVokCFNhFoerLZVxZi-j63Zn2xBPE4Fej8axW3bxOtGt2s1frM4a1MGi_oZYLMMbY1BKgE8PjIHZEEOno3cer68M5c7pgzWmoz8in12uZrmQqAio&quot;);
+                  "></div>
+              <!-- Live HUD Overlay Overlay -->
+              <div class="absolute inset-0 p-space-md flex flex-col justify-between pointer-events-none z-10">
+                <div class="flex items-center justify-between">
+                  <span
+                    class="px-2.5 py-1 rounded-full bg-inverse-surface/80 text-inverse-on-surface font-mono font-caption text-caption">
+                    RESOLUTION: 1920x1080 @ 60FPS
+                  </span>
+                  <span
+                    class="px-2.5 py-1 rounded-full bg-secondary/90 text-on-secondary font-mono font-caption text-caption font-bold">
+                    CALIBRATED • FULL BODY IN FRAME
+                  </span>
+                </div>
+                <!-- Bounding Joint Crosshair Center -->
+                <div class="self-center flex flex-col items-center">
+                  <div
+                    class="w-48 h-64 border-2 border-dashed border-primary-fixed-dim/70 rounded-3xl flex items-center justify-center relative">
+                    <span class="w-3 h-3 bg-secondary rounded-full absolute top-8 left-12"></span>
+                    <span class="w-3 h-3 bg-secondary rounded-full absolute top-8 right-12"></span>
+                    <span class="w-3 h-3 bg-secondary rounded-full absolute top-28 left-8 animate-ping"></span>
+                    <span class="w-3 h-3 bg-primary rounded-full absolute top-28 right-8"></span>
+                    <span class="w-3 h-3 bg-secondary rounded-full absolute bottom-8 left-14"></span>
+                    <span class="w-3 h-3 bg-secondary rounded-full absolute bottom-8 right-14"></span>
+                    <div
+                      class="px-3 py-1 rounded-full bg-inverse-surface/90 text-inverse-on-surface font-caption text-caption">
+                      Body Alignment: 99.4%
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="flex items-center justify-between text-inverse-on-surface font-caption text-caption font-mono">
+                  <span class="">LIGHTING LUX: 480 (OPTIMAL)</span>
+                  <span class="">MODEL: PoseAI Edge-Nano v3.2</span>
+                </div>
+              </div>
+            </div>
+            <!-- Modal Footer -->
+            <div
+              class="p-space-lg flex flex-col sm:flex-row sm:items-center justify-between gap-space-md bg-surface-container-low">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-secondary text-[22px]">lock</span>
+                <span class="font-caption text-caption text-on-surface-variant">Video feed never leaves your local
+                  browser memory.</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <button
+                  class="px-space-lg py-2 rounded-full font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                  onclick="toggleLiveModal(false)" type="button">
+                  Cancel
+                </button>
+                <button
+                  class="px-space-xl py-2.5 rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md font-bold shadow hover:shadow-md transition-all"
+                  onclick="toggleLiveModal(false)" type="button">
+                  Begin Rep Tracking
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        function switchState(state) {
+          const btnActive = document.getElementById("btn-state-active");
+          const btnEmpty = document.getElementById("btn-state-empty");
 
-    <script src="./js/api.js"></script>
-    <script src="./js/dashboard.js"></script>
-    <script src="./js/app.js"></script>
-  </body>
+          // Performance metrics
+          const valStreak = document.getElementById("val-streak");
+          const badgeStreak = document.getElementById("badge-streak");
+          const subStreak = document.getElementById("sub-streak");
+
+          const valWorkouts = document.getElementById("val-workouts");
+          const subWorkouts = document.getElementById("sub-workouts");
+
+          const valAccuracy = document.getElementById("val-accuracy");
+          const badgeAccuracy = document.getElementById("badge-accuracy");
+          const subAccuracy = document.getElementById("sub-accuracy");
+
+          // Progress
+          const labelWeeklyTarget = document.getElementById(
+            "label-weekly-target",
+          );
+          const circleProgress = document.getElementById("circle-progress");
+          const labelPercent = document.getElementById("label-percent");
+          const textMotivation = document.getElementById("text-motivation");
+          const metricWindowLabel = document.getElementById(
+            "metric-window-label",
+          );
+
+          // History sections
+          const histActive = document.getElementById(
+            "history-container-active",
+          );
+          const histEmpty = document.getElementById(
+            "history-container-empty",
+          );
+          const calendarRibbon = document.getElementById("calendar-ribbon");
+
+          if (state === "empty") {
+            // Switch button styles
+            btnEmpty.className =
+              "px-space-md py-1 rounded-full font-label-md text-label-md transition-all duration-200 bg-surface-container-lowest text-primary shadow-sm";
+            btnActive.className =
+              "px-space-md py-1 rounded-full font-label-md text-label-md transition-all duration-200 text-on-surface-variant hover:text-on-surface";
+
+            // Values updated to first-time state
+            valStreak.textContent = "0 Days";
+            badgeStreak.classList.add("hidden");
+            subStreak.textContent = "Complete 1 workout to start streak";
+
+            valWorkouts.textContent = "0 Completed";
+            subWorkouts.textContent = "No biomechanical data yet";
+
+            valAccuracy.textContent = "--";
+            badgeAccuracy.classList.add("hidden");
+            subAccuracy.textContent = "Awaiting first form estimation";
+
+            labelWeeklyTarget.textContent = "0 / 7 Days Completed";
+            circleProgress.setAttribute("stroke-dasharray", "0, 100");
+            labelPercent.textContent = "0%";
+            textMotivation.textContent =
+              "Start your first routine to establish a baseline.";
+            metricWindowLabel.textContent = "New account";
+
+            histActive.classList.add("hidden");
+            histEmpty.classList.remove("hidden");
+            histEmpty.classList.add("flex");
+
+            // Update calendar icons to all pending
+            calendarRibbon.querySelectorAll(".day-step div").forEach((el) => {
+              el.className =
+                "w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-surface-container-low text-on-surface-variant flex items-center justify-center";
+              el.innerHTML =
+                '<span class="material-symbols-outlined text-[16px] opacity-40">circle</span>';
+            });
+          } else {
+            // Revert to Active user state
+            btnActive.className =
+              "px-space-md py-1 rounded-full font-label-md text-label-md transition-all duration-200 bg-surface-container-lowest text-primary shadow-sm";
+            btnEmpty.className =
+              "px-space-md py-1 rounded-full font-label-md text-label-md transition-all duration-200 text-on-surface-variant hover:text-on-surface";
+
+            valStreak.textContent = "7 Days";
+            badgeStreak.classList.remove("hidden");
+            subStreak.textContent = "Over personal average";
+
+            valWorkouts.textContent = "24 Completed";
+            subWorkouts.textContent = "8,420 kg biomechanical volume tracked";
+
+            valAccuracy.textContent = "92%";
+            badgeAccuracy.classList.remove("hidden");
+            subAccuracy.textContent =
+              "Evaluated across 410 joint angle frames";
+
+            labelWeeklyTarget.textContent = "5 / 7 Days Completed";
+            circleProgress.setAttribute("stroke-dasharray", "71, 100");
+            labelPercent.textContent = "71%";
+            textMotivation.textContent =
+              "2 days remaining to achieve full weekly goal target.";
+            metricWindowLabel.textContent = "Last 7 rolling days";
+
+            histActive.classList.remove("hidden");
+            histEmpty.classList.add("hidden");
+            histEmpty.classList.remove("flex");
+
+            // Restore calendar ribbon
+            const days = calendarRibbon.querySelectorAll(".day-step div");
+            if (days.length >= 7) {
+              // Mon-Thu checked
+              for (let i = 0; i < 4; i++) {
+                days[i].className =
+                  "w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shadow-sm";
+                days[i].innerHTML =
+                  '<span class="material-symbols-outlined text-[18px]">check</span>';
+              }
+              // Fri Rest
+              days[4].className =
+                "w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-surface-container text-on-surface-variant flex items-center justify-center";
+              days[4].innerHTML =
+                '<span class="material-symbols-outlined text-[18px] opacity-40">bedtime</span>';
+              // Sat Today
+              days[5].className =
+                "w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-md";
+              days[5].innerHTML =
+                '<span class="material-symbols-outlined text-[18px]">check</span>';
+              // Sun Next
+              days[6].className =
+                "w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-surface-container-low text-on-surface-variant flex items-center justify-center";
+              days[6].innerHTML =
+                '<span class="material-symbols-outlined text-[16px] opacity-40">event</span>';
+            }
+          }
+        }
+
+        function toggleLiveModal(show) {
+          const modal = document.getElementById("live-camera-modal");
+          if (show) {
+            modal.classList.remove("hidden");
+            document.body.style.overflow = "hidden";
+          } else {
+            modal.classList.add("hidden");
+            document.body.style.overflow = "";
+          }
+        }
+      </script>
+    </div>
+  </main>
+  <footer class="w-full bg-surface-container-lowest border-t border-surface-container">
+    <div
+      class="max-w-7xl mx-auto px-margin-mobile md:px-margin py-space-xl flex flex-col md:flex-row items-center justify-between gap-space-md">
+      <div class="flex items-center gap-space-sm">
+        <img alt="PoseAI Logo" class="h-6 w-auto object-contain opacity-80"
+          src="https://lh3.googleusercontent.com/aida/AEtjO1V-v98pUA9o4U6cX1--icYSOIleTEKxDWirF2zkkoLGotbzGV3ou0HBF2BtboSeEoQ-xSTjdnZLLeoW_qjDzoGXOpvQaRduN9-Jb1X9l2Jf3ejdOWIjb0rrmHHRC4AanbvLJYwYoiIHS3auOiGKsOaH34upGvpKLjhp4NoC8xBltTmnNYYw6KNwdUrA3tPND7tD9S5TIBmTRt1E7SQDRgMAJaLwGJLqFteSQqoBJeHQ8w7T7HSibZ0Yw4I" /><span
+          class="font-label-lg text-label-lg text-on-surface-variant">© 2024 PoseAI Systems Inc. All rights
+          reserved.</span>
+      </div>
+      <div class="flex items-center gap-space-lg">
+        <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
+          href="#">Privacy Policy</a><a
+          class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
+          href="#">Telemetry Terms</a><a
+          class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
+          href="#">System Status</a>
+      </div>
+    </div>
+  </footer>
+</body>
+
 </html>

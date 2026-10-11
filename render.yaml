@@ -1,0 +1,81 @@
+# ==============================================================================
+# Render Blueprint Specification — PoseAI Full-Stack Production Deployment
+# ==============================================================================
+# Docs: https://render.com/docs/blueprint-spec
+# ==============================================================================
+
+services:
+  # ── Primary Web Service: PoseAI Flask Backend & Unified App ─────────────────
+  - type: web
+    name: poseai-backend
+    env: python
+    region: oregon
+    plan: free
+    healthCheckPath: /health
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 120 app:app
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: ENVIRONMENT
+        value: production
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      # Automatically generate a cryptographically strong secret on first deploy
+      - key: SECRET_KEY
+        generateValue: true
+      # Secrets to be configured in Render Dashboard (sync: false)
+      - key: MONGODB_URI
+        sync: false
+      - key: MONGODB_DATABASE
+        value: poseai
+      - key: FRONTEND_URL
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: SESSION_COOKIE_SECURE
+        value: "1"
+      - key: SESSION_COOKIE_SAMESITE
+        value: "None"
+      - key: MONGO_ALLOW_MOCK
+        value: "0"
+      - key: RATE_LIMIT_ENABLED
+        value: "1"
+      - key: HIBP_CHECK_ENABLED
+        value: "1"
+      - key: WTF_CSRF_ENABLED
+        value: "1"
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: USDA_API_KEY
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REDIRECT_URI
+        sync: false
+
+  # ── Optional Decoupled Static Site (Only needed if frontend is hosted separately)
+  # When deployed as a separate Static Site, configure VITE_API_URL / meta tag
+  # to point to the web service above (e.g. https://poseai-backend.onrender.com).
+  # If running as a unified app, the Flask service above serves the frontend directly.
+  - type: web
+    name: poseai-frontend-static
+    env: static
+    plan: free
+    staticPublishPath: ./frontend
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /html/index.html
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: SAMEORIGIN
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin

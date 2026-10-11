@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320" width="100%" height="100%">
+  <defs>
+    <radialGradient id="studio-light" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="70%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </radialGradient>
+    <radialGradient id="soft-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(15, 23, 42, 0.28)"/>
+      <stop offset="60%" stop-color="rgba(15, 23, 42, 0.10)"/>
+      <stop offset="100%" stop-color="rgba(15, 23, 42, 0)"/>
+    </radialGradient>
+    <filter id="blur-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6"/>
+    </filter>
+  </defs>
+  <rect width="400" height="320" fill="url(#studio-light)"/>
+  <ellipse cx="200" cy="275" rx="100" ry="18" fill="url(#soft-shadow)" filter="url(#blur-shadow)"/>
+  
+      <g transform="translate(130, 45)">
+        <path d="M25 25 L115 25 L125 195 Q70 205 15 195 Z" fill="#e2d9cc"/>
+        <text x="70" y="65" fill="#1c1917" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="900" text-anchor="middle">THE WHOLE TRUTH</text>
+        <text x="70" y="90" fill="#1c1917" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="900" text-anchor="middle">PURE WHEY</text>
+        <text x="70" y="105" fill="#78716c" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="700" text-anchor="middle">ISOLATE 100% RAW</text>
+        <rect x="35" y="135" width="70" height="18" rx="4" fill="#1c1917"/>
+        <text x="70" y="147" fill="#ffffff" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="800" text-anchor="middle">UNFLAVORED • 1KG</text>
+      </g>
+    
+</svg>

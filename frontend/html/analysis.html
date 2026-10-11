@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Workout Analysis — PoseAI</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  
+  <style>
+    body {
+      font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+  </style>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/navbar.css" />
+  <link rel="stylesheet" href="/css/analysis.css" />
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body data-page="analysis">
+  <!-- Shared Global Navbar Mount Point -->
+  <div id="app-header"></div>
+
+  <main class="analysis-container">
+    <!-- Header Section -->
+    <div class="analysis-header">
+      <div>
+        <h1 class="analysis-title">WORKOUT ANALYSIS</h1>
+        <p class="analysis-subtitle">Review your performance, form and movement quality over time.</p>
+      </div>
+
+      <div class="analysis-actions">
+        <a href="/workout" class="analysis-btn analysis-btn--secondary" id="backToWorkoutsBtn">
+          <span>‹</span>
+          <span>BACK TO WORKOUTS</span>
+        </a>
+        <button type="button" class="analysis-btn analysis-btn--primary" id="downloadReportBtn">
+          <span>⬇</span>
+          <span>DOWNLOAD REPORT</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Empty State (when user has no logged workouts) -->
+    <div id="emptyState" class="empty-analysis-state" style="display: none;">
+      <div class="empty-icon"><span class="material-symbols-outlined text-primary text-[48px]">analytics</span></div>
+      <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 8px;">No workout analysis yet</h2>
+      <p style="color: #64748b; max-width: 480px; margin: 0 auto 24px auto; font-size: 0.95rem;">
+        Complete a workout with the AI camera to unlock real-time form tracking, biomechanical analysis, and personalized coaching.
+      </p>
+      <a href="/workout" class="analysis-btn analysis-btn--primary">
+        <span class="material-symbols-outlined text-[18px]">play_arrow</span>
+        <span>START YOUR FIRST WORKOUT</span>
+      </a>
+    </div>
+
+    <!-- Active Analysis Content -->
+    <div id="analysisContent">
+      <!-- Workout Selector Bar -->
+      <div class="workout-selector-card">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="material-symbols-outlined text-primary text-[22px]">fitness_center</span>
+          <div>
+            <div style="font-size: 0.75rem; font-weight: 700; color: var(--analysis-text-muted); text-transform: uppercase;">SELECT WORKOUT SESSION</div>
+            <div style="font-size: 0.9rem; font-weight: 600; color: var(--analysis-text-main);">Choose a recorded session to analyze</div>
+          </div>
+        </div>
+        <div>
+          <select class="workout-select-input" id="workoutSelector" aria-label="Select workout session">
+            <!-- Dynamically populated from /api/analysis/workouts -->
+          </select>
+        </div>
+      </div>
+
+      <!-- Top Session Overview Bar -->
+      <div class="analysis-card" style="margin-bottom: 20px; background: #0f172a; color: #ffffff; border-color: #1e293b;">
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                <span class="badge-status good" id="sessionStatusHeader">Completed</span>
+                <span style="font-size: 0.82rem; color: #94a3b8;" id="sessionDateHeader">--</span>
+                <span style="font-size: 0.82rem; color: #94a3b8;">•</span>
+                <span style="font-size: 0.82rem; color: #94a3b8;" id="sessionTimeHeader">--</span>
+              </div>
+              <h2 style="font-size: 1.75rem; font-weight: 800; margin: 0; color: #ffffff;" id="sessionExerciseHeader">--</h2>
+            </div>
+            <div>
+              <a href="/workout" class="analysis-btn analysis-btn--primary" id="trainAgainBtn" style="background: #2563eb; color: #ffffff;">
+                <span>↺</span>
+                <span>Train Again</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Metrics Bar -->
+      <div class="hero-stats-grid">
+        <div class="hero-stat-card">
+          <div class="hero-stat-label">TOTAL REPS</div>
+          <div class="hero-stat-value" id="statTotalReps">--</div>
+          <div class="hero-stat-sub">Completed repetitions</div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="hero-stat-label">SETS</div>
+          <div class="hero-stat-value" id="statSets">--</div>
+          <div class="hero-stat-sub">Completed / Planned</div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="hero-stat-label">FORM ACCURACY</div>
+          <div class="hero-stat-value" style="color: #2563eb;" id="statAccuracy">--</div>
+          <div class="hero-stat-sub">Average form score</div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="hero-stat-label">CALORIES</div>
+          <div class="hero-stat-value" style="color: #10b981;" id="statCalories">--</div>
+          <div class="hero-stat-sub">Estimated energy burn</div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="hero-stat-label">DURATION</div>
+          <div class="hero-stat-value" id="statDuration">--</div>
+          <div class="hero-stat-sub">Session active time</div>
+        </div>
+      </div>
+
+      <!-- Main Analytics 2-Column Grid -->
+      <div class="analytics-grid">
+        <!-- Left Column: Biomechanics, Charts, AI Coach, Set Table -->
+        <div>
+          <!-- AI Coach Recommendation Card -->
+          <div class="analysis-card coach-card">
+            <div class="analysis-card-header">
+              <div>
+                <h3 class="analysis-card-title">
+                  <span class="material-symbols-outlined text-primary text-[20px]">smart_toy</span>
+                  <span>AI COACH RECOMMENDATION</span>
+                </h3>
+                <div class="analysis-card-subtitle">Generated dynamically from real session metrics and movement cadence</div>
+              </div>
+            </div>
+
+            <div class="coach-box" id="coachRecommendationText">
+              --
+            </div>
+
+            <div class="strengths-weaknesses-grid">
+              <div class="sw-column">
+                <div class="sw-title success">
+                  <span class="material-symbols-outlined text-emerald-600 text-[18px]">check_circle</span>
+                  <span>WHAT YOU DID WELL</span>
+                </div>
+                <ul class="sw-list" id="strengthsList">
+                  <!-- Real observations populated by JS -->
+                </ul>
+              </div>
+
+              <div class="sw-column">
+                <div class="sw-title warning">
+                  <span class="material-symbols-outlined text-amber-600 text-[18px]">info</span>
+                  <span>WHAT TO IMPROVE</span>
+                </div>
+                <ul class="sw-list" id="improvementsList">
+                  <!-- Real observations populated by JS -->
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Form Accuracy Graph -->
+          <div class="analysis-card">
+            <div class="analysis-card-header">
+              <div>
+                <h3 class="analysis-card-title">
+                  <span class="material-symbols-outlined text-primary text-[20px]">trending_up</span>
+                  <span>FORM ACCURACY TREND</span>
+                </h3>
+                <div class="analysis-card-subtitle">Rep-by-rep precision measured during live camera tracking</div>
+              </div>
+            </div>
+
+            <div class="chart-wrap">
+              <canvas id="formAccuracyChart"></canvas>
+              <div id="formAccuracyEmpty" style="display: none; text-align: center; padding: 60px 16px; color: #64748b; font-size: 0.9rem;">
+                <p class="font-bold text-slate-800 mb-1">Detailed movement timeline was not recorded for this workout.</p>
+                <p class="text-xs text-slate-500">Summary metrics above are fully recorded from your completed session.</p>
+              </div>
+            </div>
+
+            <!-- Overall Form & Biomechanical Metrics Row -->
+            <div style="margin-top: 20px; border-top: 1px solid #f1f5f9; padding-top: 16px;">
+              <div style="font-size: 0.8rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">BIOMECHANICAL METRICS</div>
+              <div class="biomech-grid">
+                <div class="biomech-item">
+                  <div class="biomech-label" id="bioJointLabel">Elbow Position</div>
+                  <div class="biomech-val" id="bioElbow">--</div>
+                </div>
+                <div class="biomech-item">
+                  <div class="biomech-label">Range of Motion</div>
+                  <div class="biomech-val" id="bioRom">--</div>
+                </div>
+                <div class="biomech-item">
+                  <div class="biomech-label">Eccentric Tempo</div>
+                  <div class="biomech-val" id="bioTempo">--</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Joint Angle Graph -->
+          <div class="analysis-card">
+            <div class="analysis-card-header">
+              <div>
+                <h3 class="analysis-card-title">
+                  <span class="material-symbols-outlined text-emerald-600 text-[20px]">straighten</span>
+                  <span id="jointAngleCardTitle">JOINT ANGLE &amp; RANGE OF MOTION</span>
+                </h3>
+                <div class="analysis-card-subtitle" id="jointAngleCardSub">Measured flexion and extension across completed repetitions</div>
+              </div>
+            </div>
+
+            <div class="chart-wrap">
+              <canvas id="jointAngleChart"></canvas>
+              <div id="jointAngleEmpty" style="display: none; text-align: center; padding: 60px 16px; color: #64748b; font-size: 0.9rem;">
+                <p class="font-bold text-slate-800 mb-1">Detailed movement timeline was not recorded for this workout.</p>
+                <p class="text-xs text-slate-500">Summary metrics above are fully recorded from your completed session.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Set-by-Set Performance Table -->
+          <div class="analysis-card">
+            <div class="analysis-card-header">
+              <div>
+                <h3 class="analysis-card-title">
+                  <span class="material-symbols-outlined text-primary text-[20px]">format_list_bulleted</span>
+                  <span>SET-BY-SET PERFORMANCE</span>
+                </h3>
+                <div class="analysis-card-subtitle">Measured telemetry and completion breakdown for each recorded set</div>
+              </div>
+            </div>
+
+            <div class="set-table-wrap">
+              <table class="set-table">
+                <thead>
+                  <tr>
+                    <th>SET</th>
+                    <th>REPS</th>
+                    <th>ACCURACY</th>
+                    <th>AVG ANGLE</th>
+                    <th>TEMPO</th>
+                    <th>STATUS</th>
+                  </tr>
+                </thead>
+                <tbody id="setTableBody">
+                  <!-- Populated from MongoDB -->
+                </tbody>
+              </table>
+              <div id="setTableEmpty" style="display: none; text-align: center; padding: 24px; color: #94a3b8; font-size: 0.9rem;">
+                No set-level data was stored for this session.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Consistency, Nutrition, Workout Details, Previous Comparison -->
+        <div>
+          <!-- Form Consistency Card -->
+          <div class="analysis-card">
+            <div class="analysis-card-header">
+              <div>
+                <h3 class="analysis-card-title">
+                  <span class="material-symbols-outlined text-primary text-[20px]">track_changes</span>
+                  <span>FORM CONSISTENCY</span>
+                </h3>
+                <div class="analysis-card-subtitle">Distribution of lowest, average, and peak execution</div>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; text-align: center;">
+              <div class="macro-box">
+                <div style="font-size: 0.7rem; font-weight: 700; color: #ef4444;">LOWEST</div>
+                <div style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-top: 2px;" id="consLowest">--</div>
+              </div>
+              <div class="macro-box">
+                <div style="font-size: 0.7rem; font-weight: 700; color: #2563eb;">AVERAGE</div>
+                <div style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-top: 2px;" id="consAvg">--</div>
+              </div>
+              <div class="macro-box">
+                <div style="font-size: 0.7rem; font-weight: 700; color: #10b981;">BEST</div>
+                <div style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-top: 2px;" id="consBest">--</div>
+              </div>
+            </div>
+
+            <div style="position: relative; height: 160px;">
+              <canvas id="consistencyChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Energy & Nutrition Card -->
+          <div class="analysis-card">
+            <div class="analysis-card-header">
+              <div>
+                <h3 class="analysis-card-title">
+                  <span class="material-symbols-outlined text-emerald-600 text-[20px]">restaurant</span>
+                  <span>ENERGY &amp; NUTRITION</span>
+                </h3>
+                <div class="analysis-card-subtitle">Real daily intake synchronized with workout expenditure</div>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <div class="comparison-row">
+                <span style="color: #64748b; font-weight: 500;">Food Intake:</span>
+                <span style="font-weight: 700; color: #0f172a;" id="nutFoodIntake">--</span>
+              </div>
+              <div class="comparison-row">
+                <span style="color: #64748b; font-weight: 500;">Activity Burn:</span>
+                <span style="font-weight: 700; color: #10b981;" id="nutActivityBurn">--</span>
+              </div>
+              <div class="comparison-row">
+                <span style="color: #64748b; font-weight: 500;">Net Recorded:</span>
+                <span style="font-weight: 700; color: #2563eb;" id="nutNetRecorded">--</span>
+              </div>
+            </div>
+
+            <div id="nutEmptyMsg" style="display: none; padding: 12px 0 0 0; color: #94a3b8; font-size: 0.85rem; font-style: italic;">
+              No nutrition data recorded for this day.
+            </div>
+
+            <div class="macro-grid" id="nutMacroGrid">
+              <div class="macro-box">
+                <div style="font-size: 0.7rem; font-weight: 700; color: #2563eb;">PROTEIN</div>
+                <div style="font-weight: 800; font-size: 0.95rem; margin-top: 2px;" id="nutProtein">--</div>
+              </div>
+              <div class="macro-box">
+                <div style="font-size: 0.7rem; font-weight: 700; color: #f59e0b;">CARBS</div>
+                <div style="font-weight: 800; font-size: 0.95rem; margin-top: 2px;" id="nutCarbs">--</div>
+              </div>
+              <div class="macro-box">
+                <div style="font-size: 0.7rem; font-weight: 700; color: #ec4899;">FAT</div>
+                <div style="font-weight: 800; font-size: 0.95rem; margin-top: 2px;" id="nutFat">--</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Previous Session Comparison Card -->
+          <div class="analysis-card">
+            <div class="analysis-card-header">
+              <div>
+                <h3 class="analysis-card-title">
+                  <span class="material-symbols-outlined text-primary text-[20px]">compare_arrows</span>
+                  <span>PREVIOUS SESSION COMPARISON</span>
+                </h3>
+                <div class="analysis-card-subtitle">Compared against your most recent session of the same exercise</div>
+              </div>
+            </div>
+
+            <div id="prevSessionContent" class="comparison-box">
+              <div class="comparison-row">
+                <span style="color: #64748b;">Form Accuracy</span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-weight: 600;" id="prevAccFlow">-- → --</span>
+                  <span class="delta-tag" id="prevAccDelta">--</span>
+                </div>
+              </div>
+
+              <div class="comparison-row">
+                <span style="color: #64748b;">Total Reps</span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-weight: 600;" id="prevRepsFlow">-- → --</span>
+                  <span class="delta-tag" id="prevRepsDelta">--</span>
+                </div>
+              </div>
+
+              <div class="comparison-row">
+                <span style="color: #64748b;">Average Angle</span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-weight: 600;" id="prevAngleFlow">-- → --</span>
+                  <span class="delta-tag" id="prevAngleDelta">--</span>
+                </div>
+              </div>
+            </div>
+
+            <div id="prevSessionEmpty" style="display: none; padding: 16px; background: #f8fafc; border-radius: 10px; text-align: center; color: #64748b; font-size: 0.88rem;">
+              No previous session available for this exercise.
+            </div>
+          </div>
+
+          <!-- Workout Details Metadata Card -->
+          <div class="analysis-card">
+            <div class="analysis-card-header">
+              <div>
+                <h3 class="analysis-card-title">
+                  <span class="material-symbols-outlined text-primary text-[20px]">info</span>
+                  <span>WORKOUT DETAILS</span>
+                </h3>
+                <div class="analysis-card-subtitle">Session logs recorded in database</div>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.88rem;">
+              <div class="comparison-row">
+                <span style="color: #64748b;">Exercise:</span>
+                <span style="font-weight: 600;" id="detailExercise">--</span>
+              </div>
+              <div class="comparison-row">
+                <span style="color: #64748b;">Date:</span>
+                <span style="font-weight: 600;" id="detailDate">--</span>
+              </div>
+              <div class="comparison-row">
+                <span style="color: #64748b;">Start Time:</span>
+                <span style="font-weight: 600;" id="detailStartTime">--</span>
+              </div>
+              <div class="comparison-row">
+                <span style="color: #64748b;">End Time:</span>
+                <span style="font-weight: 600;" id="detailEndTime">--</span>
+              </div>
+              <div class="comparison-row">
+                <span style="color: #64748b;">Duration:</span>
+                <span style="font-weight: 600;" id="detailDuration">--</span>
+              </div>
+              <div class="comparison-row">
+                <span style="color: #64748b;">Total Reps:</span>
+                <span style="font-weight: 600;" id="detailTotalReps">--</span>
+              </div>
+              <div class="comparison-row">
+                <span style="color: #64748b;">Total Sets:</span>
+                <span style="font-weight: 600;" id="detailTotalSets">--</span>
+              </div>
+              <div class="comparison-row">
+                <span style="color: #64748b;">Calories:</span>
+                <span style="font-weight: 600;" id="detailCalories">--</span>
+              </div>
+              <div class="comparison-row">
+                <span style="color: #64748b;">Form Accuracy:</span>
+                <span style="font-weight: 600;" id="detailAccuracy">--</span>
+              </div>
+              <div class="comparison-row">
+                <span style="color: #64748b;">Status:</span>
+                <span style="font-weight: 600;" id="detailStatus">--</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Reusable App Shell & Global Navbar Scripts -->
+  <script src="/js/navbar.js"></script>
+  <script src="/js/shell.js"></script>
+  <script src="/js/analysis.js"></script>
+</body>
+</html>

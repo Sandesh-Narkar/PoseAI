@@ -1,0 +1,739 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Progress — PoseAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#006194",
+              "on-primary": "#ffffff",
+              "primary-container": "#007bb9",
+              "on-primary-container": "#fdfcff",
+              "primary-fixed": "#cce5ff",
+              "primary-fixed-dim": "#93ccff",
+              secondary: "#006c49",
+              "on-secondary": "#ffffff",
+              "secondary-container": "#6cf8bb",
+              "on-secondary-container": "#00714d",
+              "secondary-fixed": "#6ffbbe",
+              "secondary-fixed-dim": "#4edea3",
+              tertiary: "#825100",
+              "on-tertiary": "#ffffff",
+              "tertiary-container": "#a36700",
+              "on-tertiary-container": "#fffbff",
+              "tertiary-fixed": "#ffddb8",
+              "tertiary-fixed-dim": "#ffb95f",
+              "on-tertiary-fixed": "#2a1700",
+              "on-tertiary-fixed-variant": "#653e00",
+              error: "#ba1a1a",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-error-container": "#93000a",
+              surface: "#faf8ff",
+              "on-surface": "#131b2e",
+              "surface-variant": "#dae2fd",
+              "on-surface-variant": "#3f4850",
+              outline: "#707881",
+              "outline-variant": "#bfc7d2",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-low": "#f2f3ff",
+              "surface-container": "#eaedff",
+              "surface-container-high": "#e2e7ff",
+              "surface-container-highest": "#dae2fd",
+              "surface-dim": "#d2d9f4",
+              "surface-bright": "#faf8ff",
+              background: "#faf8ff",
+              "inverse-surface": "#283044",
+              "inverse-on-surface": "#eef0ff",
+              "inverse-primary": "#93ccff",
+              "surface-tint": "#006398",
+            },
+            borderRadius: {
+              DEFAULT: "1rem",
+              lg: "2rem",
+              xl: "3rem",
+              full: "9999px",
+            },
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "ui-sans-serif", "system-ui"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui;
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <link rel="stylesheet" href="/css/navbar.css" />
+  </head>
+
+  <body
+    data-page="progress"
+    class="bg-background min-h-screen antialiased flex flex-col"
+  >
+    <div id="app-header"></div>
+
+    <main class="w-full pt-20 bg-background flex-1">
+      <div class="max-w-7xl mx-auto px-4 md:px-10 py-6 md:py-10">
+        <div class="flex flex-col w-full gap-6">
+          <div
+            class="flex flex-col md:flex-row md:items-end md:justify-between gap-3"
+          >
+            <div>
+              <h1
+                class="text-2xl md:text-3xl font-extrabold tracking-tight text-on-surface"
+              >
+                Progress
+              </h1>
+              <p class="text-sm text-on-surface-variant mt-1">
+                Your workout history, computed from stored sessions.
+              </p>
+            </div>
+            <div
+              class="flex items-center gap-1.5 p-1 bg-surface-container-high rounded-full self-start md:self-auto shadow-sm"
+            >
+              <button
+                class="px-3.5 py-1 rounded-full text-xs font-bold transition-all bg-surface-container-lowest text-primary shadow-sm"
+                data-range="7d"
+                onclick="App.setRange('7d')"
+              >
+                7 DAYS
+              </button>
+              <button
+                class="px-3.5 py-1 rounded-full text-xs font-bold transition-all text-on-surface-variant hover:text-on-surface"
+                data-range="30d"
+                onclick="App.setRange('30d')"
+              >
+                30 DAYS
+              </button>
+              <button
+                class="px-3.5 py-1 rounded-full text-xs font-bold transition-all text-on-surface-variant hover:text-on-surface"
+                data-range="90d"
+                onclick="App.setRange('90d')"
+              >
+                3 MONTHS
+              </button>
+              <button
+                class="px-3.5 py-1 rounded-full text-xs font-bold transition-all text-on-surface-variant hover:text-on-surface"
+                data-range="all"
+                onclick="App.setRange('all')"
+              >
+                ALL TIME
+              </button>
+            </div>
+          </div>
+
+          <!-- Summary cards -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4" id="summaryCards">
+            <div class="bg-surface-container-lowest rounded-3xl p-5 shadow-sm">
+              <span
+                class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold"
+                >Workouts</span
+              >
+              <p
+                id="sumWorkouts"
+                class="text-3xl font-extrabold text-on-surface mt-1"
+              >
+                —
+              </p>
+            </div>
+            <div class="bg-surface-container-lowest rounded-3xl p-5 shadow-sm">
+              <span
+                class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold"
+                >Total Reps</span
+              >
+              <p
+                id="sumReps"
+                class="text-3xl font-extrabold text-on-surface mt-1"
+              >
+                —
+              </p>
+            </div>
+            <div class="bg-surface-container-lowest rounded-3xl p-5 shadow-sm">
+              <span
+                class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold"
+                >Calories</span
+              >
+              <p
+                id="sumCalories"
+                class="text-3xl font-extrabold text-secondary mt-1"
+              >
+                —
+              </p>
+            </div>
+            <div class="bg-surface-container-lowest rounded-3xl p-5 shadow-sm">
+              <span
+                class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold"
+                >Avg Form</span
+              >
+              <p id="sumForm" class="text-3xl font-extrabold text-primary mt-1">
+                —
+              </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Daily activity chart -->
+            <div class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+              <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-bold text-on-surface">Daily Reps</h2>
+                <span
+                  id="chartRangeLabel"
+                  class="text-xs text-on-surface-variant"
+                  >Last 7 days</span
+                >
+              </div>
+              <div id="dailyChart" class="flex items-end gap-1.5 h-40"></div>
+              <div
+                id="dailyEmpty"
+                class="hidden text-center text-sm text-on-surface-variant py-10"
+              >
+                No sessions in this range yet.
+              </div>
+            </div>
+
+            <!-- Exercise breakdown -->
+            <div class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+              <div class="flex items-center justify-between mb-1">
+                <h2 class="text-lg font-bold text-on-surface">
+                  Exercise Breakdown
+                </h2>
+                <span
+                  id="breakdownRange"
+                  class="text-[11px] text-on-surface-variant"
+                ></span>
+              </div>
+              <p class="text-xs text-on-surface-variant mb-4">
+                Aggregated from your stored sessions. Select an exercise to
+                filter the session list.
+              </p>
+              <div id="breakdownList" class="flex flex-col gap-3">
+                <p class="text-sm text-on-surface-variant">No data yet.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent sessions -->
+          <div class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-lg font-bold text-on-surface">Recent Sessions</h2>
+              <button
+                id="sessionFilterChip"
+                type="button"
+                class="hidden items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed text-primary text-xs font-bold"
+              >
+                <span id="sessionFilterLabel"></span>
+                <span class="material-symbols-outlined text-[14px]">close</span>
+              </button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm" id="sessionsTable">
+                <thead>
+                  <tr
+                    class="text-left text-on-surface-variant text-[11px] uppercase tracking-wider"
+                  >
+                    <th class="pb-3 pr-3 font-bold">Date</th>
+                    <th class="pb-3 pr-3 font-bold">Exercise</th>
+                    <th class="pb-3 pr-3 font-bold text-center">Reps</th>
+                    <th class="pb-3 pr-3 font-bold text-center">Sets</th>
+                    <th class="pb-3 pr-3 font-bold text-center">Time</th>
+                    <th class="pb-3 font-bold text-right">Calories</th>
+                    <th class="pb-3 font-bold text-right pl-3">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="sessionsBody"></tbody>
+              </table>
+              <p
+                id="sessionsEmpty"
+                class="hidden text-center text-sm text-on-surface-variant py-10"
+              >
+                Complete your first workout to see it here.
+              </p>
+            </div>
+          </div>
+
+          <!-- NUTRITION & ENERGY INTELLIGENCE TRENDS -->
+          <div class="bg-surface-container-lowest rounded-3xl p-6 md:p-8 shadow-sm border border-surface-container-high/60 flex flex-col gap-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="material-symbols-outlined text-primary text-[24px]">restaurant</span>
+                  <h2 class="text-xl font-extrabold text-on-surface tracking-tight">Nutrition & Macro Trends</h2>
+                </div>
+                <p class="text-xs text-on-surface-variant">Real nutritional intake and energy expenditure tracked from stored daily records.</p>
+              </div>
+              <a href="/nutrition" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary text-on-primary text-xs font-bold shadow-sm hover:bg-primary-container transition-colors">
+                <span class="material-symbols-outlined text-[16px]">photo_camera</span>
+                Log Food in Nutrition
+              </a>
+            </div>
+
+            <!-- Summary KPI Grid -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div class="bg-surface-container-low rounded-2xl p-4">
+                <span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Weekly Avg Calories</span>
+                <p id="progAvgCal" class="text-2xl font-black text-on-surface mt-1">-- kcal</p>
+                <p class="text-[11px] text-on-surface-variant mt-0.5">Average intake</p>
+              </div>
+              <div class="bg-surface-container-low rounded-2xl p-4">
+                <span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Weekly Avg Protein</span>
+                <p id="progAvgProt" class="text-2xl font-black text-primary mt-1">-- g</p>
+                <p class="text-[11px] text-on-surface-variant mt-0.5">Recovery macro</p>
+              </div>
+              <div class="bg-surface-container-low rounded-2xl p-4">
+                <span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Logging Consistency</span>
+                <p id="progLogConsistency" class="text-2xl font-black text-secondary mt-1">-- / 7 days</p>
+                <p class="text-[11px] text-on-surface-variant mt-0.5">Logged days</p>
+              </div>
+              <div class="bg-surface-container-low rounded-2xl p-4">
+                <span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Workout Burn</span>
+                <p id="progWorkoutBurn" class="text-2xl font-black text-rose-600 mt-1">-- kcal</p>
+                <p class="text-[11px] text-on-surface-variant mt-0.5">Total recorded burn</p>
+              </div>
+            </div>
+
+            <!-- Trend Bars -->
+            <div class="bg-surface-container-low rounded-2xl p-5 border border-surface-container">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Daily Caloric Intake Trend</span>
+                <span class="text-xs font-semibold text-primary">Last 7 Days</span>
+              </div>
+              <div id="progNutritionBars" class="h-28 flex items-end justify-between gap-2 pt-2">
+                <div class="text-xs text-on-surface-variant text-center w-full py-8">Loading nutrition trends…</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div id="app-footer"></div>
+    <script src="js/shell.js"></script>
+    <script>
+      "use strict";
+
+      const App = (function () {
+        let range = "7d";
+        // Session data + optional exercise filter (both come from /api/progress).
+        let allSessions = [];
+        let activeExerciseFilter = null;
+
+        function rangeLabel() {
+          return range === "7d"
+            ? "Last 7 days"
+            : range === "30d"
+              ? "Last 30 days"
+              : range === "90d"
+                ? "Last 90 days"
+                : "All time";
+        }
+
+        function fmtDuration(seconds) {
+          const h = Math.floor(seconds / 3600);
+          const m = Math.floor((seconds % 3600) / 60);
+          const s = Math.floor(seconds % 60);
+          return h
+            ? h +
+                ":" +
+                String(m).padStart(2, "0") +
+                ":" +
+                String(s).padStart(2, "0")
+            : String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+        }
+
+        function parseYMD(iso) {
+          if (!iso) return null;
+          const parts = String(iso).split("-");
+          if (parts.length === 3) {
+            return new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+          }
+          return new Date(iso);
+        }
+
+        function fmtDate(iso) {
+          const d = parseYMD(iso);
+          if (!d || isNaN(d.getTime())) return iso || "--";
+          return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+        }
+
+        function fmtDateFull(iso) {
+          const d = parseYMD(iso);
+          if (!d || isNaN(d.getTime())) return iso || "--";
+          return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+        }
+
+        function setRange(value) {
+          range = value;
+          document.querySelectorAll("[data-range]").forEach(function (btn) {
+            const active = btn.getAttribute("data-range") === value;
+            btn.className = active
+              ? "px-3.5 py-1 rounded-full text-xs font-bold transition-all bg-surface-container-lowest text-primary shadow-sm"
+              : "px-3.5 py-1 rounded-full text-xs font-bold transition-all text-on-surface-variant hover:text-on-surface";
+          });
+          load();
+        }
+
+        function renderSummary(totals) {
+          document.getElementById("sumWorkouts").textContent =
+            totals.total_workouts ?? 0;
+          document.getElementById("sumReps").textContent =
+            totals.total_reps ?? 0;
+          document.getElementById("sumCalories").textContent = Math.round(
+            totals.total_calories ?? 0,
+          );
+          const best = Number(totals.best_form_score) || 0;
+          document.getElementById("sumForm").textContent =
+            best > 0 ? best + "%" : "--";
+        }
+
+        function renderDaily(days) {
+          const chart = document.getElementById("dailyChart");
+          const empty = document.getElementById("dailyEmpty");
+          chart.innerHTML = "";
+          empty.classList.add("hidden");
+
+          if (!days || !days.length || days.every(function (d) { return !(d.reps > 0); })) {
+            chart.classList.add("hidden");
+            empty.classList.remove("hidden");
+            empty.textContent = "No workout data recorded in this range.";
+            return;
+          }
+
+          chart.classList.remove("hidden");
+          const max = Math.max(1, ...days.map(function (d) { return d.reps || 0; }));
+
+          // Determine label step to prevent label collision on 30d/90d ranges
+          const count = days.length;
+          const labelStep = count > 35 ? Math.ceil(count / 7) : count > 14 ? Math.ceil(count / 6) : 1;
+
+          days.forEach(function (day, index) {
+            const wrap = document.createElement("div");
+            wrap.className = "flex-1 flex flex-col items-center gap-1 min-w-0 h-full justify-end group relative cursor-pointer";
+            const value = day.reps || 0;
+            const heightPct = value ? Math.max(8, Math.round((value / max) * 100)) : 4;
+            const fullDate = fmtDateFull(day.date);
+            const calDate = fmtDate(day.date);
+            const showLabel = index === 0 || index === count - 1 || index % labelStep === 0;
+
+            let alignClass = "left-1/2 -translate-x-1/2";
+            if (index <= 1) {
+              alignClass = "left-0 translate-x-0";
+            } else if (index >= count - 2) {
+              alignClass = "right-0 left-auto translate-x-0";
+            }
+
+            // Build exercises tooltip HTML
+            let exRows = "";
+            if (day.exercises && Object.keys(day.exercises).length > 0) {
+              const entries = Object.entries(day.exercises);
+              const nonZero = entries.filter(function (p) { return p[1] > 0; });
+              const list = nonZero.length > 0 ? nonZero : entries;
+              exRows = list
+                .map(function (pair) {
+                  return (
+                    '<div class="flex justify-between items-center text-[10px] text-slate-300 font-medium py-0.5">' +
+                    '<span class="truncate mr-2">' + escapeHtml(pair[0]) + '</span>' +
+                    '<span class="font-bold text-white shrink-0">&mdash; ' + pair[1] + '</span>' +
+                    '</div>'
+                  );
+                })
+                .join("");
+            } else if (value > 0) {
+              exRows = '<div class="text-[10px] text-slate-400 py-0.5">' + value + ' reps logged</div>';
+            }
+
+            const tooltipHtml =
+              '<div class="absolute bottom-full ' + alignClass + ' mb-2 hidden group-hover:flex flex-col bg-slate-900 text-white text-[11px] p-3 rounded-xl shadow-2xl border border-slate-700/80 z-50 min-w-[150px] max-w-[220px] pointer-events-none whitespace-normal backdrop-blur-md transition-opacity">' +
+              '<div class="text-xs font-bold text-slate-100 pb-1.5 border-b border-slate-800 tracking-wide">' + fullDate + '</div>' +
+              '<div class="grid grid-cols-2 gap-1.5 pt-2 pb-1 text-center">' +
+              '<div class="bg-slate-800/90 rounded-lg p-1.5 border border-slate-700/60">' +
+              '<div class="text-[9px] uppercase font-extrabold text-slate-400 tracking-wider">TOTAL REPS</div>' +
+              '<div class="text-sm font-black text-sky-400 mt-0.5">' + value + '</div>' +
+              '</div>' +
+              '<div class="bg-slate-800/90 rounded-lg p-1.5 border border-slate-700/60">' +
+              '<div class="text-[9px] uppercase font-extrabold text-slate-400 tracking-wider">WORKOUTS</div>' +
+              '<div class="text-sm font-black text-emerald-400 mt-0.5">' + (day.workouts || (value > 0 ? 1 : 0)) + '</div>' +
+              '</div>' +
+              '</div>' +
+              (exRows
+                ? '<div class="mt-1.5 pt-1.5 border-t border-slate-800">' +
+                  '<div class="text-[9px] uppercase font-extrabold text-slate-400 tracking-wider mb-1">EXERCISES</div>' +
+                  '<div class="flex flex-col">' + exRows + '</div>' +
+                  '</div>'
+                : '') +
+              '</div>';
+
+            wrap.innerHTML =
+              '<div class="w-full flex items-end justify-center flex-1 relative">' +
+              tooltipHtml +
+              '<div class="w-full max-w-[28px] rounded-lg transition-all ' +
+              (value ? "bg-primary group-hover:bg-primary-container" : "bg-surface-container-high") +
+              '" style="height:' + heightPct + '%"></div>' +
+              '</div>' +
+              '<span class="text-[10px] font-semibold text-on-surface-variant truncate w-full text-center ' +
+              (showLabel ? "" : "opacity-0") +
+              '">' +
+              calDate +
+              '</span>';
+
+            chart.appendChild(wrap);
+          });
+
+          document.getElementById("chartRangeLabel").textContent =
+            range === "7d"
+              ? "Last 7 days"
+              : range === "30d"
+                ? "Last 30 days"
+                : range === "90d"
+                  ? "Last 90 days"
+                  : "All time";
+        }
+
+        function renderBreakdown(breakdown) {
+          const list = document.getElementById("breakdownList");
+          list.innerHTML = "";
+          if (!breakdown || !breakdown.length) {
+            list.innerHTML =
+              '<p class="text-sm text-on-surface-variant">No data yet.</p>';
+            return;
+          }
+          breakdown.slice(0, 6).forEach(function (entry) {
+            const workouts = Number(entry.total_workouts) || 0;
+            const reps = Number(entry.total_reps) || 0;
+            const kcal = Math.round(Number(entry.total_calories) || 0);
+            const avgForm = Number(entry.average_form_score) || 0;
+            const hasForm = avgForm > 0;
+
+            const row = document.createElement("button");
+            row.type = "button";
+            row.className =
+              "text-left w-full rounded-2xl p-3 hover:bg-surface-container-low transition-colors";
+            row.innerHTML =
+              '<div class="flex items-center justify-between text-sm mb-1 gap-2">' +
+              '<span class="font-semibold text-on-surface">' +
+              escapeHtml(entry.exercise) +
+              "</span>" +
+              '<span class="text-on-surface-variant text-right">' +
+              workouts +
+              " workouts &middot; " +
+              reps +
+              " reps &middot; " +
+              kcal +
+              " kcal</span></div>" +
+              (hasForm
+                ? '<div class="w-full bg-surface-container-high rounded-full h-2 overflow-hidden"><div class="h-full bg-primary rounded-full" style="width:' +
+                  Math.min(100, Math.round(avgForm)) +
+                  '%"></div></div>' +
+                  '<div class="flex justify-between text-[11px] text-on-surface-variant mt-0.5"><span>Average form</span><span>' +
+                  avgForm +
+                  "%</span></div>"
+                : '<div class="w-full bg-surface-container-high rounded-full h-2 overflow-hidden"></div>' +
+                  '<div class="flex justify-between text-[11px] text-on-surface-variant mt-0.5"><span>FORM DATA NOT AVAILABLE</span><span>' +
+                  workouts +
+                  " sessions</span></div>");
+
+            row.addEventListener("click", function () {
+              activeExerciseFilter =
+                activeExerciseFilter === entry.exercise ? null : entry.exercise;
+              applySessionFilter();
+            });
+            list.appendChild(row);
+          });
+        }
+
+        function renderSessions(sessions) {
+          const body = document.getElementById("sessionsBody");
+          const empty = document.getElementById("sessionsEmpty");
+          body.innerHTML = "";
+          empty.classList.add("hidden");
+          const rows = (sessions || []).filter(function (s) {
+            return (
+              !activeExerciseFilter ||
+              (s.exercise || "") === activeExerciseFilter
+            );
+          });
+          if (!rows.length) {
+            empty.textContent =
+              sessions && sessions.length
+                ? "No sessions for " + activeExerciseFilter + " in this range."
+                : "Complete your first workout to see it here.";
+            empty.classList.remove("hidden");
+            document.getElementById("sessionsTable").classList.add("hidden");
+            return;
+          }
+          document.getElementById("sessionsTable").classList.remove("hidden");
+          rows.forEach(function (s) {
+            const row = document.createElement("tr");
+            row.className = "border-t border-surface-container hover:bg-surface-container-low transition-colors";
+            row.innerHTML =
+              '<td class="py-3 pr-3 whitespace-nowrap text-on-surface-variant">' +
+              fmtDate(s.date) +
+              "</td>" +
+              '<td class="py-3 pr-3 font-medium text-on-surface">' +
+              escapeHtml(s.exercise || "") +
+              "</td>" +
+              '<td class="py-3 pr-3 text-center text-on-surface">' +
+              s.reps +
+              "</td>" +
+              '<td class="py-3 pr-3 text-center text-on-surface">' +
+              s.sets +
+              "</td>" +
+              '<td class="py-3 pr-3 text-center text-on-surface">' +
+              fmtDuration(s.duration || 0) +
+              "</td>" +
+              '<td class="py-3 text-right text-secondary font-semibold">' +
+              Math.round(s.calories || 0) +
+              "</td>" +
+              '<td class="py-3 text-right pl-3">' +
+              (s.id
+                ? '<a href="/analysis?workoutId=' + encodeURIComponent(s.id) + '" class="text-primary hover:underline text-xs font-bold inline-flex items-center gap-0.5">Analysis <span class="material-symbols-outlined text-[13px]">arrow_forward</span></a>'
+                : "") +
+              "</td>";
+            body.appendChild(row);
+          });
+        }
+
+        // Applies the exercise filter chosen in the breakdown list.
+        function applySessionFilter() {
+          const chip = document.getElementById("sessionFilterChip");
+          const label = document.getElementById("sessionFilterLabel");
+          if (chip && label) {
+            if (activeExerciseFilter) {
+              label.textContent = activeExerciseFilter;
+              chip.classList.remove("hidden");
+              chip.classList.add("inline-flex");
+            } else {
+              chip.classList.add("hidden");
+              chip.classList.remove("inline-flex");
+            }
+          }
+          renderSessions(allSessions);
+        }
+
+        async function load() {
+          try {
+            const res = await window.api.get("/api/progress?range=" + range);
+            const data = res.data || {};
+            allSessions = data.recent_sessions || [];
+            renderSummary(data.totals || {});
+            renderDaily(data.days || []);
+            renderBreakdown(data.exercise_breakdown || []);
+            document.getElementById("breakdownRange").textContent =
+              rangeLabel();
+            applySessionFilter();
+          } catch (err) {
+            document.getElementById("sessionsEmpty").textContent =
+              "Failed to load progress: " + err.message;
+            document.getElementById("sessionsEmpty").classList.remove("hidden");
+          }
+        }
+
+        return { setRange, load };
+      })();
+
+      function escapeHtml(str) {
+        return String(str).replace(/[&<>"']/g, function (c) {
+          return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;",
+          }[c];
+        });
+      }
+
+        async function loadNutritionTrends() {
+          const avgCalEl = document.getElementById("progAvgCal");
+          const avgProtEl = document.getElementById("progAvgProt");
+          const consEl = document.getElementById("progLogConsistency");
+          const burnEl = document.getElementById("progWorkoutBurn");
+          const barsEl = document.getElementById("progNutritionBars");
+          if (!avgCalEl || !barsEl) return;
+
+            const getUrl = typeof window.getApiUrl === "function" ? window.getApiUrl : (p) => p;
+            const res = await fetch(getUrl("/api/nutrition/trends?days=7"), { credentials: "include" });
+            const json = await res.json();
+            if (!json.success || !json.data) return;
+
+            const d = json.data;
+            avgCalEl.textContent = `${(d.weekly_avg_calories || 0).toLocaleString()} kcal`;
+            avgProtEl.textContent = `${(d.weekly_avg_protein || 0)} g`;
+            consEl.textContent = `${d.logging_consistency_days || 0} / 7 days`;
+            burnEl.textContent = `${(d.total_workout_kcal || 0).toLocaleString()} kcal`;
+
+            const history = d.history || [];
+            if (!history.length) {
+              barsEl.innerHTML = `<div class="text-xs text-on-surface-variant text-center w-full py-8">No nutrition records logged yet.</div>`;
+              return;
+            }
+
+            const maxCal = Math.max(...history.map((h) => h.totals?.calories_kcal || 0), 2000);
+            barsEl.innerHTML = history.map((h) => {
+              const cal = h.totals?.calories_kcal || 0;
+              const hPct = Math.min(100, Math.max(8, Math.round((cal / maxCal) * 100)));
+              const dayStr = fmtDate(h.date);
+              const fullDate = fmtDateFull(h.date);
+              return `
+                <div class="flex-1 flex flex-col items-center gap-1 group relative min-w-0">
+                  <div class="w-full flex items-end justify-center h-20">
+                    <div class="w-full max-w-[28px] bg-primary group-hover:bg-primary-container rounded-t-md transition-all relative" style="height: ${hPct}%;">
+                      <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:flex flex-col gap-0.5 bg-surface-container-highest text-on-surface text-[10px] font-semibold py-1.5 px-2 rounded-lg shadow-md whitespace-nowrap z-30 border border-surface-container-high pointer-events-none">
+                        <span class="font-bold text-on-surface">${fullDate}</span>
+                        <span class="text-primary font-bold">${cal} kcal</span>
+                        <span class="text-[9px] text-on-surface-variant">P: ${h.totals?.protein_g || 0}g &middot; C: ${h.totals?.carbs_g || 0}g &middot; F: ${h.totals?.fat_g || 0}g</span>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="text-[10px] text-on-surface-variant font-bold truncate w-full text-center">${dayStr}</span>
+                </div>
+              `;
+            }).join("");
+          } catch (_) {
+            /* graceful fallback */
+          }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+          const chip = document.getElementById("sessionFilterChip");
+          if (chip) {
+            chip.addEventListener("click", function () {
+              activeExerciseFilter = null;
+              applySessionFilter();
+            });
+          }
+          App.load();
+          loadNutritionTrends();
+          // Refresh the aggregates when the tab regains focus, so a workout
+          // finished in another tab is reflected without a manual reload.
+          document.addEventListener("visibilitychange", function () {
+            if (!document.hidden) {
+              App.load();
+              loadNutritionTrends();
+            }
+          });
+        });
+    </script>
+  </body>
+</html>

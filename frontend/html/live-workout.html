@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet">
+  <style>
+    @layer base {
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        overscroll-behavior: none;
+      }
+
+      main>:first-child {
+        margin-top: 0 !important;
+      }
+
+      main>:last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script
+    id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-surface-variant": "#3f4850", "on-secondary-container": "#00714d", "primary": "#006194", "on-surface": "#131b2e", "surface-container-low": "#f2f3ff", "outline": "#707881", "secondary": "#006c49", "on-secondary-fixed-variant": "#005236", "surface-container-highest": "#dae2fd", "on-tertiary-fixed-variant": "#653e00", "surface-tint": "#006398", "error-container": "#ffdad6", "surface-container": "#eaedff", "on-primary": "#ffffff", "primary-fixed-dim": "#93ccff", "inverse-primary": "#93ccff", "on-secondary-fixed": "#002113", "secondary-container": "#6cf8bb", "surface-dim": "#d2d9f4", "surface": "#faf8ff", "on-secondary": "#ffffff", "surface-variant": "#dae2fd", "surface-bright": "#faf8ff", "tertiary-container": "#a36700", "on-primary-fixed": "#001d31", "inverse-on-surface": "#eef0ff", "on-primary-fixed-variant": "#004b73", "error": "#ba1a1a", "primary-container": "#007bb9", "inverse-surface": "#283044", "tertiary": "#825100", "primary-fixed": "#cce5ff", "on-tertiary-container": "#fffbff", "on-tertiary": "#ffffff", "tertiary-fixed": "#ffddb8", "surface-container-lowest": "#ffffff", "secondary-fixed-dim": "#4edea3", "on-error-container": "#93000a", "on-error": "#ffffff", "on-tertiary-fixed": "#2a1700", "on-background": "#131b2e", "outline-variant": "#bfc7d2", "background": "#faf8ff", "secondary-fixed": "#6ffbbe", "tertiary-fixed-dim": "#ffb95f", "on-primary-container": "#fdfcff", "surface-container-high": "#e2e7ff" }, "borderRadius": { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" }, "spacing": { "space-xl": "2rem", "margin-mobile": "1rem", "gutter-mobile": "1rem", "margin": "2.5rem", "space-lg": "1.5rem", "gutter": "1.5rem", "space-md": "1rem", "space-xs": "0.25rem", "space-2xl": "3rem", "space-sm": "0.5rem" }, "fontFamily": { "label-md": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "metric-stat": ["Plus Jakarta Sans"], "display-lg-mobile": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "caption": ["Plus Jakarta Sans"], "display-lg": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"] }, "fontSize": { "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "metric-stat": ["32px", { "lineHeight": "36px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "display-lg-mobile": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "caption": ["11px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500" }], "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.03em", "fontWeight": "700" }], "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-md": ["22px", { "lineHeight": "30px", "letterSpacing": "-0.015em", "fontWeight": "600" }] } } } };</script>
+</head>
+
+<body class="bg-background font-body-md text-on-surface min-h-screen antialiased flex flex-col">
+  <header
+    class="fixed top-0 left-0 right-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+    <div class="h-20 max-w-7xl mx-auto px-margin-mobile md:px-margin flex items-center justify-between gap-space-md">
+      <div class="flex items-center gap-space-lg"><a class="flex items-center gap-space-sm focus:outline-none"
+          href="index.html"><img alt="PoseAI Logo" class="h-8 w-auto object-contain"
+            src="https://lh3.googleusercontent.com/aida/AEtjO1V-v98pUA9o4U6cX1--icYSOIleTEKxDWirF2zkkoLGotbzGV3ou0HBF2BtboSeEoQ-xSTjdnZLLeoW_qjDzoGXOpvQaRduN9-Jb1X9l2Jf3ejdOWIjb0rrmHHRC4AanbvLJYwYoiIHS3auOiGKsOaH34upGvpKLjhp4NoC8xBltTmnNYYw6KNwdUrA3tPND7tD9S5TIBmTRt1E7SQDRgMAJaLwGJLqFteSQqoBJeHQ8w7T7HSibZ0Yw4I"><span
+            class="font-headline-sm text-headline-sm tracking-tight text-on-surface">PoseAI</span></a>
+        <nav class="hidden lg:flex items-center gap-space-xs bg-surface-container-low p-space-xs rounded-full"><a
+            class="px-space-md py-space-xs rounded-full font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            href="index.html">Dashboard</a><a aria-current="page"
+            class="px-space-md py-space-xs rounded-full transition-colors bg-primary-container text-on-primary-container font-label-lg text-label-lg shadow-sm"
+            href="workout.html">Workout</a><a
+            class="px-space-md py-space-xs rounded-full font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            href="analysis.html">Analysis</a><a
+            class="px-space-md py-space-xs rounded-full font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            href="progress.html">Progress</a><a
+            class="px-space-md py-space-xs rounded-full font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            href="game.html">Game</a>
+          <div class="relative group"><button
+              class="flex items-center gap-1 px-space-md py-space-xs rounded-full font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors focus:outline-none"
+              type="button"><span class="">More</span><span
+                class="material-symbols-outlined text-[18px]">expand_more</span></button>
+            <div
+              class="absolute left-0 top-full mt-2 w-48 bg-surface-container-lowest rounded-xl shadow-[0_8px_32px_0_rgba(15,23,42,0.08)] py-2 hidden group-hover:block transition-all">
+              <a class="block px-4 py-2 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+                href="exercises.html">Exercises</a><a
+                class="block px-4 py-2 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+                href="achievements.html">Achievements</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <div class="flex items-center gap-space-sm md:gap-space-md">
+        <div
+          class="hidden md:flex items-center bg-surface-container-low rounded-full px-space-md py-space-xs text-on-surface-variant focus-within:ring-2 focus-within:ring-primary focus-within:bg-surface-container-lowest transition-all">
+          <span class="material-symbols-outlined text-[20px] mr-2 text-outline">search</span><input
+            class="bg-transparent border-none outline-none font-body-md text-body-md text-on-surface placeholder:text-outline w-44 lg:w-56"
+            placeholder="Search telemetry, plans..." type="text">
+        </div>
+        <div
+          class="hidden sm:flex items-center gap-1 px-space-sm py-1 rounded-full bg-surface-container border border-surface-container-high">
+          <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span
+            class="font-caption text-caption text-secondary uppercase tracking-wider font-bold">CV LIVE</span>
+        </div>
+        <button aria-label="Notifications"
+          class="relative w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors focus:outline-none"
+          type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span
+            class="absolute top-2 right-2 w-2 h-2 rounded-full bg-primary ring-2 ring-surface-container-lowest"></span></button>
+        <div class="relative group"><button
+            class="flex items-center gap-2 p-1 rounded-full hover:bg-surface-container-low transition-colors cursor-pointer focus:outline-none"
+            type="button"><img alt="Profile avatar"
+              class="w-8 h-8 rounded-full object-cover ring-2 ring-surface-container-high"
+              src="https://lh3.googleusercontent.com/aida/AEtjO1WnuN-mYomLjxOWLN7fMF6gDr7Pa7tydqC8E4dSlHpga5AAakpxSq7jKYrdQ-TXaITSo3nfNVc4IpWjAsuWSqskrfQ25cDmCwOll-xzr5uYrtI0KKPLgq-5iYQ3jfI1kwvrxrgb3zBCfbZHyzP2EY_GAi4lSRuEX60dOe7e93BAOJF4nP4loanniS4TA8ZRSzx5y2yNWouPfqwK2VrxSmkM9fsZ58xPWN4RlHLWqCpr1c-uQffRSEhhtPc">
+            <div class="hidden xl:flex flex-col text-left"><span
+                class="font-label-md text-label-md text-on-surface leading-none">Sandesh</span><span
+                class="font-caption text-caption text-on-surface-variant leading-tight">Pro Member</span></div><span
+              class="material-symbols-outlined text-[18px] text-outline hidden xl:inline">expand_more</span>
+          </button>
+          <div
+            class="absolute right-0 top-full mt-2 w-48 bg-surface-container-lowest rounded-xl shadow-[0_8px_32px_0_rgba(15,23,42,0.08)] py-2 hidden group-hover:block transition-all z-50">
+            <a class="block px-4 py-2 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+              href="profile.html">Profile</a><a
+              class="block px-4 py-2 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+              href="#settings">Settings</a>
+            <div class="h-px bg-surface-container-high my-1"></div><a
+              class="block px-4 py-2 font-label-md text-label-md text-error hover:bg-error-container/20"
+              href="login.html">Logout</a>
+          </div>
+        </div><button aria-label="Toggle Menu"
+          class="lg:hidden w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors focus:outline-none"
+          onclick="document.getElementById('mobile-drawer').classList.toggle('hidden')" type="button"><span
+            class="material-symbols-outlined text-[24px]">menu</span></button>
+      </div>
+    </div>
+    <div
+      class="hidden lg:hidden border-t border-surface-container-high bg-surface-container-lowest px-margin-mobile py-space-lg shadow-lg"
+      id="mobile-drawer">
+      <nav class="flex flex-col gap-space-xs"><a
+          class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+          href="index.html">Dashboard</a><a aria-current="page"
+          class="px-space-md py-space-sm rounded-lg bg-primary-container text-on-primary-container font-bold font-label-lg text-label-lg"
+          href="workout.html">Workout</a><a
+          class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+          href="analysis.html">Analysis</a><a
+          class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+          href="progress.html">Progress</a><a
+          class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+          href="game.html">Game</a><a
+          class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+          href="exercises.html">Exercises</a><a
+          class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+          href="achievements.html">Achievements</a>
+        <div class="h-px bg-surface-container-high my-1"></div><a
+          class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+          href="profile.html">Profile</a><a
+          class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+          href="#settings">Settings</a><a
+          class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-error hover:bg-error-container/20"
+          href="login.html">Logout</a>
+      </nav>
+    </div>
+  </header>
+  <main class="w-full pt-20 bg-background flex-1">
+    <div class="max-w-7xl mx-auto px-margin-mobile md:px-margin py-space-lg md:py-space-xl">
+      <div class="flex flex-col w-full gap-space-lg">
+        <!-- TOP STATUS & SESSION HEADER -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+          <div class="flex flex-col">
+            <div class="flex items-center gap-space-sm mb-1">
+              <span
+                class="inline-flex items-center justify-center px-space-sm py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-caption text-caption uppercase tracking-wider font-bold">Session
+                Active</span>
+              <span class="font-caption text-caption text-outline">Protocol #BC-2049</span>
+            </div>
+            <h1 class="font-headline-lg text-headline-lg tracking-tight text-on-surface">BICEP CURL SESSION</h1>
+            <p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1.5 mt-0.5">
+              <span class="material-symbols-outlined text-[16px] text-primary">grain</span>
+              Real-time AI form tracking • 33 Joint Landmarks Detected
+            </p>
+          </div>
+          <!-- Live Telemetry Status & Simulator Switcher -->
+          <div class="flex flex-wrap items-center gap-space-sm self-start md:self-auto">
+            <div
+              class="flex items-center gap-space-sm bg-surface-container-lowest px-space-md py-space-xs rounded-full shadow-sm">
+              <span class="relative flex h-2.5 w-2.5">
+                <span
+                  class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-secondary"></span>
+              </span>
+              <span class="font-label-md text-label-md text-on-surface">CAMERA LIVE</span>
+              <span class="font-caption text-caption text-outline font-medium">30 FPS</span>
+              <span class="text-outline-variant text-[12px]">•</span>
+              <span class="font-caption text-caption text-secondary font-semibold">&lt; 12ms Edge CV</span>
+            </div>
+            <!-- Flask State Simulator Dropdown -->
+            <div class="relative">
+              <button
+                class="flex items-center gap-1 bg-surface-container px-space-md py-space-xs rounded-full font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                id="simToggleBtn" type="button">
+                <span class="material-symbols-outlined text-[16px] text-primary">tune</span>
+                <span id="currentSimStateLabel" class="">State: Live</span>
+                <span class="material-symbols-outlined text-[16px]">expand_more</span>
+              </button>
+              <div class="hidden absolute right-0 mt-2 w-48 bg-surface-container-lowest rounded-xl shadow-xl py-2 z-40"
+                id="simMenu">
+                <button
+                  class="w-full text-left px-4 py-2 font-label-md text-label-md text-on-surface hover:bg-surface-container-low flex items-center gap-2"
+                  onclick="setSessionState('live')" type="button">
+                  <span class="w-2 h-2 rounded-full bg-secondary"></span> Live Tracking
+                </button>
+                <button
+                  class="w-full text-left px-4 py-2 font-label-md text-label-md text-on-surface hover:bg-surface-container-low flex items-center gap-2"
+                  onclick="setSessionState('paused')" type="button">
+                  <span class="w-2 h-2 rounded-full bg-tertiary"></span> Paused
+                </button>
+                <button
+                  class="w-full text-left px-4 py-2 font-label-md text-label-md text-on-surface hover:bg-surface-container-low flex items-center gap-2"
+                  onclick="openFinishModal()" type="button">
+                  <span class="w-2 h-2 rounded-full bg-primary"></span> Finish Dialog
+                </button>
+                <button
+                  class="w-full text-left px-4 py-2 font-label-md text-label-md text-on-surface hover:bg-surface-container-low flex items-center gap-2"
+                  onclick="showCompletedModal()" type="button">
+                  <span class="w-2 h-2 rounded-full bg-secondary-container"></span> Workout Complete
+                </button>
+                <button
+                  class="w-full text-left px-4 py-2 font-label-md text-label-md text-error hover:bg-error-container/30 flex items-center gap-2"
+                  onclick="setSessionState('disconnected')" type="button">
+                  <span class="w-2 h-2 rounded-full bg-error"></span> Disconnected
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- MAIN WORKOUT AREA (2-Column Grid) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-stretch">
+          <!-- LEFT COLUMN: Large Camera & Skeleton Viewport (7 cols) -->
+          <div class="lg:col-span-7 flex flex-col">
+            <div
+              class="relative w-full aspect-[4/3] sm:aspect-[16/10] bg-inverse-surface rounded-3xl overflow-hidden shadow-md flex items-center justify-center group"
+              id="cameraViewportCard">
+              <!-- Live Video Feed / Image -->
+              <img alt="Live AI Pose Tracking Stream" class="w-full h-full object-cover object-center select-none"
+                id="videoFeed"
+                src="https://lh3.googleusercontent.com/aida/AEtjO1XMCqmIgIGxttNfhM3ODXkCGhaV8apptMHVlRUH-_VccIfUF898Td7PoryVOp_UBa5g8sPJjzvzQ4oLh7PBmkLkKA4C08xD_r3DGd2m92WA34oScAVAuHNxhCEg4seIqNuxeuoz4ovsWfK8mLSHzV63X5xpiRdWT88Jmq7MlZMarQ3dFQ5Kjx6EvXx09PuhmfhORoCBicmA5I9Yx2bQb9RUixfVvNHurZt4BOrDW5s2yPv1zL-7f_mQsBA">
+              <!-- Biomechanical Skeleton SVG Wireframe Overlay -->
+              <svg class="absolute inset-0 w-full h-full pointer-events-none" id="poseOverlaySvg"
+                preserveAspectRatio="xMidYMid slice" viewBox="0 0 800 600">
+                <!-- Subtle Glow Filter for Nodes -->
+                <defs>
+                  <filter height="200%" id="cyanGlow" width="200%" x="-50%" y="-50%">
+                    <feGaussianBlur result="blur" stdDeviation="3"></feGaussianBlur>
+                    <feMerge>
+                      <feMergeNode in="blur"></feMergeNode>
+                      <feMergeNode in="SourceGraphic"></feMergeNode>
+                    </feMerge>
+                  </filter>
+                  <linearGradient id="vectorGrad" x1="0%" x2="100%" y1="0%" y2="100%">
+                    <stop offset="0%" stop-color="#93ccff" stop-opacity="0.9"></stop>
+                    <stop offset="100%" stop-color="#4edea3" stop-opacity="0.9"></stop>
+                  </linearGradient>
+                </defs>
+                <!-- Kinematic Skeleton Bones (Synthesized dynamic coordinates matching curl) -->
+                <g opacity="0.95" stroke="url(#vectorGrad)" stroke-linecap="round" stroke-width="2.5">
+                  <!-- Torso & Clavicle -->
+                  <line x1="410" x2="455" y1="160" y2="155"></line>
+                  <line x1="410" x2="418" y1="160" y2="280"></line>
+                  <line x1="455" x2="480" y1="155" y2="275"></line>
+                  <line x1="418" x2="480" y1="280" y2="275"></line>
+                  <!-- Left Arm (Active Bicep Curl) -->
+                  <line stroke-dasharray="2 1" x1="410" x2="385" y1="160" y2="235"></line>
+                  <line stroke="#6cf8bb" stroke-width="3.5" x1="385" x2="320" y1="235" y2="175"></line>
+                  <!-- Right Arm (Stabilized) -->
+                  <line x1="455" x2="520" y1="155" y2="245"></line>
+                  <line x1="520" x2="528" y1="245" y2="330"></line>
+                  <!-- Left Leg -->
+                  <line x1="418" x2="405" y1="280" y2="415"></line>
+                  <line x1="405" x2="395" y1="415" y2="540"></line>
+                  <!-- Right Leg -->
+                  <line x1="480" x2="495" y1="275" y2="410"></line>
+                  <line x1="495" x2="510" y1="410" y2="538"></line>
+                </g>
+                <!-- Joint Landmark Nodes -->
+                <g filter="url(#cyanGlow)">
+                  <!-- Left Shoulder -->
+                  <circle cx="410" cy="160" fill="#ffffff" r="5" stroke="#007bb9" stroke-width="2"></circle>
+                  <!-- Left Elbow (Focus Joint) -->
+                  <circle cx="385" cy="235" fill="#6cf8bb" r="7" stroke="#006c49" stroke-width="2.5"></circle>
+                  <!-- Left Wrist -->
+                  <circle cx="320" cy="175" fill="#93ccff" r="6" stroke="#006194" stroke-width="2"></circle>
+                  <!-- Stabilized Nodes -->
+                  <circle cx="455" cy="155" fill="#ffffff" r="4.5" stroke="#007bb9" stroke-width="2"></circle>
+                  <circle cx="520" cy="245" fill="#ffffff" r="4.5" stroke="#007bb9" stroke-width="2"></circle>
+                  <circle cx="528" cy="330" fill="#ffffff" r="4.5" stroke="#007bb9" stroke-width="2"></circle>
+                  <circle cx="418" cy="280" fill="#ffffff" r="5" stroke="#007bb9" stroke-width="2"></circle>
+                  <circle cx="480" cy="275" fill="#ffffff" r="5" stroke="#007bb9" stroke-width="2"></circle>
+                  <circle cx="405" cy="415" fill="#ffffff" r="5" stroke="#007bb9" stroke-width="2"></circle>
+                  <circle cx="495" cy="410" fill="#ffffff" r="5" stroke="#007bb9" stroke-width="2"></circle>
+                  <circle cx="395" cy="540" fill="#ffffff" r="5" stroke="#007bb9" stroke-width="2"></circle>
+                  <circle cx="510" cy="538" fill="#ffffff" r="5" stroke="#007bb9" stroke-width="2"></circle>
+                </g>
+                <!-- Active Joint Angle Arc at Elbow -->
+                <path d="M 370 215 A 30 30 0 0 1 398 210" fill="none" stroke="#6cf8bb" stroke-linecap="round"
+                  stroke-width="3"></path>
+                <!-- Angle Annotation Badge floating above elbow -->
+                <g transform="translate(325, 245)">
+                  <rect fill="#131b2e" fill-opacity="0.85" height="28" rx="8" stroke="#6cf8bb" stroke-width="1.2"
+                    width="84"></rect>
+                  <text fill="#fdfcff" font-family="Plus Jakarta Sans" font-size="12" font-weight="700"
+                    text-anchor="middle" x="42" y="18">Elbow: 91°</text>
+                </g>
+              </svg>
+              <!-- Top HUD Elements: Real-Time Accuracy Badge -->
+              <div class="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none">
+                <div
+                  class="flex items-center gap-2 bg-inverse-surface/85 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-lg pointer-events-auto">
+                  <span class="w-2.5 h-2.5 rounded-full bg-secondary-container animate-pulse"></span>
+                  <span class="font-label-md text-label-md text-on-primary font-bold">FORM ACCURACY: 94%</span>
+                  <span class="hidden sm:inline font-caption text-caption text-secondary-fixed font-semibold">•
+                    Bilateral elbow locked</span>
+                </div>
+                <!-- Session Duration Timer HUD -->
+                <div
+                  class="flex items-center gap-1.5 bg-inverse-surface/85 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-lg text-on-primary">
+                  <span class="material-symbols-outlined text-[16px] text-primary-fixed-dim">timer</span>
+                  <span class="font-label-md text-label-md font-mono font-bold tracking-wider"
+                    id="sessionTimerDisplay">05:29</span>
+                </div>
+              </div>
+              <!-- Corner Reticle HUD Brackets -->
+              <div
+                class="absolute top-3 left-3 w-4 h-4 border-t-2 border-l-2 border-primary-fixed-dim/40 rounded-tl pointer-events-none">
+              </div>
+              <div
+                class="absolute top-3 right-3 w-4 h-4 border-t-2 border-r-2 border-primary-fixed-dim/40 rounded-tr pointer-events-none">
+              </div>
+              <div
+                class="absolute bottom-3 left-3 w-4 h-4 border-b-2 border-l-2 border-primary-fixed-dim/40 rounded-bl pointer-events-none">
+              </div>
+              <div
+                class="absolute bottom-3 right-3 w-4 h-4 border-b-2 border-r-2 border-primary-fixed-dim/40 rounded-br pointer-events-none">
+              </div>
+              <!-- Bottom HUD Pill: Range & Cadence Guidance -->
+              <div
+                class="absolute bottom-4 left-4 right-4 flex flex-col sm:flex-row items-center justify-between gap-2 pointer-events-none">
+                <div
+                  class="bg-inverse-surface/90 backdrop-blur-md px-4 py-2 rounded-2xl shadow-lg flex items-center gap-2 text-on-primary pointer-events-auto">
+                  <span class="material-symbols-outlined text-[18px] text-secondary-container">track_changes</span>
+                  <span class="font-label-md text-label-md">Target Flexion: <strong class="text-secondary-fixed">45° -
+                      160°</strong></span>
+                  <span class="text-outline text-caption">•</span>
+                  <span class="font-caption text-caption text-primary-fixed-dim">Cadence 1.8s</span>
+                </div>
+                <div
+                  class="hidden sm:flex bg-inverse-surface/75 backdrop-blur-sm px-3 py-1.5 rounded-full font-caption text-caption text-inverse-on-surface">
+                  1080p • 60 FPS Neural Inference
+                </div>
+              </div>
+              <!-- OVERLAY: Session Paused State (Hidden by default) -->
+              <div
+                class="hidden absolute inset-0 bg-inverse-surface/80 backdrop-blur-md flex flex-col items-center justify-center text-center p-space-lg z-20"
+                id="pausedOverlay">
+                <div
+                  class="w-16 h-16 rounded-full bg-tertiary-container/30 flex items-center justify-center text-tertiary-fixed mb-space-sm shadow-xl">
+                  <span class="material-symbols-outlined text-[36px]">pause_circle</span>
+                </div>
+                <span class="font-headline-md text-headline-md text-on-primary font-bold">SESSION PAUSED</span>
+                <p class="font-body-md text-body-md text-surface-variant max-w-xs mt-1">Computer vision inference
+                  suspended. Resume whenever you're ready.</p>
+                <button
+                  class="mt-space-md px-space-xl py-space-sm rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg transition-all shadow-md"
+                  onclick="togglePauseSession()" type="button">
+                  Resume Tracking
+                </button>
+              </div>
+              <!-- OVERLAY: Camera Disconnected State (Hidden by default) -->
+              <div
+                class="hidden absolute inset-0 bg-inverse-surface/95 flex flex-col items-center justify-center text-center p-space-lg z-20"
+                id="disconnectedOverlay">
+                <div
+                  class="w-16 h-16 rounded-full bg-error-container/20 flex items-center justify-center text-error mb-space-sm">
+                  <span class="material-symbols-outlined text-[36px]">videocam_off</span>
+                </div>
+                <span class="font-headline-md text-headline-md text-on-primary font-bold">NO CAMERA STREAM</span>
+                <p class="font-body-md text-body-md text-surface-variant max-w-sm mt-1">WebRTC video stream disrupted.
+                  Check hardware permissions or connection.</p>
+                <button
+                  class="mt-space-md px-space-lg py-space-xs rounded-full bg-surface-container-high text-on-surface font-label-md text-label-md"
+                  onclick="setSessionState('live')" type="button">
+                  Reconnect Stream
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- RIGHT COLUMN: Real-Time Biometric & Rep Telemetry (5 cols) -->
+          <div class="lg:col-span-5 flex flex-col">
+            <div
+              class="bg-surface-container-lowest rounded-3xl p-space-lg shadow-sm flex flex-col justify-between h-full gap-space-md">
+              <!-- Header -->
+              <div class="flex items-center justify-between pb-space-xs">
+                <div class="flex items-center gap-space-sm">
+                  <span class="relative flex h-2.5 w-2.5">
+                    <span
+                      class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
+                  </span>
+                  <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">REAL-TIME
+                    METRICS</span>
+                </div>
+                <span
+                  class="px-space-sm py-0.5 rounded-full bg-surface-container-low font-caption text-caption text-on-surface-variant font-semibold">Live
+                  Telemetry</span>
+              </div>
+              <!-- METRIC 1: Hero Metric (Current Rep with Circular Progress Ring) -->
+              <div class="bg-surface-container-low rounded-2xl p-space-md flex items-center justify-between">
+                <div class="flex flex-col">
+                  <span
+                    class="font-caption text-caption uppercase tracking-wider text-on-surface-variant font-bold">Current
+                    Rep</span>
+                  <div class="flex items-baseline gap-1 mt-1">
+                    <span class="font-metric-stat text-metric-stat text-on-surface font-extrabold"
+                      id="repCounterNumber">08</span>
+                    <span class="font-headline-sm text-headline-sm text-outline font-normal">/ 12</span>
+                  </div>
+                  <span class="font-caption text-caption text-secondary font-medium mt-1">Target Reps: 12 • 4
+                    remaining</span>
+                </div>
+                <!-- Circular Radial Progress -->
+                <div class="relative w-20 h-20 flex items-center justify-center">
+                  <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                    <path class="text-surface-container-highest"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
+                      stroke="currentColor" stroke-width="3.5"></path>
+                    <path class="text-primary transition-all duration-500 ease-out"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
+                      id="repProgressRing" stroke="currentColor" stroke-dasharray="66.6, 100" stroke-linecap="round"
+                      stroke-width="3.5"></path>
+                  </svg>
+                  <div class="absolute flex flex-col items-center justify-center text-center">
+                    <span class="font-label-md text-label-md font-bold text-on-surface leading-none">67%</span>
+                    <span class="font-caption text-[9px] text-outline leading-tight">REP SET</span>
+                  </div>
+                </div>
+              </div>
+              <!-- METRIC 2: Current Set & Indicator Pips -->
+              <div class="bg-surface-container-low rounded-2xl p-space-md flex items-center justify-between">
+                <div class="flex flex-col">
+                  <span
+                    class="font-caption text-caption uppercase tracking-wider text-on-surface-variant font-bold">Active
+                    Set</span>
+                  <div class="flex items-baseline gap-1 mt-1">
+                    <span class="font-headline-md text-headline-md text-on-surface font-bold">Set 2</span>
+                    <span class="font-body-md text-body-md text-outline">of 3</span>
+                  </div>
+                </div>
+                <!-- 3 Set Status Pips -->
+                <div class="flex items-center gap-2">
+                  <!-- Set 1: Done -->
+                  <div class="flex flex-col items-center gap-1">
+                    <div
+                      class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold">
+                      <span class="material-symbols-outlined text-[18px]">check</span>
+                    </div>
+                    <span class="font-caption text-[10px] text-on-surface-variant">Set 1</span>
+                  </div>
+                  <!-- Connector -->
+                  <div class="w-3 h-0.5 bg-secondary"></div>
+                  <!-- Set 2: Active -->
+                  <div class="flex flex-col items-center gap-1">
+                    <div
+                      class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-md text-label-md font-bold shadow-md ring-4 ring-primary-fixed">
+                      2
+                    </div>
+                    <span class="font-caption text-[10px] text-primary font-bold">Set 2</span>
+                  </div>
+                  <!-- Connector -->
+                  <div class="w-3 h-0.5 bg-surface-container-highest"></div>
+                  <!-- Set 3: Next -->
+                  <div class="flex flex-col items-center gap-1">
+                    <div
+                      class="w-8 h-8 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-label-md text-label-md font-medium">
+                      3
+                    </div>
+                    <span class="font-caption text-[10px] text-outline">Set 3</span>
+                  </div>
+                </div>
+              </div>
+              <!-- METRIC 3 & 4: Stage & Joint Flexion Angle (2x1 Grid) -->
+              <div class="grid grid-cols-2 gap-space-sm">
+                <!-- Stage Indicator -->
+                <div class="bg-surface-container-low rounded-2xl p-space-md flex flex-col justify-between">
+                  <span
+                    class="font-caption text-caption uppercase tracking-wider text-on-surface-variant font-bold">Movement
+                    Stage</span>
+                  <div class="my-1.5 flex items-center gap-2">
+                    <div
+                      class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-primary animate-bounce">
+                      <span class="material-symbols-outlined text-[20px]">arrow_upward</span>
+                    </div>
+                    <div class="flex flex-col">
+                      <span class="font-label-lg text-label-lg font-bold text-on-surface leading-tight"
+                        id="motionStageText">CONCENTRIC</span>
+                      <span class="font-caption text-caption text-primary font-semibold uppercase">Lifting (UP)</span>
+                    </div>
+                  </div>
+                  <span class="font-caption text-[11px] text-outline">Smooth ascent detected</span>
+                </div>
+                <!-- Joint Angle -->
+                <div class="bg-surface-container-low rounded-2xl p-space-md flex flex-col justify-between">
+                  <div class="flex items-center justify-between">
+                    <span
+                      class="font-caption text-caption uppercase tracking-wider text-on-surface-variant font-bold">Joint
+                      Angle</span>
+                    <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                  </div>
+                  <div class="my-1 flex items-baseline gap-1">
+                    <span class="font-headline-lg text-headline-lg text-on-surface font-extrabold"
+                      id="angleValueText">91°</span>
+                    <span class="font-caption text-caption text-secondary font-semibold">In Target</span>
+                  </div>
+                  <!-- Micro Range Gauge -->
+                  <div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden flex">
+                    <div class="w-1/4 bg-error-container"></div>
+                    <div class="w-2/4 bg-secondary-container rounded-full"></div>
+                    <div class="w-1/4 bg-error-container"></div>
+                  </div>
+                  <div class="flex justify-between font-caption text-[9px] text-outline mt-0.5">
+                    <span class="">0°</span>
+                    <span class="text-secondary font-bold">45°-160°</span>
+                    <span class="">180°</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Telemetry Form Accuracy Summary Bar -->
+              <div class="bg-surface-container rounded-2xl px-space-md py-space-sm flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-secondary text-[22px]">verified</span>
+                  <div class="flex flex-col">
+                    <span class="font-label-md text-label-md text-on-surface font-bold">Biomechanical Quality</span>
+                    <span class="font-caption text-caption text-on-surface-variant">Symmetry &amp; Tempo verified</span>
+                  </div>
+                </div>
+                <span
+                  class="px-space-md py-1 rounded-full bg-secondary text-on-secondary font-label-md text-label-md font-bold shadow-sm">
+                  94% Excellent
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- REAL-TIME COACHING FEEDBACK SECTION -->
+        <div
+          class="w-full bg-surface-container-lowest rounded-3xl p-space-lg shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+          <div class="flex items-start md:items-center gap-space-md flex-1">
+            <div
+              class="w-12 h-12 rounded-2xl bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0 shadow-sm transition-all duration-300"
+              id="feedbackIconWrapper">
+              <span class="material-symbols-outlined text-[28px]" id="feedbackIcon">check_circle</span>
+            </div>
+            <div class="flex flex-col">
+              <div class="flex items-center gap-2">
+                <span
+                  class="font-caption text-caption uppercase tracking-wider text-on-surface-variant font-bold">REAL-TIME
+                  COACHING FEEDBACK</span>
+                <span
+                  class="px-2 py-0.5 rounded-full bg-secondary-container font-caption text-[11px] text-on-secondary-container font-bold"
+                  id="feedbackBadge">OPTIMAL</span>
+              </div>
+              <p class="font-headline-sm text-headline-sm text-on-surface mt-0.5" id="coachingFeedbackText">
+                Great form! Keep your elbow locked close to your torso through the peak contraction.
+              </p>
+            </div>
+          </div>
+          <!-- Quick Simulation Buttons for Flask API Demonstration -->
+          <div class="flex flex-wrap items-center gap-1.5 self-stretch md:self-auto justify-end pt-space-xs md:pt-0">
+            <button
+              class="px-3 py-1 rounded-full bg-surface-container-low hover:bg-surface-container font-caption text-caption font-semibold text-secondary transition-colors"
+              onclick="setFeedbackState('success')" type="button">
+              Form (OK)
+            </button>
+            <button
+              class="px-3 py-1 rounded-full bg-surface-container-low hover:bg-surface-container font-caption text-caption font-semibold text-tertiary transition-colors"
+              onclick="setFeedbackState('warning')" type="button">
+              Elbow Drift
+            </button>
+            <button
+              class="px-3 py-1 rounded-full bg-surface-container-low hover:bg-surface-container font-caption text-caption font-semibold text-primary transition-colors"
+              onclick="setFeedbackState('instruction')" type="button">
+              Slow Tempo
+            </button>
+            <button
+              class="px-3 py-1 rounded-full bg-surface-container-low hover:bg-surface-container font-caption text-caption font-semibold text-error transition-colors"
+              onclick="setFeedbackState('error')" type="button">
+              Out of Frame
+            </button>
+          </div>
+        </div>
+        <!-- WORKOUT CONTROLS (Bottom Action Strip) -->
+        <div
+          class="w-full bg-surface-container-lowest rounded-3xl p-space-md md:p-space-lg shadow-sm flex flex-col sm:flex-row items-center justify-between gap-space-md">
+          <div class="flex items-center gap-space-md w-full sm:w-auto">
+            <!-- Pause / Resume Session Button -->
+            <button
+              class="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-space-xl py-3 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-all shadow-sm"
+              id="pauseSessionBtn" onclick="togglePauseSession()" type="button">
+              <span class="material-symbols-outlined text-[20px]" id="pauseBtnIcon">pause</span>
+              <span id="pauseBtnLabel" class="">PAUSE SESSION</span>
+            </button>
+            <!-- Audio Cue Mute Toggle -->
+            <button aria-label="Toggle Voice Coach"
+              class="w-12 h-12 rounded-full bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-on-surface-variant transition-colors"
+              id="audioToggleBtn" onclick="toggleAudio()" type="button">
+              <span class="material-symbols-outlined text-[20px]" id="audioIcon">volume_up</span>
+            </button>
+          </div>
+          <div class="flex items-center gap-space-md w-full sm:w-auto">
+            <!-- Finish & Save Workout Button -->
+            <button
+              class="w-full sm:w-auto flex items-center justify-center gap-2 px-space-2xl py-3 rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg shadow-md transition-all"
+              onclick="openFinishModal()" type="button">
+              <span class="material-symbols-outlined text-[20px]">stop_circle</span>
+              <span class="">FINISH &amp; SAVE WORKOUT</span>
+            </button>
+          </div>
+        </div>
+        <!-- MODAL 1: FINISH CONFIRMATION DIALOG -->
+        <div
+          class="fixed inset-0 z-50 hidden bg-inverse-surface/60 backdrop-blur-md flex items-center justify-center p-margin-mobile"
+          id="finishConfirmModal">
+          <div
+            class="w-full max-w-md bg-surface-container-lowest rounded-3xl p-space-xl shadow-2xl transform transition-all">
+            <div class="flex items-center justify-between mb-space-md">
+              <div class="w-12 h-12 rounded-2xl bg-primary-fixed flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-[28px]">fitness_center</span>
+              </div>
+              <button
+                class="w-8 h-8 rounded-full flex items-center justify-center text-outline hover:bg-surface-container"
+                onclick="closeFinishModal()" type="button">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+              </button>
+            </div>
+            <h2 class="font-headline-md text-headline-md text-on-surface font-bold tracking-tight">FINISH WORKOUT?</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant mt-1 mb-space-lg">
+              Your real-time joint telemetry and biometric workout logs will be committed to your progress dashboard.
+            </p>
+            <!-- Session Snapshot Stats Card -->
+            <div class="bg-surface-container-low rounded-2xl p-space-md grid grid-cols-2 gap-space-sm mb-space-lg">
+              <div>
+                <span class="font-caption text-caption text-outline uppercase font-semibold">Completed</span>
+                <p class="font-label-lg text-label-lg text-on-surface font-bold">08 / 12 Reps</p>
+              </div>
+              <div>
+                <span class="font-caption text-caption text-outline uppercase font-semibold">Sets Finished</span>
+                <p class="font-label-lg text-label-lg text-on-surface font-bold">2 / 3 Sets</p>
+              </div>
+              <div>
+                <span class="font-caption text-caption text-outline uppercase font-semibold">Form Accuracy</span>
+                <p class="font-label-lg text-label-lg text-secondary font-bold">94% (High)</p>
+              </div>
+              <div>
+                <span class="font-caption text-caption text-outline uppercase font-semibold">Caloric Burn</span>
+                <p class="font-label-lg text-label-lg text-tertiary font-bold">186 kcal</p>
+              </div>
+            </div>
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-center gap-space-sm">
+              <button
+                class="w-full sm:flex-1 py-3 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-semibold transition-colors"
+                onclick="closeFinishModal()" type="button">
+                CONTINUE SESSION
+              </button>
+              <button
+                class="w-full sm:flex-1 py-3 rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md font-bold shadow-sm transition-all"
+                onclick="confirmFinishAndSave()" type="button">
+                FINISH &amp; SAVE
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- MODAL 2: WORKOUT COMPLETED CELEBRATION MODAL -->
+        <div
+          class="fixed inset-0 z-50 hidden bg-inverse-surface/75 backdrop-blur-lg flex items-center justify-center p-margin-mobile"
+          id="workoutCompletedModal">
+          <div
+            class="w-full max-w-lg bg-surface-container-lowest rounded-3xl p-space-xl sm:p-space-2xl shadow-2xl text-center flex flex-col items-center">
+            <!-- Trophy Celebration Icon -->
+            <div
+              class="w-20 h-20 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center mb-space-md shadow-xl animate-pulse">
+              <span class="material-symbols-outlined text-[48px]">emoji_events</span>
+            </div>
+            <span
+              class="px-space-md py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-caption text-caption uppercase tracking-wider font-bold mb-1">
+              Session Complete
+            </span>
+            <h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">WORKOUT
+              COMPLETE!</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant max-w-sm mt-1 mb-space-lg">
+              Sensational effort! Your biomechanical stability in the bicep curl exceeded your personal average by 4.2%.
+            </p>
+            <!-- Achievement Metrics Banner -->
+            <div class="w-full bg-surface-container-low rounded-2xl p-space-md mb-space-md grid grid-cols-3 gap-2">
+              <div class="flex flex-col">
+                <span class="font-metric-stat text-metric-stat text-primary font-extrabold leading-none">36</span>
+                <span class="font-caption text-caption text-outline font-medium mt-1">TOTAL REPS</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="font-metric-stat text-metric-stat text-secondary font-extrabold leading-none">3/3</span>
+                <span class="font-caption text-caption text-outline font-medium mt-1">SETS COMPLETED</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="font-metric-stat text-metric-stat text-on-surface font-extrabold leading-none">94%</span>
+                <span class="font-caption text-caption text-outline font-medium mt-1">FORM SCORE</span>
+              </div>
+            </div>
+            <!-- Streak Pill -->
+            <div
+              class="flex items-center gap-2 bg-tertiary-fixed text-on-tertiary-fixed px-space-md py-1.5 rounded-full font-label-md text-label-md font-bold mb-space-xl">
+              <span class="material-symbols-outlined text-[18px]">local_fire_department</span>
+              <span class="">STREAK UPDATED • 8 CONSECUTIVE DAYS</span>
+            </div>
+            <!-- Action Triggers -->
+            <div class="flex flex-col sm:flex-row items-center gap-space-sm w-full">
+              <button
+                class="w-full sm:flex-1 py-3 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-colors"
+                onclick="window.location.reload()" type="button">
+                BACK TO DASHBOARD
+              </button>
+              <button
+                class="w-full sm:flex-1 py-3 rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg font-bold shadow-md transition-all"
+                onclick="alert('Navigating to full biomechanical deep-dive analysis...')" type="button">
+                VIEW FULL ANALYSIS →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Vanilla Interactive State Binding Script -->
+      <script>
+        let isPaused = false;
+        let isAudioMuted = false;
+        let timerSeconds = 252; // 04:12
+
+        // Timer Tick
+        setInterval(() => {
+          if (!isPaused) {
+            timerSeconds++;
+            const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+            const secs = String(timerSeconds % 60).padStart(2, '0');
+            const display = document.getElementById('sessionTimerDisplay');
+            if (display) display.textContent = `${mins}:${secs}`;
+          }
+        }, 1000);
+
+        // Toggle Dropdown Menu
+        const simToggleBtn = document.getElementById('simToggleBtn');
+        const simMenu = document.getElementById('simMenu');
+        if (simToggleBtn && simMenu) {
+          simToggleBtn.addEventListener('click', () => {
+            simMenu.classList.toggle('hidden');
+          });
+          // Close on outer click
+          document.addEventListener('click', (e) => {
+            if (!simToggleBtn.contains(e.target) && !simMenu.contains(e.target)) {
+              simMenu.classList.add('hidden');
+            }
+          });
+        }
+
+        // Session State Controller
+        function setSessionState(state) {
+          const pausedOverlay = document.getElementById('pausedOverlay');
+          const disconnectedOverlay = document.getElementById('disconnectedOverlay');
+          const stateLabel = document.getElementById('currentSimStateLabel');
+          const pauseBtnIcon = document.getElementById('pauseBtnIcon');
+          const pauseBtnLabel = document.getElementById('pauseBtnLabel');
+
+          if (simMenu) simMenu.classList.add('hidden');
+
+          if (state === 'live') {
+            isPaused = false;
+            pausedOverlay.classList.add('hidden');
+            disconnectedOverlay.classList.add('hidden');
+            if (stateLabel) stateLabel.textContent = 'State: Live';
+            if (pauseBtnIcon) pauseBtnIcon.textContent = 'pause';
+            if (pauseBtnLabel) pauseBtnLabel.textContent = 'PAUSE SESSION';
+          } else if (state === 'paused') {
+            isPaused = true;
+            pausedOverlay.classList.remove('hidden');
+            disconnectedOverlay.classList.add('hidden');
+            if (stateLabel) stateLabel.textContent = 'State: Paused';
+            if (pauseBtnIcon) pauseBtnIcon.textContent = 'play_arrow';
+            if (pauseBtnLabel) pauseBtnLabel.textContent = 'RESUME SESSION';
+          } else if (state === 'disconnected') {
+            isPaused = true;
+            pausedOverlay.classList.add('hidden');
+            disconnectedOverlay.classList.remove('hidden');
+            if (stateLabel) stateLabel.textContent = 'State: No Stream';
+          }
+        }
+
+        function togglePauseSession() {
+          if (isPaused) {
+            setSessionState('live');
+          } else {
+            setSessionState('paused');
+          }
+        }
+
+        // Feedback State Controller
+        function setFeedbackState(type) {
+          const box = document.getElementById('coachingFeedbackText');
+          const iconWrapper = document.getElementById('feedbackIconWrapper');
+          const icon = document.getElementById('feedbackIcon');
+          const badge = document.getElementById('feedbackBadge');
+
+          if (!box || !iconWrapper || !icon || !badge) return;
+
+          if (type === 'success') {
+            iconWrapper.className = 'w-12 h-12 rounded-2xl bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0 shadow-sm transition-all duration-300';
+            icon.textContent = 'check_circle';
+            badge.className = 'px-2 py-0.5 rounded-full bg-secondary-container font-caption text-[11px] text-on-secondary-container font-bold';
+            badge.textContent = 'OPTIMAL';
+            box.textContent = 'Great form! Keep your elbow locked close to your torso through the peak contraction.';
+          } else if (type === 'warning') {
+            iconWrapper.className = 'w-12 h-12 rounded-2xl bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center shrink-0 shadow-sm transition-all duration-300';
+            icon.textContent = 'warning';
+            badge.className = 'px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-caption text-[11px] font-bold';
+            badge.textContent = 'CORRECTION';
+            box.textContent = 'Elbow drift detected! Avoid swinging your shoulder forward to gain momentum.';
+          } else if (type === 'instruction') {
+            iconWrapper.className = 'w-12 h-12 rounded-2xl bg-primary-fixed text-on-primary-fixed flex items-center justify-center shrink-0 shadow-sm transition-all duration-300';
+            icon.textContent = 'info';
+            badge.className = 'px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-caption text-[11px] font-bold';
+            badge.textContent = 'TEMPO';
+            box.textContent = 'Slow eccentric tempo. Control the weight downward for 2.0 full seconds.';
+          } else if (type === 'error') {
+            iconWrapper.className = 'w-12 h-12 rounded-2xl bg-error-container text-on-error-container flex items-center justify-center shrink-0 shadow-sm transition-all duration-300';
+            icon.textContent = 'error';
+            badge.className = 'px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-caption text-[11px] font-bold';
+            badge.textContent = 'LOST TRACKING';
+            box.textContent = 'Left wrist out of boundary! Step back 1 pace so the AI can map your full range of motion.';
+          }
+        }
+
+        // Audio Voice Coach Toggle
+        function toggleAudio() {
+          isAudioMuted = !isAudioMuted;
+          const audioIcon = document.getElementById('audioIcon');
+          const audioBtn = document.getElementById('audioToggleBtn');
+          if (audioIcon && audioBtn) {
+            if (isAudioMuted) {
+              audioIcon.textContent = 'volume_off';
+              audioBtn.classList.add('text-error');
+            } else {
+              audioIcon.textContent = 'volume_up';
+              audioBtn.classList.remove('text-error');
+            }
+          }
+        }
+
+        // Modal Handlers
+        function openFinishModal() {
+          if (simMenu) simMenu.classList.add('hidden');
+          const modal = document.getElementById('finishConfirmModal');
+          if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeFinishModal() {
+          const modal = document.getElementById('finishConfirmModal');
+          if (modal) modal.classList.add('hidden');
+        }
+
+        function confirmFinishAndSave() {
+          closeFinishModal();
+          showCompletedModal();
+        }
+
+        function showCompletedModal() {
+          if (simMenu) simMenu.classList.add('hidden');
+          const compModal = document.getElementById('workoutCompletedModal');
+          if (compModal) compModal.classList.remove('hidden');
+        }
+      </script>
+    </div>
+  </main>
+  <footer class="w-full bg-surface-container-lowest border-t border-surface-container">
+    <div
+      class="max-w-7xl mx-auto px-margin-mobile md:px-margin py-space-xl flex flex-col md:flex-row items-center justify-between gap-space-md">
+      <div class="flex items-center gap-space-sm"><img alt="PoseAI Logo" class="h-6 w-auto object-contain opacity-80"
+          src="https://lh3.googleusercontent.com/aida/AEtjO1V-v98pUA9o4U6cX1--icYSOIleTEKxDWirF2zkkoLGotbzGV3ou0HBF2BtboSeEoQ-xSTjdnZLLeoW_qjDzoGXOpvQaRduN9-Jb1X9l2Jf3ejdOWIjb0rrmHHRC4AanbvLJYwYoiIHS3auOiGKsOaH34upGvpKLjhp4NoC8xBltTmnNYYw6KNwdUrA3tPND7tD9S5TIBmTRt1E7SQDRgMAJaLwGJLqFteSQqoBJeHQ8w7T7HSibZ0Yw4I"><span
+          class="font-label-lg text-label-lg text-on-surface-variant">© 2024 PoseAI Systems Inc. All rights
+          reserved.</span></div>
+      <div class="flex items-center gap-space-lg"><a
+          class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
+          href="#">Privacy Policy</a><a
+          class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
+          href="#">Telemetry Terms</a><a
+          class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
+          href="#">System Status</a></div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

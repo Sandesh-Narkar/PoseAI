@@ -1,0 +1,66 @@
+# PoseAI — .gitignore
+
+# Environment secrets & credentials (NEVER commit)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.crt
+*.pfx
+*.pkcs12
+service-account*.json
+credentials*.json
+
+# Dependencies & Environments
+venv/
+env/
+ENV/
+.Python
+node_modules/
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Build artifacts & distribution
+build/
+dist/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Logs
+*.log
+logs/
+
+# Databases & local storage
+*.db
+*.sqlite3
+data/sessions/
+data/mongo_mock_store.json
+
+# IDE & OS
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+Desktop.ini

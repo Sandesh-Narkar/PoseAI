@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orders — PoseAI Fitness Market</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = { darkMode: "class", theme: { extend: {
+      colors: { "primary":"#006194","on-primary":"#ffffff","primary-container":"#007bb9","on-primary-container":"#fdfcff","primary-fixed":"#cce5ff","primary-fixed-dim":"#93ccff","secondary":"#006c49","on-secondary":"#ffffff","secondary-container":"#6cf8bb","on-secondary-container":"#00714d","secondary-fixed":"#6ffbbe","secondary-fixed-dim":"#4edea3","tertiary":"#825100","on-tertiary":"#ffffff","tertiary-container":"#a36700","on-tertiary-container":"#fffbff","tertiary-fixed":"#ffddb8","tertiary-fixed-dim":"#ffb95f","on-tertiary-fixed":"#2a1700","on-tertiary-fixed-variant":"#653e00","error":"#ba1a1a","on-error":"#ffffff","error-container":"#ffdad6","on-error-container":"#93000a","surface":"#faf8ff","on-surface":"#131b2e","surface-variant":"#dae2fd","on-surface-variant":"#3f4850","outline":"#707881","outline-variant":"#bfc7d2","surface-container-lowest":"#ffffff","surface-container-low":"#f2f3ff","surface-container":"#eaedff","surface-container-high":"#e2e7ff","surface-container-highest":"#dae2fd","surface-dim":"#d2d9f4","surface-bright":"#faf8ff","background":"#faf8ff","inverse-surface":"#283044","inverse-on-surface":"#eef0ff","inverse-primary":"#93ccff","surface-tint":"#006398" },
+      borderRadius: { DEFAULT: "1rem", lg: "2rem", xl: "3rem", full: "9999px" },
+      fontFamily: { sans: ["Plus Jakarta Sans", "ui-sans-serif", "system-ui"] }
+    } } };
+  </script>
+  <style>
+    body { font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui; }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+  <link rel="stylesheet" href="/css/market.css">
+</head>
+
+<body data-page="market" class="bg-background min-h-screen antialiased flex flex-col">
+  <div id="app-header"></div>
+
+  <main class="w-full pt-20 bg-background flex-1">
+    <div class="max-w-6xl mx-auto px-4 md:px-10 py-6 md:py-10">
+
+      <nav class="mb-4">
+        <a id="ordersCrumb" href="/fitness-market" class="inline-flex items-center gap-1 text-sm text-on-surface-variant hover:text-primary transition-colors font-semibold">
+          <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+          Fitness Market
+        </a>
+      </nav>
+
+      <div class="mb-6">
+        <h1 id="ordersPageTitle" class="text-2xl md:text-3xl font-extrabold tracking-tight text-on-surface">Orders</h1>
+        <p id="ordersPageSub" class="text-sm text-on-surface-variant mt-1">Every order placed on your PoseAI Fitness Market account.</p>
+      </div>
+
+      <!-- LOADING SKELETONS -->
+      <div id="ordersLoading" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-surface-container-lowest rounded-xl border border-surface-container-high p-5 space-y-3">
+          <div class="mk-skeleton h-4 w-40 rounded"></div>
+          <div class="mk-skeleton h-3 w-24 rounded"></div>
+          <div class="mk-skeleton h-3 w-full rounded"></div>
+          <div class="mk-skeleton h-3 w-2/3 rounded"></div>
+        </div>
+        <div class="bg-surface-container-lowest rounded-xl border border-surface-container-high p-5 space-y-3">
+          <div class="mk-skeleton h-4 w-40 rounded"></div>
+          <div class="mk-skeleton h-3 w-24 rounded"></div>
+          <div class="mk-skeleton h-3 w-full rounded"></div>
+          <div class="mk-skeleton h-3 w-2/3 rounded"></div>
+        </div>
+      </div>
+
+      <!-- ERROR -->
+      <div id="ordersError" class="hidden flex flex-col items-center justify-center py-20 text-center">
+        <div class="w-16 h-16 rounded-full bg-error-container text-error flex items-center justify-center mb-3">
+          <span class="material-symbols-outlined text-3xl">error_outline</span>
+        </div>
+        <h2 class="text-xl font-extrabold text-on-surface">Couldn't load your orders</h2>
+        <p id="ordersErrorMsg" class="text-sm text-on-surface-variant mt-1 max-w-sm">We couldn't reach the orders feed. Check your connection and try again.</p>
+        <button id="ordersRetryBtn" type="button"
+          class="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-on-primary text-sm font-bold hover:opacity-90 transition-opacity">
+          <span class="material-symbols-outlined text-[18px]">refresh</span>
+          Retry
+        </button>
+      </div>
+
+      <!-- LIST VIEW -->
+      <div id="ordersListView" class="hidden">
+        <div id="ordersEmpty" class="hidden flex flex-col items-center justify-center py-20 text-center">
+          <div class="w-20 h-20 rounded-2xl bg-surface-container flex items-center justify-center text-outline mb-4">
+            <span class="material-symbols-outlined text-[40px]">receipt_long</span>
+          </div>
+          <h2 class="text-xl font-extrabold text-on-surface">No orders yet</h2>
+          <p class="text-sm text-on-surface-variant mt-1 max-w-sm">Head to the Fitness Market and place your first order.</p>
+          <a href="/fitness-market" class="mt-5 px-5 py-2.5 rounded-lg bg-primary text-on-primary text-sm font-bold hover:opacity-90 transition-opacity">Browse products</a>
+        </div>
+        <div id="ordersGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      </div>
+
+      <!-- DETAIL VIEW -->
+      <div id="ordersDetailView" class="hidden">
+        <a href="/fitness-market/orders" class="inline-flex items-center gap-1 text-sm font-bold text-primary hover:underline mb-5">
+          <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+          Back to all orders
+        </a>
+        <div id="orderDetailBody" class="space-y-6"></div>
+      </div>
+    </div>
+  </main>
+
+  <div id="app-footer"></div>
+  <div id="marketFooterSlot"></div>
+
+  <script src="/js/shell.js"></script>
+  <script src="/js/api-client.js"></script>
+  <script src="/js/market-widgets.js"></script>
+  <script src="/js/orders.js"></script>
+</body>
+
+</html>

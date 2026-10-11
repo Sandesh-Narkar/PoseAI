@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workout — PoseAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = { darkMode: "class", theme: { extend: {
+      colors: { "primary":"#006194","on-primary":"#ffffff","primary-container":"#007bb9","on-primary-container":"#fdfcff","primary-fixed":"#cce5ff","primary-fixed-dim":"#93ccff","secondary":"#006c49","on-secondary":"#ffffff","secondary-container":"#6cf8bb","on-secondary-container":"#00714d","secondary-fixed":"#6ffbbe","secondary-fixed-dim":"#4edea3","tertiary":"#825100","on-tertiary":"#ffffff","tertiary-container":"#a36700","on-tertiary-container":"#fffbff","tertiary-fixed":"#ffddb8","tertiary-fixed-dim":"#ffb95f","on-tertiary-fixed":"#2a1700","on-tertiary-fixed-variant":"#653e00","error":"#ba1a1a","on-error":"#ffffff","error-container":"#ffdad6","on-error-container":"#93000a","surface":"#faf8ff","on-surface":"#131b2e","surface-variant":"#dae2fd","on-surface-variant":"#3f4850","outline":"#707881","outline-variant":"#bfc7d2","surface-container-lowest":"#ffffff","surface-container-low":"#f2f3ff","surface-container":"#eaedff","surface-container-high":"#e2e7ff","surface-container-highest":"#dae2fd","surface-dim":"#d2d9f4","surface-bright":"#faf8ff","background":"#faf8ff","inverse-surface":"#283044","inverse-on-surface":"#eef0ff","inverse-primary":"#93ccff","surface-tint":"#006398" },
+      borderRadius: { DEFAULT: "1rem", lg: "2rem", xl: "3rem", full: "9999px" },
+      fontFamily: { sans: ["Plus Jakarta Sans", "ui-sans-serif", "system-ui"] }
+    } } };
+  </script>
+  <style>
+    body { font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui; }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+  <link rel="stylesheet" href="/css/navbar.css" />
+</head>
+
+<body data-page="workout" class="bg-background min-h-screen antialiased flex flex-col">
+  <div id="app-header"></div>
+
+  <main class="w-full pt-20 bg-background flex-1">
+    <div class="max-w-7xl mx-auto px-4 md:px-10 py-6 md:py-10">
+      <div class="flex flex-col w-full gap-6">
+
+        <!-- Page heading -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span id="sessionStatusPill"
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-surface-container-low text-on-surface-variant text-[11px] uppercase tracking-wider font-bold">Idle</span>
+            </div>
+            <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-on-surface">AI Workout Studio</h1>
+            <p class="text-sm text-on-surface-variant mt-0.5">Real-time pose detection via your browser camera and the
+              server-side CV engine.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-lowest shadow-sm text-sm text-on-surface"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span id="cvBadgeText">Server ready</span></span>
+          </div>
+        </div>
+
+        <div id="welcomeCard" class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+          <h2 class="text-lg font-bold text-on-surface mb-1">Choose an exercise to begin</h2>
+          <p class="text-sm text-on-surface-variant mb-4">Your camera feed is analysed by the MediaPipe pose engine; the
+            server only receives still frames for pose estimation.</p>
+          <div id="exerciseGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+          <button id="startBtn"
+            class="mt-6 w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3 rounded-full bg-primary hover:bg-primary-container text-on-primary text-sm font-bold shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled onclick="App.startSession()">
+            <span class="material-symbols-outlined text-[20px]">play_arrow</span>
+            START SESSION
+          </button>
+        </div>
+
+        <!-- Main grid: camera + telemetry -->
+        <div id="sessionArea" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+
+          <!-- Camera viewport -->
+          <div class="lg:col-span-7 flex flex-col">
+            <div class="relative w-full aspect-[4/3] sm:aspect-[16/10] bg-inverse-surface rounded-3xl overflow-hidden shadow-md flex items-center justify-center">
+              <video id="videoFeed" class="w-full h-full object-cover object-center select-none hidden" autoplay muted playsinline></video>
+              <canvas id="frameCanvas" class="hidden"></canvas>
+              <div id="cameraPlaceholder" class="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
+                <span class="material-symbols-outlined text-[48px] text-primary-fixed-dim mb-2">videocam</span>
+                <p class="text-on-primary font-bold text-lg">Waiting for camera</p>
+                <p class="text-inverse-on-surface text-sm mt-1 max-w-sm">Start a session to enable live AI pose tracking.</p>
+              </div>
+              <div id="noCameraOverlay" class="hidden absolute inset-0 bg-inverse-surface/95 flex flex-col items-center justify-center text-center p-6 z-20">
+                <span class="material-symbols-outlined text-[40px] text-error mb-2">videocam_off</span>
+                <p class="text-on-primary font-bold">Camera unavailable</p>
+                <p class="text-inverse-on-surface text-sm mt-1 max-w-sm">Allow camera access in your browser and retry.</p>
+                <button class="mt-4 px-5 py-2 rounded-full bg-surface-container-high text-on-surface text-sm font-semibold" onclick="App.retryCamera()">Retry</button>
+              </div>
+              <div id="pausedOverlay" class="hidden absolute inset-0 bg-inverse-surface/85 backdrop-blur-md flex flex-col items-center justify-center text-center p-6 z-20">
+                <span class="material-symbols-outlined text-[40px] text-tertiary-fixed mb-2">pause_circle</span>
+                <p class="text-on-primary font-bold text-lg">Session paused</p>
+                <button class="mt-4 px-5 py-2 rounded-full bg-primary text-on-primary text-sm font-bold" onclick="App.togglePause()">Resume</button>
+              </div>
+              <!-- HUD -->
+              <div class="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none">
+                <div class="flex items-center gap-2 bg-inverse-surface/85 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-lg text-on-primary">
+                  <span class="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span>
+                  <span id="hudStatus" class="text-xs font-bold uppercase tracking-wide">Standby</span>
+                </div>
+                <div class="flex items-center gap-1.5 bg-inverse-surface/85 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-lg text-on-primary">
+                  <span class="material-symbols-outlined text-[16px] text-primary-fixed-dim">timer</span>
+                  <span id="timerDisplay" class="text-sm font-bold tracking-wider">00:00</span>
+                </div>
+              </div>
+              <div class="absolute bottom-4 left-4 right-4 pointer-events-none">
+                <div class="bg-inverse-surface/85 backdrop-blur-md px-4 py-2 rounded-2xl shadow-lg flex items-center gap-2 text-on-primary">
+                  <span class="material-symbols-outlined text-[18px] text-secondary-container">track_changes</span>
+                  <span id="hudFeedback" class="text-sm">Waiting to start…</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Telemetry panel -->
+          <div class="lg:col-span-5 flex flex-col">
+            <div class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm flex flex-col justify-between gap-4 h-full">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="relative flex h-2.5 w-2.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span></span>
+                  <h2 class="text-lg font-bold text-on-surface tracking-tight">REAL-TIME METRICS</h2>
+                </div>
+                <span id="exerciseName" class="px-3 py-0.5 rounded-full bg-surface-container-low text-xs font-semibold text-on-surface-variant">—</span>
+              </div>
+
+              <!-- Reps -->
+              <div class="bg-surface-container-low rounded-2xl p-4 flex items-center justify-between">
+                <div>
+                  <span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Current Rep</span>
+                  <div class="flex items-baseline gap-1 mt-1">
+                    <span id="repValue" class="text-3xl font-extrabold text-on-surface">0</span>
+                    <span id="goalRepValue" class="text-base text-outline">/ 0</span>
+                  </div>
+                </div>
+                <div class="relative w-16 h-16 flex items-center justify-center">
+                  <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                    <path class="text-surface-container-highest" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+                    <path class="text-primary transition-all duration-500 ease-out" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" id="repRing" stroke="currentColor" stroke-dasharray="0, 100" stroke-linecap="round" stroke-width="3.5"></path>
+                  </svg>
+                  <span id="repPercent" class="absolute text-xs font-bold text-on-surface">0%</span>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <div class="bg-surface-container-low rounded-2xl p-4">
+                  <span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Set</span>
+                  <div class="mt-1"><span id="setValue" class="text-2xl font-bold text-on-surface">0</span><span id="goalSetValue" class="text-sm text-outline"> / 0</span></div>
+                </div>
+                <div class="bg-surface-container-low rounded-2xl p-4">
+                  <span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Stage</span>
+                  <div class="mt-1"><span id="stageValue" class="text-xl font-bold text-on-surface leading-tight">Waiting…</span></div>
+                </div>
+                <div class="bg-surface-container-low rounded-2xl p-4">
+                  <span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Joint Angle</span>
+                  <div class="mt-1"><span id="angleValue" class="text-2xl font-extrabold text-on-surface">--</span></div>
+                </div>
+                <div class="bg-surface-container-low rounded-2xl p-4">
+                  <span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Calories</span>
+                  <div class="mt-1"><span id="caloriesValue" class="text-2xl font-extrabold text-secondary">--</span></div>
+                </div>
+                <div class="bg-surface-container-low rounded-2xl p-4">
+                  <span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Form</span>
+                  <div class="mt-1"><span id="formValue" class="text-2xl font-extrabold text-on-surface">--</span></div>
+                </div>
+              </div>
+
+              <!-- Coach -->
+              <div class="bg-surface-container rounded-2xl px-4 py-3 flex items-center gap-3">
+                <div id="feedbackIconBox" class="w-10 h-10 rounded-xl bg-surface-container-high text-on-surface-variant flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-[22px]" id="feedbackIcon">info</span>
+                </div>
+                <div class="min-w-0">
+                  <span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">AI Coach</span>
+                  <p id="coachText" class="text-sm text-on-surface truncate">Start a session to receive form feedback.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div id="controlsArea" class="hidden bg-surface-container-lowest rounded-3xl p-4 md:p-5 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div class="flex items-center gap-3 w-full sm:w-auto">
+            <button class="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface text-sm font-bold transition-all"
+              onclick="App.togglePause()" type="button">
+              <span class="material-symbols-outlined text-[20px]" id="pauseIcon">pause</span>
+              <span id="pauseLabel">PAUSE</span>
+            </button>
+          </div>
+          <button class="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-2.5 rounded-full bg-primary hover:bg-primary-container text-on-primary text-sm font-bold shadow-md transition-all"
+            onclick="App.openFinishModal()" type="button">
+            <span class="material-symbols-outlined text-[20px]">stop_circle</span>
+            FINISH &amp; SAVE
+          </button>
+        </div>
+
+        <!-- Resume session modal -->
+        <div class="fixed inset-0 z-50 hidden bg-inverse-surface/60 backdrop-blur-md flex items-center justify-center p-4" id="resumeModal">
+          <div class="w-full max-w-md bg-surface-container-lowest rounded-3xl p-8 shadow-2xl">
+            <div class="flex items-center justify-between mb-5">
+              <div class="w-12 h-12 rounded-2xl bg-tertiary-fixed flex items-center justify-center text-tertiary"><span class="material-symbols-outlined text-[28px]">resume</span></div>
+              <button class="w-8 h-8 rounded-full flex items-center justify-center text-outline hover:bg-surface-container" onclick="App.dismissResume()" type="button"><span class="material-symbols-outlined text-[20px]">close</span></button>
+            </div>
+            <h2 class="text-xl font-bold text-on-surface tracking-tight">RESUME ACTIVE SESSION?</h2>
+            <p class="text-sm text-on-surface-variant mt-1 mb-5">A workout session was still running when you left.
+              <span id="resumeSummary" class="block mt-2 font-semibold text-on-surface"></span>
+            </p>
+            <div class="flex flex-col sm:flex-row items-center gap-2">
+              <button class="w-full sm:flex-1 py-2.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface text-sm font-semibold" onclick="App.dismissResume()">DISCARD</button>
+              <button class="w-full sm:flex-1 py-2.5 rounded-full bg-primary hover:bg-primary-container text-on-primary text-sm font-bold shadow-sm" onclick="App.resumeSession()">RESUME</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Finish modal -->
+        <div class="fixed inset-0 z-50 hidden bg-inverse-surface/60 backdrop-blur-md flex items-center justify-center p-4" id="finishModal">
+          <div class="w-full max-w-md bg-surface-container-lowest rounded-3xl p-8 shadow-2xl">
+            <div class="flex items-center justify-between mb-5">
+              <div class="w-12 h-12 rounded-2xl bg-primary-fixed flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[28px]">fitness_center</span></div>
+              <button class="w-8 h-8 rounded-full flex items-center justify-center text-outline hover:bg-surface-container" onclick="App.closeFinishModal()" type="button"><span class="material-symbols-outlined text-[20px]">close</span></button>
+            </div>
+            <h2 class="text-xl font-bold text-on-surface tracking-tight">FINISH WORKOUT?</h2>
+            <p class="text-sm text-on-surface-variant mt-1 mb-5">Your session telemetry will be saved to your workout history.</p>
+            <div class="bg-surface-container-low rounded-2xl p-4 grid grid-cols-2 gap-3 mb-5">
+              <div><span class="text-[11px] text-outline uppercase font-semibold">Reps</span><p id="snapReps" class="font-bold text-on-surface">0</p></div>
+              <div><span class="text-[11px] text-outline uppercase font-semibold">Sets</span><p id="snapSets" class="font-bold text-on-surface">0</p></div>
+              <div><span class="text-[11px] text-outline uppercase font-semibold">Calories</span><p id="snapCalories" class="font-bold text-secondary">0</p></div>
+              <div><span class="text-[11px] text-outline uppercase font-semibold">Time</span><p id="snapTime" class="font-bold text-tertiary">00:00</p></div>
+            </div>
+            <div class="flex flex-col sm:flex-row items-center gap-2">
+              <button class="w-full sm:flex-1 py-2.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface text-sm font-semibold" onclick="App.closeFinishModal()">CONTINUE</button>
+              <button id="finishSaveBtn" class="w-full sm:flex-1 py-2.5 rounded-full bg-primary hover:bg-primary-container text-on-primary text-sm font-bold shadow-sm" onclick="App.confirmFinish()">FINISH &amp; SAVE</button>
+            </div>
+          </div>
+        </div>
+      <!-- Set completion modal -->
+      <div class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-primary/30 backdrop-blur-sm hidden" id="setCompleteModal" role="dialog" aria-modal="true" aria-labelledby="setCompleteTitle">
+        <div class="bg-surface-container-lowest rounded-2xl p-6 md:p-8 shadow-2xl max-w-sm w-full border border-primary/20 animate-[fadeIn_200ms_ease]">
+          <div class="text-center">
+            <div class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center mx-auto mb-4">
+              <span class="material-symbols-outlined text-3xl text-on-secondary-container">emoji_events</span>
+            </div>
+            <h2 id="setCompleteTitle" class="text-xl font-extrabold text-on-surface mb-1">Set Complete!</h2>
+            <p class="text-sm text-on-surface-variant mb-4">Great effort! Ready for the next set?</p>
+            
+            <div class="bg-surface-container rounded-xl p-4 mb-4">
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-xs text-on-surface-variant uppercase tracking-wider font-bold">Set</span>
+                <span id="setCompleteSetNum" class="font-bold text-primary">Set 1</span>
+              </div>
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-xs text-on-surface-variant uppercase tracking-wider font-bold">Reps Completed</span>
+                <span id="setCompleteReps" class="font-bold text-on-surface">15 / 15</span>
+              </div>
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-xs text-on-surface-variant uppercase tracking-wider font-bold">Target Completed</span>
+                <span id="setCompletePct" class="font-bold text-primary">100%</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-xs text-on-surface-variant uppercase tracking-wider font-bold">Form Accuracy</span>
+                <span id="setCompleteForm" class="font-bold text-secondary">Not measured yet</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between bg-primary-fixed rounded-xl px-4 py-2.5 mb-4">
+              <span class="text-xs text-on-surface-variant uppercase tracking-wider font-bold">Next</span>
+              <span id="setCompleteNext" class="font-bold text-primary">SET 2 / 3</span>
+            </div>
+            
+            <button id="setContinueBtn" class="w-full py-3 rounded-full bg-primary hover:bg-primary-container text-on-primary font-bold transition-all shadow-md hover:shadow-lg">
+              Continue to Next Set
+            </button>
+          </div>
+        </div>
+      </div>
+
+        <!-- Completed modal -->
+        <div class="fixed inset-0 z-50 hidden bg-inverse-surface/75 backdrop-blur-lg flex items-center justify-center p-4" id="completedModal">
+          <div class="w-full max-w-lg bg-surface-container-lowest rounded-3xl p-8 sm:p-10 shadow-2xl text-center flex flex-col items-center">
+            <div class="w-20 h-20 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center mb-5 shadow-xl animate-pulse"><span class="material-symbols-outlined text-[48px]">emoji_events</span></div>
+            <span class="px-3 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-[11px] uppercase tracking-wider font-bold mb-2">Session Complete</span>
+            <h2 class="text-2xl font-extrabold text-on-surface tracking-tight">WORKOUT COMPLETE!</h2>
+            <p class="text-sm text-on-surface-variant max-w-sm mt-1 mb-5" id="doneCaption">Great effort — keep the streak alive.</p>
+            <div class="w-full bg-surface-container-low rounded-2xl p-4 mb-4 grid grid-cols-3 gap-2">
+              <div class="flex flex-col"><span id="doneReps" class="text-2xl text-primary font-extrabold leading-none">0</span><span class="text-[11px] text-outline font-medium mt-1">TOTAL REPS</span></div>
+              <div class="flex flex-col"><span id="doneSets" class="text-2xl text-secondary font-extrabold leading-none">0</span><span class="text-[11px] text-outline font-medium mt-1">SETS</span></div>
+              <div class="flex flex-col"><span id="doneCalories" class="text-2xl text-on-surface font-extrabold leading-none">0</span><span class="text-[11px] text-outline font-medium mt-1">KCAL</span></div>
+            </div>
+            <p id="doneTargetLine" class="hidden text-sm font-bold text-primary mb-4"></p>
+            <div class="flex items-center gap-2 bg-tertiary-fixed text-on-tertiary-fixed px-4 py-1.5 rounded-full text-sm font-bold mb-6" id="doneStreakBox">
+              <span class="material-symbols-outlined text-[18px]">local_fire_department</span><span id="doneStreak">Streak updated</span>
+            </div>
+            <div class="flex flex-col sm:flex-row items-center gap-2 w-full">
+              <a class="w-full sm:flex-1 text-center py-2.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface text-sm font-bold" href="/">BACK TO DASHBOARD</a>
+              <a id="analysisLink" class="w-full sm:flex-1 text-center py-2.5 rounded-full bg-primary hover:bg-primary-container text-on-primary text-sm font-bold shadow-md" href="/analysis">VIEW ANALYSIS →</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <div id="app-footer"></div>
+  <script src="js/shell.js"></script>
+  <script>
+    "use strict";
+
+    const App = (function () {
+      const state = {
+        exercises: [],
+        selectedKey: null,
+        sessionActive: false,
+        paused: false,
+        stream: null,
+        frameTimer: null,
+        frameInFlight: false,
+        lastPayload: null,
+        started: false,
+        // Set-completion state machine (driven by the engine's set_completed
+        // flag, never by fake client-side counting).
+        setModalOpen: false,
+        formAccuracySamples: [],  // accumulate per-frame form_accuracy for finish payload,
+        completedSets: 0,
+      };
+
+      const $ = (id) => document.getElementById(id);
+
+      function init() {
+        loadExercises();
+        const q = new URLSearchParams(window.location.search).get("exercise");
+        if (q) {
+          state.selectedKey = q;
+          renderExercises();
+          // Deep link from Exercises page: auto-start so the user goes
+          // straight into Exercises -> camera -> AI tracking.
+          startSession();
+        }
+        checkActiveSession();
+      }
+
+      async function loadExercises() {
+        try {
+          const res = await window.api.get("/api/exercises");
+          state.exercises = res.data || [];
+          renderExercises();
+        } catch (err) {
+          $("exerciseGrid").innerHTML =
+            '<p class="text-sm text-error col-span-3">Could not load exercises: ' + err.message + "</p>";
+        }
+      }
+
+      async function checkActiveSession() {
+        try {
+          const res = await window.api.get("/api/workout/session");
+          const data = res.data || {};
+          if (!data.active) return;
+          state.selectedKey = data.exerciseKey || null;
+          $("resumeSummary").textContent =
+            data.exercise +
+            " • " +
+            (data.currentRep || 0) +
+            " / " +
+            (data.goalRep || 0) +
+            " reps • " +
+            (data.workoutTime || "00:00");
+          $("resumeModal").classList.remove("hidden");
+        } catch (_) {
+          /* no session to recover — a fresh start is available below */
+        }
+      }
+
+      function dismissResume() {
+        $("resumeModal").classList.add("hidden");
+      }
+
+      async function resumeSession() {
+        $("resumeModal").classList.add("hidden");
+        if (!state.selectedKey) return;
+        // The engine still holds the running session — re-attach the camera
+        // WITHOUT calling /api/workout/start (that would reset the session).
+        setStatus("Starting camera…", "label");
+        await startCamera();
+      }
+
+      function renderExercises() {
+        const grid = $("exerciseGrid");
+        grid.innerHTML = "";
+        if (!state.exercises.length) {
+          grid.innerHTML =
+            '<div class="col-span-1 sm:col-span-2 lg:col-span-3 flex flex-col items-center justify-center text-center py-10"><span class="material-symbols-outlined text-[40px] text-on-surface-variant mb-2">fitness_center</span>' +
+            '<p class="text-sm text-on-surface-variant font-semibold">No exercises available right now.</p>' +
+            '<p class="text-xs text-on-surface-variant mt-1 mb-3">The activity catalog could not be loaded.</p>' +
+            '<button type="button" id="reloadExercisesBtn" class="px-5 py-2 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface text-sm font-semibold transition-colors">Retry</button></div>';
+          const retry = document.getElementById("reloadExercisesBtn");
+          if (retry) retry.addEventListener("click", function () { loadExercises(); });
+          $("startBtn").disabled = true;
+          return;
+        }
+        state.exercises.forEach((ex) => {
+          const btn = document.createElement("button");
+          btn.className =
+            "text-left rounded-2xl border-2 border-surface-container-high bg-surface-container-lowest p-4 transition-all hover:border-primary hover:shadow-sm flex flex-col gap-2";
+          if (state.selectedKey === ex.id) {
+            btn.className =
+              "text-left rounded-2xl border-2 border-primary bg-surface-container-low p-4 shadow-sm flex flex-col gap-2";
+          }
+          btn.setAttribute("data-key", ex.id);
+          btn.innerHTML =
+            '<span class="flex items-start justify-between gap-2">' +
+            '<span class="font-bold text-on-surface">' + escapeHtml(ex.name) + "</span>" +
+            (ex.difficulty
+              ? '<span class="shrink-0 px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed text-[10px] font-bold uppercase tracking-wide">' +
+                escapeHtml(ex.difficulty) + "</span>"
+              : "") +
+            "</span>" +
+            '<span class="text-xs text-on-surface-variant leading-snug line-clamp-2">' +
+            escapeHtml(ex.description || "") + "</span>" +
+            '<span class="flex flex-wrap gap-1">' +
+            (ex.muscles || [])
+              .slice(0, 3)
+              .map(function (m) {
+                return '<span class="px-2 py-0.5 rounded-full bg-surface-container-low text-[11px] text-on-surface-variant">' + escapeHtml(m) + "</span>";
+              })
+              .join("") +
+            "</span>" +
+            '<span class="flex items-center justify-between mt-auto pt-1 border-t border-surface-container">' +
+            '<span class="flex items-center gap-1.5 text-[11px] text-secondary font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>READY</span>' +
+            '<span class="text-[11px] text-on-surface-variant">' + (ex.sets || "—") + " sets &times; " + (ex.goal || "—") + " reps</span>" +
+            "</span>";
+          btn.addEventListener("click", function () { selectExercise(ex.id); });
+          grid.appendChild(btn);
+        });
+        $("startBtn").disabled = !state.selectedKey;
+      }
+
+      function selectExercise(key) {
+        state.selectedKey = key;
+        renderExercises();
+        $("startBtn").disabled = false;
+      }
+
+      function escapeHtml(str) {
+        return String(str).replace(/[&<>"']/g, function (c) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+        });
+      }
+
+      async function startSession() {
+        if (!state.selectedKey || state.sessionStarting) return;
+        state.sessionStarting = true;
+        // Fresh session: reset the set-completion state machine so set 1 of
+        // the new workout can celebrate again.
+        state.setModalOpen = false;
+        state.completedSets = 0;
+        lastCompletedSet = 0;
+        console.log("[PoseAI] Starting workout session for exercise:", state.selectedKey);
+        setStatus("Connecting engine…", "label");
+        try {
+          const res = await window.api.post("/api/workout/start", { exercise: state.selectedKey });
+          console.log("[PoseAI] Workout session started:", res.data);
+          // Render the REAL initial engine state immediately (goals, sets,
+          // stage) so the UI never shows stale placeholders before frames arrive.
+          if (res && res.data) {
+            state.lastPayload = res.data;
+            try { renderTelemetry(res.data); } catch (_) {}
+          }
+          setStatus("Starting camera…", "label");
+          await startCamera();
+        } catch (err) {
+          console.error("[PoseAI] Failed to start workout session:", err);
+          if (err && /Unknown exercise/i.test(err.message || "")) {
+            setStatus("Your workout session expired. Please start again.", "label");
+          } else {
+            setStatus("Start failed: " + err.message, "label");
+          }
+        } finally {
+          state.sessionStarting = false;
+        }
+      }
+
+      async function startCamera() {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          showNoCamera("Camera access is required for real-time workout tracking.");
+          return;
+        }
+        try {
+          console.log("[PoseAI] Camera started");
+          state.stream = await navigator.mediaDevices.getUserMedia({
+            video: { width: { ideal: 640 }, height: { ideal: 480 } },
+            audio: false,
+          });
+          const video = $("videoFeed");
+          video.srcObject = state.stream;
+          video.classList.remove("hidden");
+          $("cameraPlaceholder").classList.add("hidden");
+          $("noCameraOverlay").classList.add("hidden");
+          await new Promise((resolve) => video.addEventListener("loadedmetadata", resolve, { once: true }));
+          await video.play();
+          console.log("[PoseAI] Video ready: " + video.videoWidth + "x" + video.videoHeight);
+          if (!video.videoWidth || !video.videoHeight) {
+            showNoCamera("Camera started but produced no video dimensions. Check permissions.");
+            setStatus("Camera error", "label");
+            return;
+          }
+          state.sessionActive = true;
+      state.formAccuracySamples = [];
+          state.started = true;
+          revealSession();
+          setStatus("Tracking", "live");
+          console.log("[PoseAI] Frame loop started at ~10 FPS");
+          startFrameLoop();
+        } catch (err) {
+          const name = err && err.name;
+          const message = name === "NotAllowedError"
+            ? "Camera access is required for real-time workout tracking."
+            : name === "NotFoundError"
+              ? "No camera found. Connect a camera and retry."
+              : "Camera unavailable: " + (err && err.message);
+          showNoCamera(message);
+          setStatus("Camera blocked", "label");
+        }
+      }
+
+      function showNoCamera(message) {
+        $("cameraPlaceholder").classList.add("hidden");
+        const overlay = $("noCameraOverlay");
+        overlay.classList.remove("hidden");
+      }
+
+      function retryCamera() {
+        $("noCameraOverlay").classList.add("hidden");
+        if (state.selectedKey) startSession();
+      }
+
+      function revealSession() {
+        $("welcomeCard").classList.add("hidden");
+        $("sessionArea").classList.remove("hidden");
+        $("sessionArea").classList.add("grid");
+        $("controlsArea").classList.remove("hidden");
+      }
+
+      function startFrameLoop() {
+        stopFrameLoop();
+        // ~10 FPS AI processing; the <video> preview itself stays smooth
+        // at native browser FPS. frameInFlight prevents overlapping POSTs.
+        state.frameTimer = setInterval(() => { sendFrame(); }, 100);
+      }
+
+      function stopFrameLoop() {
+        if (state.frameTimer) clearInterval(state.frameTimer);
+        state.frameTimer = null;
+      }
+
+      function captureFrame() {
+        const video = $("videoFeed");
+        if (!video || !video.videoWidth) return null;
+        const maxW = 480;
+        const scale = Math.min(1, maxW / video.videoWidth);
+        const w = Math.round(video.videoWidth * scale);
+        const h = Math.round(video.videoHeight * scale);
+        const canvas = $("frameCanvas");
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext("2d");
+        ctx.save();
+        ctx.scale(-1, 1); // mirror to match user's expectation
+        ctx.drawImage(video, -w, 0, w, h);
+        ctx.restore();
+        return canvas.toDataURL("image/jpeg", 0.7);
+      }
+
+      async function sendFrame() {
+        // While a set/workout completion card is open the session is frozen:
+        // no frames are sent, so the engine cannot count past the target
+        // (this is what used to produce "16 / 15").
+        if (!state.sessionActive || state.paused || state.frameInFlight || state.setModalOpen) return;
+        const image = captureFrame();
+        if (!image) return;
+        console.debug("[PoseAI] AI frame captured");
+        state.frameInFlight = true;
+        try {
+          console.debug("[PoseAI] Sending frame to server");
+          const res = await window.api.post("/api/workout/frame", {
+            image: image,
+            exercise: state.selectedKey,
+          });
+          console.debug("[PoseAI] Frame response received");
+          state.lastPayload = res.data || res;
+          state.consecutiveFrameErrors = 0;
+          console.debug(
+            "[PoseAI] Pose detected: " + (state.lastPayload.pose_detected ?? state.lastPayload.poseDetected) +
+            " | Rep: " + (state.lastPayload.currentRep ?? state.lastPayload.current_rep) +
+            " | Angle: " + (state.lastPayload.angle ?? state.lastPayload.joint_angle) +
+            " | Stage: " + state.lastPayload.stage
+          );
+          renderTelemetry(state.lastPayload);
+        } catch (err) {
+          /* transient frame error — keep loop alive */
+          state.consecutiveFrameErrors = (state.consecutiveFrameErrors || 0) + 1;
+          console.debug("[PoseAI] Frame error: " + (err && err.message));
+          if (state.consecutiveFrameErrors >= 5) {
+            setStatus("AI unavailable", "label");
+            showNoCamera("AI processing is temporarily unavailable. Retrying…");
+            state.consecutiveFrameErrors = 0;
+          }
+        } finally {
+          state.frameInFlight = false;
+        }
+      }
+
+      function normalizeWorkoutState(p) {
+        const norm = p || {};
+        const pose = norm.pose_detected ?? norm.poseDetected ?? false;
+        // Always read reps/sets from the backend response — Python preserves
+        // the session rep count even when no pose is detected (it just stops
+        // incrementing). Zeroing them here caused reps to vanish from the UI
+        // any time the user briefly stepped out of frame.
+        const currentRep = norm.currentRep ?? norm.current_rep ?? 0;
+        const currentSet = norm.currentSet ?? norm.current_set ?? 0;
+        return {
+          exercise: norm.exercise,
+          currentRep: currentRep,
+          goalRep: norm.goalRep ?? norm.goal_rep ?? 0,
+          currentSet: currentSet,
+          goalSet: norm.goalSet ?? norm.goal_set ?? 0,
+          // Force stage/angle/form to the "no pose" state when not detected.
+          stage: pose ? (norm.stage || "WAITING") : "Move Into Camera View",
+          angle: pose ? (norm.angle ?? norm.joint_angle ?? null) : null,
+          formAccuracy: pose ? (norm.form_accuracy ?? norm.formAccuracy ?? null) : null,
+          // Calories accumulate over the session — preserve even on no-pose.
+          calories: norm.calories ?? null,
+          feedback: norm.feedback || (pose ? "Tracking…" : "Move Into Camera View"),
+          workoutTime: norm.workoutTime || norm.workout_time || null,
+          // Set-completion state comes straight from the Python engine:
+          //   set_completed = current set reached its target rep count.
+          setCompleted: norm.set_completed ?? norm.setCompleted ?? false,
+          completedSets: norm.completed_sets ?? norm.completedSets ?? 0,
+          totalReps: norm.total_reps ?? norm.totalReps ?? null,
+          poseDetected: pose,
+          cameraStatus: norm.cameraStatus || norm.camera_status || (pose ? "tracking" : "no-pose"),
+          coach: norm.coach,
+        };
+      }
+
+      function renderTelemetry(raw) {
+        const p = normalizeWorkoutState(raw);
+        state.lastPayload = Object.assign({}, raw, p);
+        $("repValue").textContent = p.currentRep ?? 0;
+        $("goalRepValue").textContent = "/ " + (p.goalRep ?? 0);
+        const goalRep = p.goalRep || 1;
+        const repPct = Math.min(100, Math.round(((p.currentRep || 0) / goalRep) * 100));
+        $("repRing").setAttribute("stroke-dasharray", repPct + ", 100");
+        $("repPercent").textContent = repPct + "%";
+        $("setValue").textContent = p.currentSet ?? 0;
+        $("goalSetValue").textContent = "/ " + (p.goalSet ?? 0);
+        $("stageValue").textContent = p.stage || "—";
+        $("angleValue").textContent = p.angle != null ? Math.round(p.angle) + "°" : "--";
+        const formEl = $("formValue");
+        if (formEl) formEl.textContent = p.formAccuracy != null ? Math.round(p.formAccuracy) + "%" : "--";
+        // Accumulate real per-frame form_accuracy samples for the finish
+        // payload. Only numeric engine values are kept — never fabricated.
+        if (p.formAccuracy != null && typeof p.formAccuracy === "number") {
+          state.formAccuracySamples.push(p.formAccuracy);
+        }
+        $("caloriesValue").textContent = p.calories != null ? Math.round(p.calories) : "--";
+        $("timerDisplay").textContent = p.workoutTime || "00:00";
+        if (p.exercise) $("exerciseName").textContent = p.exercise;
+        const feedback = p.feedback || "";
+        $("coachText").textContent = feedback;
+        $("hudFeedback").textContent = feedback;
+        applyFeedbackStyle(feedback);
+        if (p.poseDetected === false) setStatus("No pose detected", "label");
+        else if (p.cameraStatus === "paused") setStatus("Paused", "paused");
+        else if (p.cameraStatus === "tracking") setStatus("Tracking", "live");
+        // Check for set completion (when currentRep >= goalRep and currentSet > 0)
+        checkSetCompletion(p);
+      }
+
+      // Tracks which set has already been celebrated so the card is shown
+      // exactly once per set.
+      let lastCompletedSet = 0;
+
+      function checkSetCompletion(p) {
+        // Python (WebWorkoutEngine._build_payload) is the single source of
+        // truth: set_completed === true means the current set reached its
+        // target rep count. This must be read from the RAW engine payload —
+        // the old code passed the normalized UI projection, which silently
+        // dropped the flag, so the congratulations card never appeared and
+        // the counter kept climbing into the next set.
+        const setCompleted = p.set_completed === true || p.setCompleted === true;
+        const currentSet = Number(p.currentSet) || 0;
+        const goalSet = Number(p.goalSet) || 0;
+
+        if (!setCompleted || currentSet <= 0) return;
+        if (currentSet === lastCompletedSet) return; // already celebrated
+
+        lastCompletedSet = currentSet;
+        state.completedSets = Math.max(state.completedSets, currentSet);
+        // Freeze frame submissions so the rep counter stays at the target
+        // until the user continues to the next set.
+        stopFrameLoop();
+        state.setModalOpen = true;
+
+        if (goalSet > 0 && currentSet >= goalSet) {
+          showWorkoutCompleteModal(p);
+        } else {
+          showSetCompleteModal(p);
+        }
+      }
+
+      function showSetCompleteModal(p) {
+        const setNum = Number(p.currentSet) || 1;
+        const reps = Number(p.currentRep) || 0;
+        const goalRep = Number(p.goalRep) || 0;
+        const goalSet = Number(p.goalSet) || 0;
+        const formAccuracy = p.form_accuracy ?? p.formAccuracy ?? null;
+        const pct = goalRep > 0 ? Math.min(100, Math.round((reps / goalRep) * 100)) : 0;
+        const nextSet = goalSet > 0 ? Math.min(setNum + 1, goalSet) : setNum + 1;
+
+        $("setCompleteSetNum").textContent = "Set " + setNum;
+        $("setCompleteReps").textContent = reps + " / " + goalRep;
+        $("setCompletePct").textContent = pct + "%";
+        $("setCompleteForm").textContent =
+          formAccuracy != null ? Math.round(formAccuracy) + "%" : "Not measured yet";
+        $("setCompleteNext").textContent = "SET " + nextSet + " / " + (goalSet || "—");
+
+        const continueBtn = $("setContinueBtn");
+        if (continueBtn) {
+          // Fresh node each time so the handler can never stack up.
+          const newBtn = continueBtn.cloneNode(true);
+          continueBtn.parentNode.replaceChild(newBtn, continueBtn);
+          newBtn.textContent = "CONTINUE SET " + nextSet + " →";
+          newBtn.addEventListener("click", function () {
+            closeSetCompleteModal();
+            continueToNextSet();
+          });
+        }
+
+        $("setCompleteModal").classList.remove("hidden");
+      }
+
+      function closeSetCompleteModal() {
+        $("setCompleteModal").classList.add("hidden");
+      }
+
+      async function continueToNextSet() {
+        try {
+          // Python advances the set and resets the per-set rep counter. The
+          // UI renders that response immediately so the new set starts at
+          // 0 / target instead of continuing 15 -> 16.
+          const res = await window.api.post("/api/workout/continue", {});
+          const fresh = res && res.data;
+          if (fresh) {
+            state.lastPayload = fresh;
+            renderTelemetry(fresh);
+          }
+        } catch (err) {
+          console.error("[PoseAI] Failed to continue to next set:", err);
+        } finally {
+          state.setModalOpen = false;
+          if (state.sessionActive && !state.paused) {
+            startFrameLoop();
+          }
+        }
+      }
+
+      async function showWorkoutCompleteModal(p) {
+        // Final set reached its target. The Python engine already exposes
+        // set_completed; persisting uses the same /api/workout/finish call as
+        // the FINISH button, so no duplicate save path exists. The existing
+        // WORKOUT COMPLETE card (completedModal) then links to the analysis.
+        state.setModalOpen = true;
+        stopFrameLoop();
+        await confirmFinish();
+      }
+
+      function closeWorkoutCompleteModal() {
+        const el = $("completedModal");
+        if (el) el.classList.add("hidden");
+      }
+
+      function applyFeedbackStyle(message) {
+        const text = String(message).toLowerCase();
+        const box = $("feedbackIconBox");
+        const icon = $("feedbackIcon");
+        const good = /good|great|excellent|perfect|well done|solid/.test(text);
+        const bad = /move into|camera|boundary|lost|step back/.test(text);
+        if (bad) {
+          box.className = "w-10 h-10 rounded-xl bg-error-container text-on-error-container flex items-center justify-center shrink-0";
+          icon.textContent = "error";
+        } else if (good) {
+          box.className = "w-10 h-10 rounded-xl bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0";
+          icon.textContent = "check_circle";
+        } else {
+          box.className = "w-10 h-10 rounded-xl bg-surface-container-high text-on-surface-variant flex items-center justify-center shrink-0";
+          icon.textContent = "info";
+        }
+      }
+
+      async function togglePause() {
+        if (!state.sessionActive) return;
+        state.paused = !state.paused;
+        const btn = $("pauseIcon");
+        const label = $("pauseLabel");
+        const pausedOverlay = $("pausedOverlay");
+        if (state.paused) {
+          stopFrameLoop();
+          try { await window.api.post("/api/workout/pause"); } catch (_) {}
+          btn.textContent = "play_arrow";
+          label.textContent = "RESUME";
+          const _po = pausedOverlay; if (_po) _po.style.display = 'flex';
+          setStatus("Paused", "paused");
+        } else {
+          startFrameLoop();
+          try { await window.api.post("/api/workout/resume"); } catch (_) {}
+          btn.textContent = "pause";
+          label.textContent = "PAUSE";
+          const _po2 = pausedOverlay; if (_po2) _po2.style.display = 'none';
+          setStatus("Tracking", "live");
+        }
+      }
+
+      function openFinishModal() {
+        const p = normalizeWorkoutState(state.lastPayload || {});
+        $("snapReps").textContent = (p.currentRep || 0) + " / " + (p.goalRep || 0);
+        $("snapSets").textContent = (p.currentSet || 0) + " / " + (p.goalSet || 0);
+        $("snapCalories").textContent = (p.calories != null ? Math.round(p.calories) : "--") + " kcal";
+        $("snapTime").textContent = p.workoutTime || "00:00";
+        $("finishModal").classList.remove("hidden");
+      }
+
+      function closeFinishModal() {
+        $("finishModal").classList.add("hidden");
+      }
+
+      async function confirmFinish() {
+        const p = normalizeWorkoutState(state.lastPayload || {});
+        const btn = $("finishSaveBtn");
+        if (state.finishing) return;
+        state.finishing = true;
+        btn.disabled = true;
+        btn.textContent = "SAVING…";
+        closeFinishModal();
+        try {
+          const raw = state.lastPayload || {};
+          const totalReps = Number(raw.total_reps ?? raw.totalReps) || Number(p.currentRep) || 0;
+          const targetReps = Number(raw.goalRep ?? p.goalRep) || 0;
+          const targetSets = Number(raw.goalSet ?? p.goalSet) || 0;
+          const completedSets = Number(raw.completed_sets ?? raw.completedSets) || state.completedSets || 0;
+          const res = await window.api.post("/api/workout/finish", {
+            exercise: (p.exercise || ""),
+            currentRep: p.currentRep || 0,
+            currentSet: p.currentSet || 0,
+            // Session-level values so MongoDB stores the whole workout
+            // (all sets), not only the reps of the last set.
+            total_reps: totalReps,
+            completed_sets: completedSets,
+            target_sets: targetSets,
+            target_reps: targetReps,
+            calories: p.calories || 0,
+            workoutTime: p.workoutTime || "00:00",
+            feedback: p.feedback,
+            // Average form accuracy from accumulated per-frame samples.
+            accuracy: state.formAccuracySamples.length > 0
+              ? Math.round(state.formAccuracySamples.reduce((a, b) => a + b, 0) / state.formAccuracySamples.length)
+              : 0,
+          });
+          stopFrameLoop();
+          state.sessionActive = false;
+          if (state.stream) {
+            state.stream.getTracks().forEach((t) => t.stop());
+          }
+          const ctx = res.data || {};
+          const calories = p.calories;
+          $("doneReps").textContent = totalReps;
+          $("doneSets").textContent = completedSets + (targetSets ? " / " + targetSets : "");
+          $("doneCalories").textContent = calories != null ? Math.round(calories) : "--";
+          // Only claim a percentage that the recorded data actually supports.
+          const targetLine = $("doneTargetLine");
+          if (targetLine) {
+            const fullTarget = targetReps * targetSets;
+            if (fullTarget > 0) {
+              const pct = Math.min(100, Math.round((totalReps / fullTarget) * 100));
+              targetLine.textContent =
+                pct >= 100 ? "100% TARGET COMPLETED" : pct + "% OF TARGET COMPLETED";
+              targetLine.classList.remove("hidden");
+            } else {
+              targetLine.classList.add("hidden");
+            }
+          }
+          $("doneCaption").textContent =
+            ctx.isNewRecord
+              ? "New longest streak! Outstanding consistency."
+              : "Great effort — keep the streak alive.";
+          $("doneStreak").textContent =
+            "STREAK • " + (ctx.currentStreak ?? 0) + " CONSECUTIVE DAYS";
+          // Update the analysis link to point to this specific workout if
+          // the backend returned its MongoDB _id.
+          if (ctx.workout_id) {
+            const link = $("analysisLink");
+            if (link) link.href = "/analysis?workoutId=" + encodeURIComponent(ctx.workout_id);
+          }
+          $("completedModal").classList.remove("hidden");
+        } catch (err) {
+          btn.disabled = false;
+          btn.textContent = "FINISH & SAVE";
+          openFinishModal();
+          alert("Could not save workout: " + err.message);
+        } finally {
+          state.finishing = false;
+        }
+      }
+
+      function setStatus(text, kind) {
+        const pill = $("sessionStatusPill");
+        const hud = $("hudStatus");
+        const badge = $("cvBadgeText");
+        pill.textContent = kind === "live" ? "Session Active" : kind === "paused" ? "Session Paused" : text;
+        pill.className =
+          "inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] uppercase tracking-wider font-bold " +
+          (kind === "live"
+            ? "bg-secondary-container text-on-secondary-container"
+            : kind === "paused"
+              ? "bg-tertiary-fixed text-on-tertiary-fixed"
+              : "bg-surface-container-low text-on-surface-variant");
+        if (hud) hud.textContent = text;
+        if (badge) badge.textContent = kind === "live" ? "Engine tracking" : kind === "paused" ? "Engine paused" : "Server ready";
+      }
+
+      function stopSession() {
+        stopFrameLoop();
+        if (state.stream) state.stream.getTracks().forEach((t) => t.stop());
+      }
+
+      return {
+        init,
+        startSession,
+        togglePause,
+        openFinishModal,
+        closeFinishModal,
+        confirmFinish,
+        retryCamera,
+        stopSession,
+        resumeSession,
+        dismissResume,
+      };
+    })();
+
+    document.addEventListener("DOMContentLoaded", App.init);
+    window.addEventListener("beforeunload", () => App.stopSession());
+  </script>
+
+</body>
+
+</html>

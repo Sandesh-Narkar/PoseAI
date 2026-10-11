@@ -2,14 +2,17 @@
 PoseAI - AI Fitness Trainer
 app.py
 
-Flask API Bridge
+Flask API Bridge + Web Server
 -------------------------------------------------------------------------
 Responsibilities:
     - Act as the communication bridge between the Python workout engine
-      (main.py) and the web dashboard (dashboard/js/api.js)
-    - Maintain a single in-memory dashboard state dictionary
+      (main.py) and the web dashboard (frontend/html/* + frontend/js/*)
+    - Maintain a single in-memory dashboard state dictionary (the legacy
+      desktop engine bridge from main.py)
     - Expose REST endpoints for reading dashboard/workout data and for
       receiving state updates from main.py
+    - Serve the authenticated web frontend (frontend/) and register the
+      authentication (auth.py) and user-data (dashboard_api.py) blueprints
 
 This file NEVER:
     - Talks to MediaPipe or OpenCV
@@ -17,7 +20,10 @@ This file NEVER:
     - Calculates reps/sets/angles itself
 
 Architecture:
-    main.py (Workout Engine) -> app.py (Flask API) -> api.js -> dashboard.js -> index.html
+    main.py (Workout Engine) -> app.py (Flask API) -> frontend/js/api.js
+                               -> frontend/html/index.html
+    Auth (auth.py)            -> MongoDB users
+    Dashboard data            -> dashboard_api.py -> database.workouts
 -------------------------------------------------------------------------
 """
 
@@ -25,11 +31,19 @@ from __future__ import annotations
 
 import logging
 from datetime import datetime
+from pathlib import Path
 from typing import Any
 
-from flask import Flask, jsonify, request, Response, send_from_directory
+from flask import Flask, jsonify, request, Response, redirect, send_from_directory, session
+from werkzeug.exceptions import HTTPException
 
+from auth import auth_bp, limiter
+from config import Config
 from core.web_workout_engine import WebWorkoutEngine
+from core.session_manager import get_or_create_engine as _sm_get_engine
+from dashboard_api import api_bp
+from market import market_bp
+from nutrition import nutrition_bp
 
 try:
     from flask_cors import CORS
@@ -40,9 +54,39 @@ except ImportError:  # pragma: no cover - defensive fallback for minimal install
 # APP / LOGGING CONFIGURATION
 # ==============================================================================
 
-app = Flask(__name__, static_folder="dashboard", static_url_path="")
+app = Flask(__name__, static_folder=None)
+app.config.from_object(Config)
+app.secret_key = Config.SECRET_KEY
+
+CORS_ORIGINS = Config.CORS_ORIGINS
 if CORS is not None:
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    if CORS_ORIGINS and CORS_ORIGINS != "*":
+        origins = [o.strip() for o in CORS_ORIGINS.split(",") if o.strip()]
+        CORS(app, resources={r"/api/*": {"origins": origins}, r"/auth/*": {"origins": origins}}, supports_credentials=True)
+    elif not Config.IS_PRODUCTION:
+        CORS(app, resources={r"/api/*": {"origins": r".*"}, r"/auth/*": {"origins": r".*"}}, supports_credentials=True)
+
+if limiter is not None:
+    try:
+        limiter.init_app(app)
+    except Exception as _lim_err:  # pragma: no cover
+        logging.getLogger("poseai.app").warning("Could not attach limiter to app: %s", _lim_err)
+
+@app.after_request
+def set_security_headers(response: Response) -> Response:
+    """Security hardening headers (Helmet equivalent)."""
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    if Config.IS_PRODUCTION or request.is_secure:
+        response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    return response
+
+app.register_blueprint(auth_bp)
+app.register_blueprint(api_bp)
+app.register_blueprint(market_bp)
+app.register_blueprint(nutrition_bp)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -52,21 +96,95 @@ logging.basicConfig(
 logger = logging.getLogger("poseai.app")
 
 HOST: str = "0.0.0.0"
-PORT: int = 5000
+PORT: int = Config.PORT
 
-_engine = None
+# Engine registry is now managed in core/session_manager.py to avoid a
+# circular import when dashboard_api.py also needs engine access.
+# These aliases keep existing call-sites inside this file working unchanged.
 
+# ==============================================================================
+# FRONTEND
+# ==============================================================================
+
+_FRONTEND_DIR = Path(__file__).resolve().parent / "frontend"
+_FRONTEND_HTML_DIR = _FRONTEND_DIR / "html"
+_FRONTEND_JS_DIR = _FRONTEND_DIR / "js"
+_FRONTEND_CSS_DIR = _FRONTEND_DIR / "css"
+_FRONTEND_IMAGES_DIR = _FRONTEND_DIR / "images"
+
+# Page path -> html file (all authenticated except the auth pages).
+PAGE_ROUTES: dict[str, str] = {
+    "workout": "workout.html",
+    "analysis": "analysis.html",
+    "progress": "progress.html",
+    "profile": "profile.html",
+    "exercises": "exercises.html",
+    "achievements": "achievements.html",
+    "game": "game.html",
+    "nutrition": "nutrition.html",
+    "fitness-market": "fitness_market.html",
+    "market": "fitness_market.html",
+    "cart": "cart.html",
+    "checkout": "checkout.html",
+    "orders": "orders.html",
+    "favorites": "favorites.html",
+    "products": "products.html",
+}
+
+
+def _is_authenticated() -> bool:
+    return session.get("user_id") is not None
+
+
+def _current_user_key() -> str:
+    """Server-side user id for logging (never trusts client input)."""
+    return str(session.get("user_id") or "anonymous")
+
+
+def _require_login():
+    """Redirect HTML requests to /login when there is no authenticated session."""
+    if not _is_authenticated():
+        return redirect("/login")
+    return None
+
+
+def _serve_page(filename: str) -> Response:
+    return send_from_directory(_FRONTEND_HTML_DIR, filename)
+
+
+# ==============================================================================
+# WORKOUT ENGINE BRIDGE
+# ==============================================================================
 
 def get_or_create_workout_engine() -> WebWorkoutEngine:
-    global _engine
-    if _engine is None:
-        _engine = WebWorkoutEngine(debug=True)
-    return _engine
+    """
+    Return the WebWorkoutEngine for the current request context.
+
+    Delegates to core.session_manager so that dashboard_api.py can also
+    call the same registry without creating a circular import.
+    """
+    user_id = session.get("user_id")
+    return _sm_get_engine(user_id)
 
 
 def process_workout_frame(encoded_frame: str | None, exercise: str | None = None) -> dict[str, Any]:
+    """Decode one browser frame and run it through the user's workout engine.
+
+    Single integration point between the live-camera API and
+    core.web_workout_engine.WebWorkoutEngine ("one engine, two input
+    sources"). All pose/angle/rep/stage/feedback math lives in the shared
+    ExerciseRouter + workouts/* — this function only routes and mirrors.
+    """
+    from core.exercise_router import normalize_exercise_key
+
     engine = get_or_create_workout_engine()
-    payload = engine.process_frame(encoded_frame=encoded_frame, exercise=exercise)
+    canonical_exercise = normalize_exercise_key(exercise) if exercise else None
+    if exercise and canonical_exercise is None:
+        logger.warning("[WORKOUT] Unknown exercise '%s'; keeping current selection", exercise)
+    payload = engine.process_frame(
+        encoded_frame=encoded_frame,
+        exercise=canonical_exercise if canonical_exercise is not None else None,
+    )
     dashboard_state.update(
         {
             "exercise": payload.get("exercise", dashboard_state.get("exercise")),
@@ -100,13 +218,14 @@ def _coerce_engine_status(engine: Any) -> dict[str, Any]:
         return engine.status
     return {}
 
+
 # ==============================================================================
 # GLOBAL DASHBOARD STATE
 # ==============================================================================
 
-# Single source of truth for everything the dashboard displays.
-# main.py updates this via POST /api/update; every GET endpoint below
-# reads from (a slice of) this dictionary.
+# Single source of truth for everything the legacy desktop dashboard
+# displays. main.py updates this via POST /api/update; every GET endpoint
+# below reads from (a slice of) this dictionary.
 dashboard_state: dict[str, Any] = {
     "exercise": "No Exercise Selected",
     "currentRep": 0,
@@ -241,7 +360,7 @@ def _apply_update(payload: dict[str, Any]) -> list[str]:
 
 
 # ==============================================================================
-# ROUTES
+# ROUTES — PAGES
 # ==============================================================================
 
 @app.route("/", methods=["GET"])
@@ -249,15 +368,18 @@ def root() -> tuple[Response, int] | Response:
     """
     GET /
 
-    Serves the dashboard HTML when requested from a browser and returns
-    a JSON health payload for API-style requests.
+    Serves the (authenticated) dashboard HTML when requested from a
+    browser and returns a JSON health payload for API-style requests.
     """
     accepts_html = "text/html" in request.headers.get("Accept", "")
     if accepts_html:
+        guard = _require_login()
+        if guard is not None:
+            return guard
         try:
-            return send_from_directory(app.static_folder, "index.html")
+            return _serve_page("index.html")
         except FileNotFoundError:
-            return _error_response("Dashboard index not found.", 404)
+            return _error_response("Frontend index not found.", 404)
 
     try:
         return _success_response(
@@ -270,11 +392,94 @@ def root() -> tuple[Response, int] | Response:
 
 @app.route("/dashboard", methods=["GET"])
 def dashboard_index() -> tuple[Response, int] | Response:
-    """Alias route for serving the dashboard UI from localhost."""
+    """Alias route for serving the dashboard UI to authenticated users."""
+    guard = _require_login()
+    if guard is not None:
+        return guard
     try:
-        return send_from_directory(app.static_folder, "index.html")
+        return _serve_page("index.html")
     except FileNotFoundError:
-        return _error_response("Dashboard index not found.", 404)
+        return _error_response("Frontend index not found.", 404)
+
+
+@app.route("/login", methods=["GET"])
+def login_page() -> Response:
+    """Serve the login page (public)."""
+    return _serve_page("login.html")
+
+
+@app.route("/signup", methods=["GET"])
+def signup_page() -> Response:
+    """Serve the signup page (public)."""
+    return _serve_page("signup.html")
+
+
+@app.route("/<page>", methods=["GET"])
+def frontend_page(page: str) -> Response:
+    """Serve an authenticated frontend page by name (e.g. /workout)."""
+    filename = PAGE_ROUTES.get(page)
+    if filename is None:
+        return _error_response("The requested endpoint does not exist.", 404)
+    guard = _require_login()
+    if guard is not None:
+        return guard
+    return _serve_page(filename)
+
+
+# ==============================================================================
+# ROUTES — FRONTEND STATIC ASSETS
+# ==============================================================================
+
+@app.route("/js/<path:filename>", methods=["GET"])
+def frontend_js(filename: str) -> Response:
+    return send_from_directory(_FRONTEND_JS_DIR, filename)
+
+
+@app.route("/css/<path:filename>", methods=["GET"])
+def frontend_css(filename: str) -> Response:
+    return send_from_directory(_FRONTEND_CSS_DIR, filename)
+
+
+@app.route("/images/<path:filename>", methods=["GET"])
+def frontend_images(filename: str) -> Response:
+    return send_from_directory(_FRONTEND_IMAGES_DIR, filename)
+
+
+@app.route("/market/images/<path:filename>", methods=["GET"])
+@app.route("/fitness_market_product_image/<path:filename>", methods=["GET"])
+def market_product_images(filename: str) -> Response:
+    return send_from_directory(_FRONTEND_IMAGES_DIR / "market_products", filename)
+
+
+# ==============================================================================
+# ROUTES — HEALTH & ENGINE BRIDGE / LIVE WORKOUT DATA
+# ==============================================================================
+
+@app.route("/health", methods=["GET"])
+@app.route("/api/health", methods=["GET"])
+def api_health() -> tuple[Response, int]:
+    """
+    GET /api/health
+
+    Production health-check endpoint for Render / monitoring.
+    Verifies database connectivity safely without exposing secrets.
+    """
+    db_status = "disconnected"
+    try:
+        from database import mongo as mongo_db
+        db = mongo_db.get_db()
+        if db is not None:
+            db.command("ping")
+            db_status = "connected"
+    except Exception:
+        db_status = "error"
+
+    return jsonify({
+        "success": True,
+        "status": "healthy",
+        "database": db_status,
+        "environment": Config.ENVIRONMENT,
+    }), 200
 
 
 @app.route("/api/status", methods=["GET"])
@@ -283,7 +488,7 @@ def get_status() -> tuple[Response, int]:
     GET /api/status
 
     Returns the full current dashboard state as-is. This is the primary
-    endpoint polled by api.js for live dashboard updates.
+    endpoint polled by the legacy dashboard for live updates.
     """
     try:
         logger.info("Request received: GET /api/status")
@@ -341,27 +546,6 @@ def get_session() -> tuple[Response, int]:
         return _error_response(f"Failed to retrieve session summary: {error}", 500)
 
 
-@app.route("/api/statistics", methods=["GET"])
-def get_statistics() -> tuple[Response, int]:
-    """
-    GET /api/statistics
-
-    Returns today's performance statistics (total reps, workout time,
-    calories, xp, exercises completed).
-    """
-    try:
-        logger.info("Request received: GET /api/statistics")
-        return _success_response(data=dashboard_state["statistics"])
-    except Exception as error:  # noqa: BLE001
-        return _error_response(f"Failed to retrieve statistics: {error}", 500)
-
-
-@app.route("/api/stats", methods=["GET"])
-def get_stats_alias() -> tuple[Response, int]:
-    """Backward-compatible alias for the statistics endpoint."""
-    return get_statistics()
-
-
 @app.route("/api/coach", methods=["GET"])
 def get_coach() -> tuple[Response, int]:
     """
@@ -395,54 +579,23 @@ def get_connection_status() -> tuple[Response, int]:
         return _error_response(f"Failed to retrieve connection status: {error}", 500)
 
 
-@app.route("/api/streak", methods=["GET"])
-def get_streak() -> tuple[Response, int]:
-    """
-    GET /api/streak
-
-    Returns the current streak and today's goal completion percentage.
-    """
-    try:
-        logger.info("Request received: GET /api/streak")
-        streak_data = {
-            "streak": dashboard_state["streak"],
-            "goal": dashboard_state["goal"],
-        }
-        return _success_response(data=streak_data)
-    except Exception as error:  # noqa: BLE001
-        return _error_response(f"Failed to retrieve streak data: {error}", 500)
-
-
-@app.route("/api/achievements", methods=["GET"])
-def get_achievements() -> tuple[Response, int]:
-    """
-    GET /api/achievements
-
-    Returns the list of achievements. Achievement data is expected to
-    be pushed into dashboard_state by main.py via POST /api/update
-    under a future "achievements" field; until then, an empty list is
-    returned rather than fabricated data.
-    """
-    try:
-        logger.info("Request received: GET /api/achievements")
-        achievements = dashboard_state.get("achievements", [])
-        return _success_response(data=achievements)
-    except Exception as error:  # noqa: BLE001
-        return _error_response(f"Failed to retrieve achievements: {error}", 500)
-
-
 @app.route("/api/workout/start", methods=["POST"])
 def start_workout_session() -> tuple[Response, int]:
     """Start or switch the active workout session from the dashboard."""
     try:
+        from core.exercise_router import normalize_exercise_key
+
         payload = request.get_json(silent=True) or {}
-        exercise_key = payload.get("exercise")
+        exercise_key = payload.get("exercise") or request.args.get("exercise")
+        canonical = normalize_exercise_key(exercise_key) if exercise_key else None
+        if exercise_key and canonical is None:
+            return _error_response("Unknown exercise '{0}'. Use a key like '1' or a slug like 'bicep_curl'.".format(exercise_key), 400)
         engine = get_or_create_workout_engine()
-        if exercise_key:
+        if canonical:
             if hasattr(engine, "set_exercise"):
-                engine.set_exercise(exercise_key)
+                engine.set_exercise(canonical)
             elif hasattr(engine, "start"):
-                engine.start(exercise_key)
+                engine.start(canonical)
         else:
             if hasattr(engine, "start"):
                 engine.start()
@@ -466,6 +619,7 @@ def start_workout_session() -> tuple[Response, int]:
             "summary": status.get("summary", dashboard_state.get("summary")),
             "cameraStatus": status.get("cameraStatus", dashboard_state.get("cameraStatus")),
         })
+        logger.info("[WORKOUT] Session started")
         return _success_response(data={"exercise": status.get("exercise"), "cameraStatus": status.get("cameraStatus")})
     except Exception as error:  # noqa: BLE001
         return _error_response(f"Failed to start workout session: {error}", 500)
@@ -497,29 +651,107 @@ def resume_workout_session() -> tuple[Response, int]:
         return _error_response(f"Failed to resume workout session: {error}", 500)
 
 
-@app.route("/api/workout/finish", methods=["POST"])
-def finish_workout_session() -> tuple[Response, int]:
-    try:
-        engine = get_or_create_workout_engine()
-        status = _coerce_engine_status(engine)
-        if hasattr(engine, "finish"):
-            status = engine.finish()
-        dashboard_state.update({"cameraStatus": status.get("cameraStatus", dashboard_state.get("cameraStatus")), "feedback": status.get("feedback", dashboard_state.get("feedback"))})
-        return _success_response(data=status)
-    except Exception as error:  # noqa: BLE001
-        return _error_response(f"Failed to finish workout session: {error}", 500)
-
-
 @app.route("/api/workout/frame", methods=["POST"])
 def workout_frame_update() -> tuple[Response, int]:
+    """POST /api/workout/frame — live browser-camera frame processing.
+
+    Expected JSON: {"image": "data:image/jpeg;base64,...", "exercise": "1"}.
+    The image flows: browser canvas -> base64 -> WebWorkoutEngine ->
+    OpenCV/MediaPipe -> ExerciseRouter -> workouts/* -> live metrics JSON.
+    Validation failures return 4xx with a structured error (never fake
+    metrics); decode/detection misses return 200 with pose_detected=false.
+    """
+    user_key = _current_user_key()
     try:
-        payload = request.get_json(silent=True) or {}
+        payload = request.get_json(silent=True)
+        if payload is None:
+            return _error_response("Request body must be JSON with 'image' and 'exercise'.", 400)
+        if not isinstance(payload, dict):
+            return _error_response("Request body must be a JSON object.", 400)
         encoded_frame = payload.get("image")
         exercise = payload.get("exercise")
+        if not isinstance(encoded_frame, str) or not encoded_frame.strip():
+            return _error_response("Field 'image' is required and must be a non-empty base64 string.", 400)
+        if len(encoded_frame) > 8_000_000:
+            return _error_response("Frame payload too large; reduce capture resolution/quality.", 413)
+        if not isinstance(exercise, str) or not exercise.strip():
+            return _error_response("Field 'exercise' is required (e.g. '1' or 'bicep_curl').", 400)
+        logger.info(
+            "[WORKOUT] Frame request | User: %s | Exercise: %s | Image bytes: %s",
+            _current_user_key(), exercise, len(encoded_frame),
+        )
         workout_payload = process_workout_frame(encoded_frame=encoded_frame, exercise=exercise)
+        logger.info(
+            "[WORKOUT] Frame result | User: %s | Exercise: %s | Rep: %s | Angle: %s | Stage: %s | Pose: %s | Calories: %s",
+            user_key, workout_payload.get("exercise"),
+            workout_payload.get("currentRep"),
+            workout_payload.get("angle"),
+            workout_payload.get("stage"),
+            workout_payload.get("pose_detected"),
+            workout_payload.get("calories"),
+        )
         return _success_response(data={**workout_payload, "cameraStatus": workout_payload.get("cameraStatus", "tracking")})
     except Exception as error:  # noqa: BLE001
-        return _error_response(f"Failed to process workout frame: {error}", 500)
+        logger.exception("[WORKOUT] Frame processing failed | User: %s", user_key)
+        return _error_response(f"Frame processing failed: {error}", 500)
+
+
+@app.route("/api/workout/session", methods=["GET"])
+def get_workout_session() -> tuple[Response, int]:
+    """
+    GET /api/workout/session
+
+    Reports whether the current user has an active (unfinished) workout
+    session left over in the engine. The workout page uses this on load to
+    offer a "resume active session" instead of silently starting fresh.
+    """
+    try:
+        if not _is_authenticated():
+            return _success_response(data={"active": False})
+        engine = get_or_create_workout_engine()
+        status = _coerce_engine_status(engine)
+        session_status = status.get("sessionStatus", "idle")
+        active = session_status in ("active", "paused")
+        return _success_response(
+            data={
+                "active": active,
+                "exercise": status.get("exercise") if active else None,
+                "exerciseKey": getattr(engine, "current_key", None) if active else None,
+                "currentRep": status.get("currentRep") if active else 0,
+                "goalRep": status.get("goalRep") if active else 0,
+                "currentSet": status.get("currentSet") if active else 0,
+                "goalSet": status.get("goalSet") if active else 0,
+                "workoutTime": status.get("workoutTime") if active else None,
+                "paused": session_status == "paused",
+            }
+        )
+    except Exception as error:  # noqa: BLE001
+        return _error_response(f"Failed to read workout session: {error}", 500)
+
+
+@app.route("/api/workout/continue", methods=["POST"])
+def continue_to_next_set() -> tuple[Response, int]:
+    """
+    POST /api/workout/continue
+
+    Called when the user clicks "Continue to Next Set" after completing a set.
+    This tells the engine to advance to the next set and reset the rep counter.
+    """
+    try:
+        if not _is_authenticated():
+            return _error_response("Authentication required.", 401)
+        engine = get_or_create_workout_engine()
+        # Call the engine's method to advance to next set
+        if hasattr(engine, "advance_to_next_set"):
+            engine.advance_to_next_set()
+        elif hasattr(engine, "_advance_to_next_set"):
+            engine._advance_to_next_set()
+        # Get the updated status to return
+        status = _coerce_engine_status(engine)
+        return _success_response(data=status)
+    except Exception as error:  # noqa: BLE001
+        logger.exception("[WORKOUT] Continue to next set failed")
+        return _error_response(f"Failed to continue: {error}", 500)
 
 
 @app.route("/api/update", methods=["POST"])
@@ -570,8 +802,22 @@ def handle_method_not_allowed(error: Any) -> tuple[Response, int]:
 
 @app.errorhandler(500)
 def handle_internal_server_error(error: Any) -> tuple[Response, int]:
-    """Handles unexpected internal server errors without crashing the app."""
-    return _error_response("An unexpected internal server error occurred.", 500)
+    """Handles unexpected internal server errors without crashing the app or leaking traces."""
+    logger.exception("Internal server error: %s", error)
+    if Config.IS_PRODUCTION:
+        return _error_response("An unexpected internal server error occurred.", 500)
+    return _error_response(f"Internal server error: {error}", 500)
+
+
+@app.errorhandler(Exception)
+def handle_unhandled_exception(error: Exception) -> tuple[Response, int]:
+    """Catches unhandled exceptions and prevents information leakage in production."""
+    if isinstance(error, HTTPException):
+        return _error_response(error.description, error.code)
+    logger.exception("Unhandled application exception: %s", error)
+    if Config.IS_PRODUCTION:
+        return _error_response("An unexpected internal server error occurred.", 500)
+    return _error_response(f"Internal error: {error}", 500)
 
 
 # ==============================================================================

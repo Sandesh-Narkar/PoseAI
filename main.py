@@ -51,6 +51,7 @@ Dashboard integration:
       pose detection or the workout loop.
 """
 
+import os
 import time
 from datetime import datetime
 import cv2
@@ -59,26 +60,18 @@ import requests
 
 from core.camera import Camera
 from core.pose_detector import PoseDetector
-from core.landmark_manager import LandmarkManager
+from core.exercise_router import ExerciseRouter
 from core.landmark_smoother import LandmarkSmoother
 from core.drawing import PoseDrawer
 from core.ui_layout import UILayout
 from core.exercise_data import get_exercise_info
 
-from workouts.bicep import BicepWorkout
-from workouts.pushup import PushupWorkout
-from workouts.squat import SquatWorkout
-from workouts.triceps_pushdown import TricepsPushdownWorkout
-from workouts.lunges import LungesWorkout
-from workouts.jumping_jacks import JumpingJacksWorkout
-from workouts.shoulder_press import ShoulderPressWorkout
-from workouts.burpees import BurpeesWorkout
-from workouts.warrior2 import Warrior2Workout
-from workouts.goblet_squat import GobletSquatWorkout
-from workouts.crossover_toe_touch import CrossoverToeTouchWorkout
+# Exercise selection keys -> workout objects, per-exercise landmark
+# routing and the exercise draw-key mapping all live in the SHARED,
+# camera-independent core/exercise_router.py. The desktop app (this
+# file) and the Flask web engine (core/web_workout_engine.py) use the
+# exact same implementation - "one engine, two input sources".
 
-
-VISIBILITY_THRESHOLD = 0.5
 
 # Expected number of MediaPipe Pose landmarks per detected body. Used
 # to validate a landmark frame before it is trusted for smoothing or
@@ -102,7 +95,7 @@ EXERCISE_KEY_ORDER = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "g", "t"]
 # The Flask backend is expected to already be running independently
 # (see app.py). These settings control ONLY how/when main.py talks to
 # it - they do not affect any pose detection or workout logic.
-DASHBOARD_API_URL = "http://127.0.0.1:5000/api/update"
+DASHBOARD_API_URL = os.getenv("DASHBOARD_API_URL", "http://127.0.0.1:5000/api/update")
 DASHBOARD_REQUEST_TIMEOUT_SECONDS = 0.5
 
 # Minimum change (in degrees) in the tracked joint angle required
@@ -153,11 +146,12 @@ def send_dashboard_update(data: dict) -> None:
 
 
 class WorkoutApp:
-    def __init__(self):
+    def __init__(self, exercise_key: str = "1"):
         self.camera = Camera()
         self.camera.start()
         self.pose_detector = PoseDetector(model_path="models/pose_landmarker_full.task")
-        self.landmark_manager = LandmarkManager()
+        self.router = ExerciseRouter()
+        self.landmark_manager = self.router.landmark_manager
         self.smoother = LandmarkSmoother()
         self.drawer = PoseDrawer()
 
@@ -166,51 +160,6 @@ class WorkoutApp:
         # session-flow overlays) into a single frame. Created ONCE
         # before the main loop - never rebuilt per frame.
         self.ui = UILayout()
-
-        self.workouts = {
-            "1": BicepWorkout(),
-            "2": PushupWorkout(),
-            "3": SquatWorkout(),
-            "4": TricepsPushdownWorkout(),
-            "5": LungesWorkout(),
-            "6": JumpingJacksWorkout(),
-            "7": ShoulderPressWorkout(),
-            "8": BurpeesWorkout(),
-            "9": Warrior2Workout(),
-            "g": GobletSquatWorkout(),
-            "t": CrossoverToeTouchWorkout(),
-        }
-
-        self.exercise_draw_keys = {
-            "1": "bicep_curl",
-            "2": "pushup",
-            "3": "squat",
-            "4": "triceps_pushdown",
-            "5": "lunge",
-            "6": "jumping_jacks",
-            "7": "shoulder_press",
-            "8": "burpees",
-            "9": "warrior2",
-            "g": "goblet_squat",
-            "t": "crossover_toe_touch",
-        }
-
-        # Dispatch table built ONCE at startup instead of every frame.
-        # Rebuilding a dict every iteration of the main loop is wasted
-        # allocation/CPU work that adds up at real-time framerates.
-        self._dispatch = {
-            "1": self._run_bicep_curl,
-            "2": self._run_pushup,
-            "3": self._run_squat,
-            "4": self._run_triceps_pushdown,
-            "5": self._run_lunges,
-            "6": self._run_jumping_jacks,
-            "7": self._run_shoulder_press,
-            "8": self._run_burpees,
-            "9": self._run_warrior2,
-            "g": self._run_goblet_squat,
-            "t": self._run_crossover_toe_touch,
-        }
 
         # perf_counter is monotonic and immune to system-clock
         # adjustments (NTP sync, DST, manual changes), unlike
@@ -260,8 +209,14 @@ class WorkoutApp:
         self._workout_start_time = time.perf_counter()
 
         self.current_key = "1"
-        self.active_workout = self.workouts[self.current_key]
+        self.active_workout = self.router.active_workout
         self._sync_exercise_targets()
+
+        # If a specific exercise was chosen from the terminal menu
+        # (see _run_terminal_menu below), launch directly into it using
+        # the existing _switch_exercise path. No-op for the default.
+        if exercise_key and exercise_key in self.router.workouts and exercise_key != self.current_key:
+            self._switch_exercise(exercise_key)
 
         # ---- Dashboard integration state (network/formatting only -
         #      does not touch any workout algorithm). Holds the last
@@ -384,7 +339,8 @@ class WorkoutApp:
         reset() method - no algorithm changes.
         """
         self.current_key = key
-        self.active_workout = self.workouts[key]
+        self.router.set_exercise(key)
+        self.active_workout = self.router.active_workout
         self.active_workout.reset()
         self._sync_exercise_targets()
 
@@ -435,7 +391,7 @@ class WorkoutApp:
         if not key_char:
             return
         key_char = key_char.lower()
-        if key_char in self.workouts and key_char != self.current_key:
+        if key_char in self.router.workouts and key_char != self.current_key:
             # Manually switching exercise banks whatever progress was
             # made on the exercise being left, same as finishing it.
             self._session_total_reps += self._exercise_total_reps
@@ -460,139 +416,11 @@ class WorkoutApp:
     # ------------------------------------------------------------------ #
     # PER-WORKOUT LANDMARK ROUTING
     # ------------------------------------------------------------------ #
-
-    def _run_bicep_curl(self, landmarks):
-        arm = self.landmark_manager.get_best_arm(landmarks)
-        if arm["visibility"] >= VISIBILITY_THRESHOLD:
-            return self.active_workout.update(arm["shoulder"], arm["elbow"], arm["wrist"])
-        return {"feedback": "Move Into Camera View"}
-
-    def _run_pushup(self, landmarks):
-        arm = self.landmark_manager.get_best_arm(landmarks)
-        if arm["visibility"] >= VISIBILITY_THRESHOLD:
-            return self.active_workout.update(arm["shoulder"], arm["elbow"], arm["wrist"])
-        return {"feedback": "Move Into Camera View"}
-
-    def _run_squat(self, landmarks):
-        left_leg = self.landmark_manager.get_left_leg(landmarks)
-        right_leg = self.landmark_manager.get_right_leg(landmarks)
-        if (left_leg["visibility"] >= VISIBILITY_THRESHOLD
-                and right_leg["visibility"] >= VISIBILITY_THRESHOLD):
-            return self.active_workout.update(
-                left_leg["hip"], left_leg["knee"], left_leg["ankle"],
-                right_leg["hip"], right_leg["knee"], right_leg["ankle"],
-            )
-        return {"feedback": "Move Into Camera View"}
-
-    def _run_triceps_pushdown(self, landmarks):
-        arm = self.landmark_manager.get_best_arm(landmarks)
-        if arm["visibility"] >= VISIBILITY_THRESHOLD:
-            return self.active_workout.update(arm["shoulder"], arm["elbow"], arm["wrist"])
-        return {"feedback": "Move Into Camera View"}
-
-    def _run_lunges(self, landmarks):
-        leg = self.landmark_manager.get_best_leg(landmarks)
-        if leg["visibility"] >= VISIBILITY_THRESHOLD:
-            return self.active_workout.update(leg["hip"], leg["knee"], leg["ankle"])
-        return {"feedback": "Move Into Camera View"}
-
-    def _run_jumping_jacks(self, landmarks):
-        left_arm = self.landmark_manager.get_left_arm(landmarks)
-        right_arm = self.landmark_manager.get_right_arm(landmarks)
-        left_leg = self.landmark_manager.get_left_leg(landmarks)
-        right_leg = self.landmark_manager.get_right_leg(landmarks)
-
-        if (left_arm["visibility"] >= VISIBILITY_THRESHOLD
-                and right_arm["visibility"] >= VISIBILITY_THRESHOLD
-                and left_leg["visibility"] >= VISIBILITY_THRESHOLD
-                and right_leg["visibility"] >= VISIBILITY_THRESHOLD):
-            return self.active_workout.update(
-                left_arm["shoulder"], right_arm["shoulder"],
-                left_leg["hip"], right_leg["hip"],
-                left_arm["wrist"], right_arm["wrist"],
-                left_leg["ankle"], right_leg["ankle"],
-            )
-        return {"feedback": "Move Into Camera View"}
-
-    def _run_shoulder_press(self, landmarks):
-        left_arm = self.landmark_manager.get_left_arm(landmarks)
-        right_arm = self.landmark_manager.get_right_arm(landmarks)
-
-        if (left_arm["visibility"] >= VISIBILITY_THRESHOLD
-                and right_arm["visibility"] >= VISIBILITY_THRESHOLD):
-            return self.active_workout.update(
-                left_arm["shoulder"], left_arm["elbow"], left_arm["wrist"],
-                right_arm["shoulder"], right_arm["elbow"], right_arm["wrist"],
-            )
-        return {"feedback": "Move Into Camera View"}
-
-    def _run_burpees(self, landmarks):
-        left_leg = self.landmark_manager.get_left_leg(landmarks)
-        right_leg = self.landmark_manager.get_right_leg(landmarks)
-        arm = self.landmark_manager.get_best_arm(landmarks)
-
-        if (left_leg["visibility"] >= VISIBILITY_THRESHOLD
-                and right_leg["visibility"] >= VISIBILITY_THRESHOLD
-                and arm["visibility"] >= VISIBILITY_THRESHOLD):
-            return self.active_workout.update(
-                arm["shoulder"], left_leg["hip"], left_leg["knee"], left_leg["ankle"],
-                arm["shoulder"], right_leg["hip"], right_leg["knee"], right_leg["ankle"],
-            )
-        return {"feedback": "Move Into Camera View"}
-
-    def _run_warrior2(self, landmarks):
-        left_leg = self.landmark_manager.get_left_leg(landmarks)
-        right_leg = self.landmark_manager.get_right_leg(landmarks)
-
-        if (left_leg["visibility"] >= VISIBILITY_THRESHOLD
-                and right_leg["visibility"] >= VISIBILITY_THRESHOLD):
-            if left_leg["knee"][1] > right_leg["knee"][1]:
-                front_leg, back_leg = left_leg, right_leg
-            else:
-                front_leg, back_leg = right_leg, left_leg
-
-            return self.active_workout.update(
-                front_leg["hip"], front_leg["knee"], front_leg["ankle"],
-                back_leg["hip"], back_leg["knee"], back_leg["ankle"],
-            )
-        return {"feedback": "Move Into Camera View"}
-
-    def _run_goblet_squat(self, landmarks):
-        left_leg = self.landmark_manager.get_left_leg(landmarks)
-        right_leg = self.landmark_manager.get_right_leg(landmarks)
-
-        if (left_leg["visibility"] >= VISIBILITY_THRESHOLD
-                and right_leg["visibility"] >= VISIBILITY_THRESHOLD):
-            return self.active_workout.update(
-                left_leg["hip"], left_leg["knee"], left_leg["ankle"],
-                right_leg["hip"], right_leg["knee"], right_leg["ankle"],
-            )
-        return {"feedback": "Move Into Camera View"}
-
-    def _run_crossover_toe_touch(self, landmarks):
-        left_arm = self.landmark_manager.get_left_arm(landmarks)
-        right_arm = self.landmark_manager.get_right_arm(landmarks)
-        left_leg = self.landmark_manager.get_left_leg(landmarks)
-        right_leg = self.landmark_manager.get_right_leg(landmarks)
-
-        if (left_arm["visibility"] >= VISIBILITY_THRESHOLD
-                and right_arm["visibility"] >= VISIBILITY_THRESHOLD
-                and left_leg["visibility"] >= VISIBILITY_THRESHOLD
-                and right_leg["visibility"] >= VISIBILITY_THRESHOLD):
-            return self.active_workout.update(
-                left_arm["shoulder"], right_arm["shoulder"],
-                left_leg["hip"], right_leg["hip"],
-                left_leg["knee"], right_leg["knee"],
-                left_leg["ankle"], right_leg["ankle"],
-                left_arm["wrist"], right_arm["wrist"],
-            )
-        return {"feedback": "Move Into Camera View"}
+    # Delegated to the SHARED camera-independent EngineRouter so the
+    # desktop app and the Flask web engine exercise IDENTICAL logic.
 
     def _run_active_workout(self, landmarks):
-        handler = self._dispatch.get(self.current_key)
-        if handler is None:
-            return None
-        return handler(landmarks)
+        return self.router.run(landmarks)
 
     # ------------------------------------------------------------------ #
     # DASHBOARD INTEGRATION
@@ -798,8 +626,6 @@ class WorkoutApp:
     # ------------------------------------------------------------------ #
 
     def run(self):
-        print(MENU_TEXT)
-
         while True:
             # ---- 1. CAMERA -------------------------------------------------
             frame = self.camera.read_frame()
@@ -855,7 +681,7 @@ class WorkoutApp:
                 frame = self.drawer.draw(
                     frame,
                     detection_result,
-                    exercise_name=self.exercise_draw_keys.get(self.current_key),
+                    exercise_name=self.router.draw_key(self.current_key),
                     workout_data=result,
                     fps=fps,
                     show_angles=True,
@@ -942,6 +768,35 @@ class WorkoutApp:
         cv2.destroyAllWindows()
 
 
+def _run_terminal_menu() -> None:
+    """
+    Blocking terminal menu. Waits at "Select Exercise:" until the user
+    picks a valid exercise key (1-9, G, T) or quits (Q).
+
+    Each valid selection launches the EXISTING WorkoutApp camera workout
+    for that exercise; when that session ends, this menu stays available
+    instead of dropping back to the shell. If the camera cannot be opened,
+    the error is reported and the menu keeps running.
+    """
+    while True:
+        print(MENU_TEXT)
+        raw_choice = input("Select Exercise: ").strip()
+        if not raw_choice:
+            continue
+        choice = raw_choice.lower()
+
+        if choice in {"q", "quit", "exit"}:
+            break
+        if choice not in EXERCISE_KEY_ORDER:
+            print("Invalid choice. Please select a valid exercise.")
+            continue
+
+        try:
+            app = WorkoutApp(exercise_key=choice)
+            app.run()
+        except Exception as error:  # noqa: BLE001 - keep the menu alive
+            print(f"Could not start {choice.upper()}: {error}")
+
+
 if __name__ == "__main__":
-    app = WorkoutApp()
-    app.run()
+    _run_terminal_menu()

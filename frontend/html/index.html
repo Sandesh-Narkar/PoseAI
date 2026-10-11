@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en" style="">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet">
+  <style>
+    @layer base {
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        overscroll-behavior: none;
+      }
+
+      main>:first-child {
+        margin-top: 0 !important;
+      }
+
+      main>:last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script
+    id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-surface-variant": "#3f4850", "on-secondary-container": "#00714d", "primary": "#006194", "on-surface": "#131b2e", "surface-container-low": "#f2f3ff", "outline": "#707881", "secondary": "#006c49", "on-secondary-fixed-variant": "#005236", "surface-container-highest": "#dae2fd", "on-tertiary-fixed-variant": "#653e00", "surface-tint": "#006398", "error-container": "#ffdad6", "surface-container": "#eaedff", "on-primary": "#ffffff", "primary-fixed-dim": "#93ccff", "inverse-primary": "#93ccff", "on-secondary-fixed": "#002113", "secondary-container": "#6cf8bb", "surface-dim": "#d2d9f4", "surface": "#faf8ff", "on-secondary": "#ffffff", "surface-variant": "#dae2fd", "surface-bright": "#faf8ff", "tertiary-container": "#a36700", "on-primary-fixed": "#001d31", "inverse-on-surface": "#eef0ff", "on-primary-fixed-variant": "#004b73", "error": "#ba1a1a", "primary-container": "#007bb9", "inverse-surface": "#283044", "tertiary": "#825100", "primary-fixed": "#cce5ff", "on-tertiary-container": "#fffbff", "on-tertiary": "#ffffff", "tertiary-fixed": "#ffddb8", "surface-container-lowest": "#ffffff", "secondary-fixed-dim": "#4edea3", "on-error-container": "#93000a", "on-error": "#ffffff", "on-tertiary-fixed": "#2a1700", "on-background": "#131b2e", "outline-variant": "#bfc7d2", "background": "#faf8ff", "secondary-fixed": "#6ffbbe", "tertiary-fixed-dim": "#ffb95f", "on-primary-container": "#fdfcff", "surface-container-high": "#e2e7ff" }, "borderRadius": { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" }, "spacing": { "space-xl": "2rem", "margin-mobile": "1rem", "gutter-mobile": "1rem", "margin": "2.5rem", "space-lg": "1.5rem", "gutter": "1.5rem", "space-md": "1rem", "space-xs": "0.25rem", "space-2xl": "3rem", "space-sm": "0.5rem" }, "fontFamily": { "label-md": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "metric-stat": ["Plus Jakarta Sans"], "display-lg-mobile": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "caption": ["Plus Jakarta Sans"], "display-lg": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"] }, "fontSize": { "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "metric-stat": ["32px", { "lineHeight": "36px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "display-lg-mobile": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "caption": ["11px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500" }], "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.03em", "fontWeight": "700" }], "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-md": ["22px", { "lineHeight": "30px", "letterSpacing": "-0.015em", "fontWeight": "600" }] } } } };</script>
+</head>
+
+<body class="bg-background font-body-md text-on-surface min-h-screen antialiased flex flex-col"><svg
+    class="inline-defs-container" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></svg>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet">
+  <style>
+    @layer base {
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        overscroll-behavior: none;
+      }
+
+      main>:first-child {
+        margin-top: 0 !important;
+      }
+
+      main>:last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/navbar.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script
+    id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-surface-variant": "#3f4850", "on-secondary-container": "#00714d", "primary": "#006194", "on-surface": "#131b2e", "surface-container-low": "#f2f3ff", "outline": "#707881", "secondary": "#006c49", "on-secondary-fixed-variant": "#005236", "surface-container-highest": "#dae2fd", "on-tertiary-fixed-variant": "#653e00", "surface-tint": "#006398", "error-container": "#ffdad6", "surface-container": "#eaedff", "on-primary": "#ffffff", "primary-fixed-dim": "#93ccff", "inverse-primary": "#93ccff", "on-secondary-fixed": "#002113", "secondary-container": "#6cf8bb", "surface-dim": "#d2d9f4", "surface": "#faf8ff", "on-secondary": "#ffffff", "surface-variant": "#dae2fd", "surface-bright": "#faf8ff", "tertiary-container": "#a36700", "on-primary-fixed": "#001d31", "inverse-on-surface": "#eef0ff", "on-primary-fixed-variant": "#004b73", "error": "#ba1a1a", "primary-container": "#007bb9", "inverse-surface": "#283044", "tertiary": "#825100", "primary-fixed": "#cce5ff", "on-tertiary-container": "#fffbff", "on-tertiary": "#ffffff", "tertiary-fixed": "#ffddb8", "surface-container-lowest": "#ffffff", "secondary-fixed-dim": "#4edea3", "on-error-container": "#93000a", "on-error": "#ffffff", "on-tertiary-fixed": "#2a1700", "on-background": "#131b2e", "outline-variant": "#bfc7d2", "background": "#faf8ff", "secondary-fixed": "#6ffbbe", "tertiary-fixed-dim": "#ffb95f", "on-primary-container": "#fdfcff", "surface-container-high": "#e2e7ff" }, "borderRadius": { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" }, "spacing": { "space-xl": "2rem", "margin-mobile": "1rem", "gutter-mobile": "1rem", "margin": "2.5rem", "space-lg": "1.5rem", "gutter": "1.5rem", "space-md": "1rem", "space-xs": "0.25rem", "space-2xl": "3rem", "space-sm": "0.5rem" }, "fontFamily": { "label-md": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "metric-stat": ["Plus Jakarta Sans"], "display-lg-mobile": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "caption": ["Plus Jakarta Sans"], "display-lg": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"] }, "fontSize": { "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "metric-stat": ["32px", { "lineHeight": "36px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "display-lg-mobile": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "caption": ["11px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500" }], "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.03em", "fontWeight": "700" }], "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-md": ["22px", { "lineHeight": "30px", "letterSpacing": "-0.015em", "fontWeight": "600" }] } } } };</script>
+  <div id="app-header"></div>
+  <main id="main-dashboard" class="w-full bg-background flex-1">
+    <div class="max-w-7xl mx-auto px-margin-mobile md:px-margin py-space-lg md:py-space-xl">
+      <div class="flex flex-col w-full gap-y-space-xl">
+        <!-- Interactive View State Controller & Page Sub-Bar -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+          <div>
+            <h1 id="greetingText" class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Good evening</h1>
+            <p class="font-body-md text-body-md text-on-surface-variant mt-0.5">Ready to calibrate and improve your
+              movement form today?</p>
+          </div>
+          <!-- Live data status & camera CTA -->
+          <div class="flex items-center gap-2 self-start sm:self-auto">
+            <span class="px-3 py-1 rounded-full bg-surface-container-high font-caption text-caption text-on-surface-variant font-semibold">Live data</span>
+            <a
+              class="inline-flex items-center gap-1 px-4 py-1.5 rounded-full font-label-md text-label-md font-bold transition-all bg-primary text-on-primary shadow-sm"
+              href="/workout"><span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>Live Camera</a>
+          </div>
+        </div>
+        <!-- SECTION 1: TODAY'S FEATURED ROUTINE (Hero Pose Estimation Workout Card) -->
+        <section
+          class="w-full bg-surface-container-lowest rounded-lg p-space-lg md:p-space-xl shadow-sm relative overflow-hidden">
+          <div
+            class="absolute -right-20 -bottom-20 w-96 h-96 bg-primary-fixed/25 rounded-full blur-3xl pointer-events-none">
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center relative z-10">
+            <!-- Left Details Column -->
+            <div class="lg:col-span-7 flex flex-col gap-space-md">
+              <div class="flex flex-wrap items-center gap-space-xs">
+                <span
+                  class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-surface-container-high text-primary font-caption text-caption tracking-wider uppercase font-bold">
+                  <span class="material-symbols-outlined text-[14px]">psychology</span>
+                  Today's Featured Routine
+                </span>
+                <span
+                  class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-caption text-caption font-semibold">
+                  Sub-millimeter Telemetry
+                </span>
+              </div>
+              <div>
+                <h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface tracking-tight">
+                  Bicep Curl Session</h2>
+                <p class="font-body-md text-body-md text-on-surface-variant mt-1 max-w-xl">
+                  Real-time optical joint-angle kinematics tracking elbow hinge stability, rep cadence, and eccentric
+                  deceleration.
+                </p>
+              </div>
+              <!-- Routine Key Parameters -->
+              <div class="flex flex-wrap items-center gap-space-sm pt-1">
+                <div
+                  class="flex items-center gap-2 px-space-md py-2 rounded-2xl bg-surface-container-low text-on-surface">
+                  <span class="material-symbols-outlined text-[20px] text-primary">fitness_center</span>
+                  <div>
+                    <span class="font-caption text-caption text-on-surface-variant block uppercase">Target</span>
+                    <span class="font-label-lg text-label-lg font-bold">12 Reps / 3 Sets</span>
+                  </div>
+                </div>
+                <div
+                  class="flex items-center gap-2 px-space-md py-2 rounded-2xl bg-surface-container-low text-on-surface">
+                  <span class="material-symbols-outlined text-[20px] text-tertiary">timer</span>
+                  <div>
+                    <span class="font-caption text-caption text-on-surface-variant block uppercase">Est. Time</span>
+                    <span class="font-label-lg text-label-lg font-bold">5 Mins</span>
+                  </div>
+                </div>
+                <div
+                  class="flex items-center gap-2 px-space-md py-2 rounded-2xl bg-surface-container-low text-on-surface">
+                  <span class="material-symbols-outlined text-[20px] text-secondary">straighten</span>
+                  <div>
+                    <span class="font-caption text-caption text-on-surface-variant block uppercase">Focus</span>
+                    <span class="font-label-lg text-label-lg font-bold">Elbow Plane Lock</span>
+                  </div>
+                </div>
+              </div>
+              <!-- CTA Trigger -->
+              <div class="pt-space-sm flex flex-col sm:flex-row sm:items-center gap-space-md">
+                <button
+                  class="inline-flex items-center justify-center gap-2 px-space-xl py-3.5 rounded-full bg-primary-container text-on-primary-container font-label-lg text-label-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 cursor-pointer"
+                  onclick="window.location.href='/workout'" type="button">
+                  <span class="material-symbols-outlined text-[20px]">videocam</span>
+                  <span class="">START REAL-TIME CAMERA WORKOUT</span>
+                  <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                </button>
+                <span class="font-caption text-caption text-on-surface-variant">
+                  Zero wearable hardware needed • 1080p 60fps edge CV
+                </span>
+              </div>
+            </div>
+            <!-- Right Biomechanical Illustration / Visual Telemetry Diagram -->
+            <div class="lg:col-span-5 flex justify-center">
+              <div
+                class="w-full max-w-sm relative rounded-2xl md:rounded-3xl overflow-hidden shadow-lg group border border-surface-container-high">
+                <img
+                  src="/images/bicep-curl.jpg"
+                  onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=800&h=1000&q=80';"
+                  alt="Athletic person performing bicep curl with computer vision posture tracking mesh"
+                  class="w-full h-80 md:h-96 object-cover">
+                <div
+                  class="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 via-transparent to-inverse-surface/30 pointer-events-none">
+                </div>
+                <div class="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none"><span
+                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md text-secondary font-caption text-caption font-bold shadow-sm"><span
+                      class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>CV Live Tracking</span><span
+                    class="px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md text-on-surface font-caption text-caption font-semibold shadow-sm">Node
+                    14-16 Hinge</span></div>
+                <div
+                  class="absolute bottom-3 left-3 right-3 p-3 bg-surface-container-lowest/90 backdrop-blur-md rounded-xl flex items-center justify-between shadow-md">
+                  <div class="flex items-center gap-2">
+                    <div
+                      class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+                      <span class="material-symbols-outlined text-[18px]">center_focus_strong</span>
+                    </div>
+                    <div class="flex flex-col"><span
+                        class="font-label-md text-label-md text-on-surface font-bold leading-tight">33 3D Spatial
+                        Joints</span><span class="font-caption text-caption text-on-surface-variant leading-tight">Elbow
+                        plane aligned</span></div>
+                  </div><span class="font-label-md text-label-md text-secondary font-bold">Awaiting Stream</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- TODAY'S HEALTH SNAPSHOT & POSEAI DAILY INSIGHT -->
+        <section class="w-full bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm border border-surface-container-high/60">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg">
+            <!-- Left: Health Snapshot -->
+            <div class="flex-1">
+              <div class="flex items-center justify-between mb-space-sm">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-primary text-[22px]">health_and_safety</span>
+                  <h3 class="font-caption text-caption text-on-surface font-extrabold uppercase tracking-wider">TODAY'S HEALTH SNAPSHOT</h3>
+                </div>
+                <a href="/nutrition" class="inline-flex items-center gap-1 font-label-md text-label-md font-bold text-primary hover:text-primary-container transition-colors">
+                  VIEW NUTRITION <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </a>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-space-sm">
+                <div class="p-3.5 rounded-2xl bg-surface-container-low border border-surface-container">
+                  <div class="flex items-center gap-1.5 text-on-surface-variant mb-1">
+                    <span class="material-symbols-outlined text-emerald-600 text-[18px]">restaurant</span>
+                    <span class="font-caption text-[11px] font-bold uppercase tracking-wider">FOOD INTAKE</span>
+                  </div>
+                  <p id="dashFoodKcal" class="font-headline-sm text-headline-sm font-extrabold text-on-surface">0 kcal</p>
+                </div>
+                <div class="p-3.5 rounded-2xl bg-surface-container-low border border-surface-container">
+                  <div class="flex items-center gap-1.5 text-on-surface-variant mb-1">
+                    <span class="material-symbols-outlined text-amber-600 text-[18px]">local_fire_department</span>
+                    <span class="font-caption text-[11px] font-bold uppercase tracking-wider">ACTIVITY</span>
+                  </div>
+                  <p id="dashActivityKcal" class="font-headline-sm text-headline-sm font-extrabold text-secondary">0 kcal</p>
+                </div>
+                <div class="p-3.5 rounded-2xl bg-surface-container-low border border-surface-container">
+                  <div class="flex items-center gap-1.5 text-on-surface-variant mb-1">
+                    <span class="material-symbols-outlined text-primary text-[18px]">fitness_center</span>
+                    <span class="font-caption text-[11px] font-bold uppercase tracking-wider">PROTEIN</span>
+                  </div>
+                  <p id="dashProteinVal" class="font-headline-sm text-headline-sm font-extrabold text-primary">0 / 120g</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Dynamic PoseAI Daily Insight -->
+            <div class="lg:max-w-md w-full p-space-md rounded-2xl bg-surface-container-low border border-surface-container flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-1.5 mb-1.5">
+                  <span class="material-symbols-outlined text-primary text-[20px]">psychology</span>
+                  <span class="font-caption text-caption font-bold uppercase tracking-wider text-primary">POSEAI DAILY INSIGHT</span>
+                </div>
+                <p id="dashInsightText" class="font-body-md text-xs text-on-surface-variant leading-relaxed">
+                  Start logging meals to see your dynamic nutrition & workout insights.
+                </p>
+              </div>
+              <div class="mt-3 pt-2 border-t border-surface-container flex items-center justify-between">
+                <span class="font-caption text-[11px] text-on-surface-variant">Real-time sync</span>
+                <a href="/nutrition" class="font-caption text-[11px] font-bold text-primary hover:underline">Open Nutrition →</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 2: PERFORMANCE SUMMARY METRICS -->
+        <section class="w-full">
+          <div class="flex items-center justify-between mb-space-sm">
+            <h3 class="font-caption text-caption text-on-surface-variant font-bold tracking-wider uppercase">Performance
+              Summary</h3>
+            <span class="font-caption text-caption text-on-surface-variant" id="metric-window-label">Last 7 rolling
+              days</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-space-md md:gap-space-lg">
+            <!-- Metric Card 1: Streak -->
+            <div
+              class="bg-surface-container-lowest rounded-lg p-space-lg shadow-sm hover:shadow-md transition-all duration-200">
+              <div class="flex items-center justify-between mb-space-md">
+                <span class="font-label-lg text-label-lg text-on-surface-variant">Current Streak</span>
+                <div class="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary">
+                  <span class="material-symbols-outlined text-[22px]">local_fire_department</span>
+                </div>
+              </div>
+              <div class="flex items-baseline gap-2">
+                <span class="font-metric-stat text-metric-stat text-on-surface" id="val-streak">--</span>
+              </div>
+              <div class="mt-space-sm flex items-center gap-1.5">
+                <span
+                  class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-caption text-caption font-bold"
+                  id="badge-streak">
+                  <span class="material-symbols-outlined text-[13px]">trending_up</span>
+                  Awaiting first session
+                </span>
+                <span class="font-caption text-caption text-on-surface-variant" id="sub-streak">Complete a workout to start a streak</span>
+              </div>
+            </div>
+            <!-- Metric Card 2: Total Workouts -->
+            <div
+              class="bg-surface-container-lowest rounded-lg p-space-lg shadow-sm hover:shadow-md transition-all duration-200">
+              <div class="flex items-center justify-between mb-space-md">
+                <span class="font-label-lg text-label-lg text-on-surface-variant">Total Workouts</span>
+                <div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+                  <span class="material-symbols-outlined text-[22px]">fitness_center</span>
+                </div>
+              </div>
+              <div class="flex items-baseline gap-2">
+                <span class="font-metric-stat text-metric-stat text-on-surface" id="val-workouts">--</span>
+              </div>
+              <div class="mt-space-sm flex items-center gap-1.5">
+                <span class="font-caption text-caption text-on-surface-variant" id="sub-workouts">Complete a workout to see your biomechanical volume tracked</span>
+              </div>
+            </div>
+            <!-- Metric Card 3: Form Accuracy -->
+            <div
+              class="bg-surface-container-lowest rounded-lg p-space-lg shadow-sm hover:shadow-md transition-all duration-200">
+              <div class="flex items-center justify-between mb-space-md">
+                <span class="font-label-lg text-label-lg text-on-surface-variant">Avg Form Accuracy</span>
+                <div
+                  class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary">
+                  <span class="material-symbols-outlined text-[22px]">track_changes</span>
+                </div>
+              </div>
+              <div class="flex items-baseline gap-2">
+                <span class="font-metric-stat text-metric-stat text-on-surface" id="val-accuracy">--</span>
+                <span
+                  class="inline-flex items-center px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-caption text-caption font-bold"
+                  id="badge-accuracy">
+                  Awaiting data
+                </span>
+              </div>
+              <div class="mt-space-sm flex items-center gap-1.5">
+                <span class="font-caption text-caption text-on-surface-variant" id="sub-accuracy">Awaiting first form estimation</span>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section
+          class="w-full bg-surface-container-lowest rounded-lg p-space-lg md:p-space-xl shadow-sm border border-surface-container-high/60 relative overflow-hidden">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md mb-space-lg">
+            <div class="flex flex-col">
+              <div class="flex items-center gap-2 mb-1"><span
+                  class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary-fixed text-primary font-caption text-caption uppercase font-bold tracking-wider"><span
+                    class="material-symbols-outlined text-[14px]">show_chart</span>Biomechanical Kinematic
+                  Tracking</span><span
+                  class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-caption text-caption font-semibold"><span
+                    class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>Live Stream Synced</span></div>
+              <h3
+                class="font-headline-lg text-headline-sm md:text-headline-lg text-on-surface font-bold tracking-tight">
+                Form Accuracy &amp; Joint Stability Over Time</h3>
+              <p class="font-body-md text-body-md text-on-surface-variant mt-0.5">Optical computer vision joint-angle
+                alignment across completed reps and angular velocity curves.</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-space-sm">
+              <div
+                class="flex items-center bg-surface-container-low p-1 rounded-full border border-surface-container-high">
+                <button id="tab-form"
+                  class="px-3 py-1 rounded-full font-label-md text-label-md bg-surface-container-lowest text-primary shadow-sm font-bold transition-all"
+                  type="button">Form Accuracy %</button><button id="tab-variance"
+                  class="px-3 py-1 rounded-full font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all"
+                  type="button">Angular Variance</button><button id="tab-cadence"
+                  class="px-3 py-1 rounded-full font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all"
+                  type="button">Rep Cadence</button>
+              </div>
+              <div class="flex items-center bg-surface-container p-1 rounded-full"><button id="range-7d"
+                  class="px-2.5 py-1 rounded-full font-caption text-caption bg-surface-container-lowest text-primary font-bold shadow-xs"
+                  type="button">7D</button><button id="range-14d"
+                  class="px-2.5 py-1 rounded-full font-caption text-caption text-on-surface-variant hover:text-on-surface"
+                  type="button">14D</button><button id="range-30d"
+                  class="px-2.5 py-1 rounded-full font-caption text-caption text-on-surface-variant hover:text-on-surface"
+                  type="button">30D</button><button id="range-90d"
+                  class="px-2.5 py-1 rounded-full font-caption text-caption text-on-surface-variant hover:text-on-surface"
+                  type="button">90D</button></div>
+            </div>
+          </div>
+          <div class="relative w-full overflow-hidden">
+            <div id="metricChart" class="w-full h-64 md:h-72 relative"></div>
+            <div id="chartEmptyState"
+              class="hidden absolute inset-0 flex flex-col items-center justify-center text-center gap-2 px-8">
+              <span class="material-symbols-outlined text-[36px] text-outline">insights</span>
+              <p id="chartEmptyText" class="font-body-md text-body-md text-on-surface-variant max-w-md"></p>
+            </div>
+          </div>
+<div
+              class="mt-space-md pt-space-md border-t border-surface-container grid grid-cols-1 sm:grid-cols-3 gap-space-md">
+              <div class="flex items-center gap-3 p-2.5 rounded-2xl bg-surface-container-low">
+                <div
+                  class="w-10 h-10 rounded-xl bg-secondary-container flex items-center justify-center text-on-secondary-container flex-shrink-0">
+                  <span class="material-symbols-outlined text-[20px]">verified</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-1"><span id="stat-peak-form"
+                      class="font-headline-sm text-headline-sm font-bold text-on-surface">--</span><span
+                      id="stat-peak-form-sub" class="font-caption text-caption font-semibold text-secondary"></span></div><span
+                      class="font-caption text-caption text-on-surface-variant block">Peak Session Form Score</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-2.5 rounded-2xl bg-surface-container-low">
+                <div
+                  class="w-10 h-10 rounded-xl bg-primary-fixed flex items-center justify-center text-primary flex-shrink-0">
+                  <span class="material-symbols-outlined text-[20px]">balance</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-1"><span id="stat-stability"
+                      class="font-headline-sm text-headline-sm font-bold text-on-surface">--</span><span
+                      id="stat-stability-sub" class="font-caption text-caption font-semibold text-primary"></span></div><span
+                      class="font-caption text-caption text-on-surface-variant block">Kinematic Stability Index</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-2.5 rounded-2xl bg-surface-container-low">
+                <div
+                  class="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary flex-shrink-0">
+                  <span class="material-symbols-outlined text-[20px]">straighten</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-1"><span id="stat-variance"
+                      class="font-headline-sm text-headline-sm font-bold text-on-surface">--</span><span
+                      id="stat-variance-sub" class="font-caption text-caption font-semibold text-secondary"></span></div><span
+                      class="font-caption text-caption text-on-surface-variant block">Joint Angle Variance</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- SECTION 3 & 4: SPLIT GRID (Weekly Goal Progress & Visual Timeline) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+          <!-- Weekly Goal Progress Card (7 Cols) -->
+          <section
+            class="lg:col-span-7 bg-surface-container-lowest rounded-lg p-space-lg shadow-sm flex flex-col gap-space-md">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="font-caption text-caption text-on-surface-variant font-bold tracking-wider uppercase">Weekly
+                  Goal Progress</h3>
+                <p class="font-headline-sm text-headline-sm text-on-surface font-bold mt-0.5" id="label-weekly-target">-- / 7 Days Completed</p>
+              </div>
+              <!-- Circular Mini Progress Indicator -->
+              <div class="relative w-12 h-12 flex items-center justify-center">
+                <svg class="w-12 h-12 -rotate-90" viewBox="0 0 36 36">
+                  <path class="text-surface-container"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
+                    stroke="currentColor" stroke-width="3.5"></path>
+                  <path class="text-primary transition-all duration-500"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none"
+                    id="circle-progress" stroke="currentColor" stroke-dasharray="71, 100" stroke-linecap="round"
+                    stroke-width="3.5"></path>
+                </svg>
+                <span class="absolute font-caption text-caption font-bold text-on-surface" id="label-percent">0%</span>
+              </div>
+            </div>
+            <!-- Seven-Day Activity Visual Ribbon -->
+            <div class="w-full pt-space-xs">
+              <div class="grid grid-cols-7 gap-2 text-center" id="calendar-ribbon">
+                <!-- Mon -->
+                <div class="flex flex-col items-center gap-1.5 day-step">
+                  <span class="font-caption text-caption text-on-surface-variant">Mon</span>
+                  <div
+                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-surface-container-low text-on-surface-variant flex items-center justify-center shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">event</span>
+                  </div>
+                  <span class="font-caption text-[10px] text-on-surface-variant">Plan</span>
+                </div>
+                <!-- Tue -->
+                <div class="flex flex-col items-center gap-1.5 day-step">
+                  <span class="font-caption text-caption text-on-surface-variant">Tue</span>
+                  <div
+                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-surface-container-low text-on-surface-variant flex items-center justify-center shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">event</span>
+                  </div>
+                  <span class="font-caption text-[10px] text-on-surface-variant">Plan</span>
+                </div>
+                <!-- Wed -->
+                <div class="flex flex-col items-center gap-1.5 day-step">
+                  <span class="font-caption text-caption text-on-surface-variant">Wed</span>
+                  <div
+                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-surface-container-low text-on-surface-variant flex items-center justify-center shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">event</span>
+                  </div>
+                  <span class="font-caption text-[10px] text-on-surface-variant">Plan</span>
+                </div>
+                <!-- Thu -->
+                <div class="flex flex-col items-center gap-1.5 day-step">
+                  <span class="font-caption text-caption text-on-surface-variant">Thu</span>
+                  <div
+                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-surface-container-low text-on-surface-variant flex items-center justify-center shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">event</span>
+                  </div>
+                  <span class="font-caption text-[10px] text-on-surface-variant">Plan</span>
+                </div>
+                <!-- Fri (Rest) -->
+                <div class="flex flex-col items-center gap-1.5 day-step">
+                  <span class="font-caption text-caption text-on-surface-variant">Fri</span>
+                  <div
+                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-surface-container text-on-surface-variant flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[18px] opacity-40">bedtime</span>
+                  </div>
+                  <span class="font-caption text-[10px] text-on-surface-variant opacity-60">Rest</span>
+                </div>
+                <!-- Sat (Today) -->
+                <div class="flex flex-col items-center gap-1.5 day-step">
+                  <span class="font-caption text-caption text-primary font-bold">Sat</span>
+                  <div
+                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-surface-container-low text-on-surface-variant flex items-center justify-center shadow-md">
+                    <span class="material-symbols-outlined text-[18px] opacity-40">event</span>
+                  </div>
+                  <span class="font-caption text-[10px] text-on-surface-variant">Today</span>
+                </div>
+                <!-- Sun (Upcoming) -->
+                <div class="flex flex-col items-center gap-1.5 day-step">
+                  <span class="font-caption text-caption text-on-surface-variant">Sun</span>
+                  <div
+                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-surface-container-low text-on-surface-variant flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[16px] opacity-40">event</span>
+                  </div>
+                  <span class="font-caption text-[10px] text-on-surface-variant opacity-60">Plan</span>
+                </div>
+              </div>
+            </div>
+            <div class="p-3 bg-surface-container-low rounded-2xl flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">flag</span>
+                <span class="font-body-md text-body-md text-on-surface" id="text-motivation">Complete a workout today to start moving toward your weekly goal.</span>
+              </div>
+              <button class="text-primary font-label-md text-label-md hover:underline" type="button">Adjust
+                Goal</button>
+            </div>
+          </section>
+          <!-- Biometric Sensors & Telemetry Readiness Card (5 Cols) -->
+          <section
+            class="lg:col-span-5 bg-surface-container-lowest rounded-lg p-space-lg shadow-sm flex flex-col justify-between h-full gap-space-md">
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="font-caption text-caption text-on-surface-variant font-bold tracking-wider uppercase">Pose
+                  Telemetry Engine</h3>
+                <span
+                  class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-caption text-caption font-bold">Ready</span>
+              </div>
+              <p class="font-headline-sm text-headline-sm text-on-surface font-bold mt-1">Edge Processing Pipeline</p>
+              <p class="font-body-md text-body-md text-on-surface-variant mt-1">
+                Zero cloud video streaming: all joint tracking operates entirely on local WebGL shader inference.
+              </p>
+            </div>
+            <div class="space-y-2 pt-1">
+              <div class="flex items-center justify-between p-2.5 rounded-2xl bg-surface-container-low">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[18px] text-primary">visibility</span>
+                  <span class="font-label-md text-label-md text-on-surface">Camera Joint Pipeline</span>
+                </div>
+                <span class="font-caption text-caption font-mono text-secondary font-bold">60 FPS Locked</span>
+              </div>
+              <div class="flex items-center justify-between p-2.5 rounded-2xl bg-surface-container-low">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[18px] text-primary">speed</span>
+                  <span class="font-label-md text-label-md text-on-surface">Inference Latency</span>
+                </div>
+                <span class="font-caption text-caption font-mono text-on-surface-variant font-bold">&lt; 14ms (Neural
+                  Core)</span>
+              </div>
+            </div>
+            <div
+              class="pt-space-xs flex items-center justify-between font-caption text-caption text-on-surface-variant">
+              <span class="">Hardware Acceleration: Active</span>
+              <button class="text-primary font-label-md text-label-md hover:underline inline-flex items-center gap-1"
+                onclick="window.location.href='/workout'" type="button">
+                Run Diagnostics <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+              </button>
+            </div>
+          </section>
+        </div>
+        <!-- SECTION 5: RECENT WORKOUT HISTORY (Populated vs Empty dynamically managed) -->
+        <section class="w-full bg-surface-container-lowest rounded-lg p-space-lg shadow-sm">
+          <div class="flex items-center justify-between mb-space-md">
+            <div>
+              <h3 class="font-caption text-caption text-on-surface-variant font-bold tracking-wider uppercase">Recent
+                Workout History</h3>
+              <p class="font-headline-sm text-headline-sm text-on-surface font-bold mt-0.5">Biomechanical Session Logs
+              </p>
+            </div>
+            <a class="font-label-lg text-label-lg text-primary hover:text-on-surface flex items-center gap-1 transition-colors"
+              data-path="analysis" href="/analysis">
+              <span class="">View Full Analysis</span>
+              <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+            </a>
+          </div>
+          <!-- Active Populated History Table -->
+          <div class="flex flex-col gap-space-xs" id="history-container-active">
+            <!-- Session Item 1 -->
+            <div
+              class="flex flex-col md:flex-row md:items-center justify-between p-space-md rounded-2xl hover:bg-surface-container-low transition-colors duration-150 gap-space-sm">
+              <div class="flex items-center gap-space-md">
+                <div
+                  class="w-12 h-12 rounded-2xl bg-primary-fixed flex items-center justify-center text-primary flex-shrink-0">
+                  <span class="material-symbols-outlined text-[24px]">fitness_center</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h4 class="font-label-lg text-label-lg text-on-surface font-bold">Bicep Curl Session</h4>
+                    <span
+                      class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-caption text-caption font-bold">--%
+                      Form</span>
+                  </div>
+                  <div class="flex items-center gap-2 font-caption text-caption text-on-surface-variant mt-0.5">
+                    <span class="">Awaiting session data</span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center justify-between md:justify-end gap-space-md">
+                <span
+                  class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-surface-container text-on-surface font-caption text-caption font-medium">
+                  <span class="material-symbols-outlined text-[14px] text-secondary">check_circle</span>
+                  Awaiting first session feedback
+                </span>
+                <button
+                  class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:text-on-primary-fixed-variant px-3 py-1.5 rounded-full hover:bg-surface-container transition-all"
+                  type="button">
+                  Analysis <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+            <!-- Session Item 2 -->
+            <div
+              class="flex flex-col md:flex-row md:items-center justify-between p-space-md rounded-2xl hover:bg-surface-container-low transition-colors duration-150 gap-space-sm">
+              <div class="flex items-center gap-space-md">
+                <div
+                  class="w-12 h-12 rounded-2xl bg-secondary-container flex items-center justify-center text-on-secondary-container flex-shrink-0">
+                  <span class="material-symbols-outlined text-[24px]">accessibility_new</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h4 class="font-label-lg text-label-lg text-on-surface font-bold">Awaiting session data</h4>
+                    <span
+                      class="px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-caption text-caption font-bold">--%
+                      Form</span>
+                  </div>
+                  <div class="flex items-center gap-2 font-caption text-caption text-on-surface-variant mt-0.5">
+                    <span class="">No completed session yet</span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center justify-between md:justify-end gap-space-md">
+                <span
+                  class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-surface-container text-on-surface font-caption text-caption font-medium">
+                  <span class="material-symbols-outlined text-[14px] text-tertiary">info</span>
+                  Awaiting first session feedback
+                </span>
+                <button
+                  class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:text-on-primary-fixed-variant px-3 py-1.5 rounded-full hover:bg-surface-container transition-all"
+                  type="button">
+                  Analysis <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+            <!-- Session Item 3 -->
+            <div
+              class="flex flex-col md:flex-row md:items-center justify-between p-space-md rounded-2xl hover:bg-surface-container-low transition-colors duration-150 gap-space-sm">
+              <div class="flex items-center gap-space-md">
+                <div
+                  class="w-12 h-12 rounded-2xl bg-tertiary-fixed flex items-center justify-center text-tertiary flex-shrink-0">
+                  <span class="material-symbols-outlined text-[24px]">sports_martial_arts</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h4 class="font-label-lg text-label-lg text-on-surface font-bold">Lateral Raise Session</h4>
+                    <span
+                      class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-caption text-caption font-bold">--%
+                      Form</span>
+                  </div>
+                  <div class="flex items-center gap-2 font-caption text-caption text-on-surface-variant mt-0.5">
+                    <span class="">Awaiting session data</span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center justify-between md:justify-end gap-space-md">
+                <span
+                  class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-surface-container text-on-surface font-caption text-caption font-medium">
+                  <span class="material-symbols-outlined text-[14px] text-secondary">verified</span>
+                  Awaiting first session feedback
+                </span>
+                <button
+                  class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:text-on-primary-fixed-variant px-3 py-1.5 rounded-full hover:bg-surface-container transition-all"
+                  type="button">
+                  Analysis <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Empty State Container (Displayed when First-Time User state is selected) -->
+          <div class="hidden flex-col items-center justify-center py-space-2xl text-center px-4"
+            id="history-container-empty">
+            <div
+              class="w-20 h-20 rounded-full bg-surface-container flex items-center justify-center text-outline mb-space-md">
+              <span class="material-symbols-outlined text-[40px]">videocam_off</span>
+            </div>
+            <h4 class="font-headline-sm text-headline-sm text-on-surface font-bold">No workouts tracked yet</h4>
+            <p class="font-body-md text-body-md text-on-surface-variant max-w-md mt-1 mb-space-lg">
+              Start your very first AI-guided movement session. PoseAI will measure joint kinematics in real-time.
+            </p>
+            <button
+              class="inline-flex items-center gap-2 px-space-xl py-3 rounded-full bg-primary-container text-on-primary-container font-label-lg text-label-lg shadow hover:shadow-md transition-all"
+              onclick="window.location.href='/workout'" type="button">
+              <span class="material-symbols-outlined text-[18px]">play_arrow</span>
+              Start Your First Workout
+            </button>
+          </div>
+        </section>
+        <!-- FITNESS MARKET: QUICK ACCESS -->
+        <section class="rounded-2xl border border-surface-container-high bg-surface-container-lowest shadow-sm overflow-hidden">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md p-space-lg">
+            <div class="flex items-center gap-space-md">
+              <div class="w-12 h-12 rounded-2xl bg-primary-container flex items-center justify-center text-on-primary-container flex-shrink-0">
+                <span class="material-symbols-outlined text-[24px]">shopping_bag</span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Fitness Market</h3>
+                  <span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-caption text-caption font-bold">Live</span>
+                </div>
+                <p class="font-body-md text-body-md text-on-surface-variant mt-0.5">Verified supplements, apparel and gear for your training plan.</p>
+              </div>
+            </div>
+            <a href="/fitness-market"
+              class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:text-on-primary-fixed-variant px-3 py-1.5 rounded-full hover:bg-surface-container transition-all">
+              Browse all <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </a>
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-space-sm px-space-lg pb-space-lg">
+            <a href="/fitness-market?category=protein"
+              class="flex items-center gap-2 p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors">
+              <span class="material-symbols-outlined text-[20px] text-primary">nutrition</span>
+              <span class="font-label-md text-label-md text-on-surface font-semibold">Protein</span>
+            </a>
+            <a href="/fitness-market?category=creatine"
+              class="flex items-center gap-2 p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors">
+              <span class="material-symbols-outlined text-[20px] text-secondary">bolt</span>
+              <span class="font-label-md text-label-md text-on-surface font-semibold">Creatine</span>
+            </a>
+            <a href="/fitness-market?category=accessories"
+              class="flex items-center gap-2 p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors">
+              <span class="material-symbols-outlined text-[20px] text-tertiary">handyman</span>
+              <span class="font-label-md text-label-md text-on-surface font-semibold">Accessories</span>
+            </a>
+            <a href="/fitness-market?category=deals"
+              class="flex items-center gap-2 p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors">
+              <span class="material-symbols-outlined text-[20px] text-error">local_fire_department</span>
+              <span class="font-label-md text-label-md text-on-surface font-semibold">Hot Deals</span>
+            </a>
+          </div>
+        </section>
+        <!-- MODAL: LIVE CAMERA CONNECTION & POSE ESTIMATION PREVIEW -->
+        <div
+          class="fixed inset-0 z-50 hidden bg-inverse-surface/60 backdrop-blur-md flex items-center justify-center p-4"
+          id="live-camera-modal">
+          <div
+            class="bg-surface-container-lowest rounded-lg max-w-2xl w-full shadow-2xl overflow-hidden flex flex-col relative">
+            <!-- Modal Header -->
+            <div class="p-space-lg flex items-center justify-between border-b border-surface-container">
+              <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-secondary animate-pulse"></div>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Optical Camera Pose Calibrator
+                </h3>
+              </div>
+              <button
+                class="w-9 h-9 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                onclick="toggleLiveModal(false)" type="button">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+              </button>
+            </div>
+            <!-- Camera Viewport Simulator -->
+            <div
+              class="relative bg-inverse-surface aspect-video w-full flex items-center justify-center overflow-hidden">
+              <!-- Live Viewport Backdrop Placeholder Image -->
+              <div class="absolute inset-0 bg-cover bg-center opacity-40"
+                data-alt="A modern athletic home gym with bright sunlight streaming through floor-to-ceiling windows. A person in minimalist performance athletic apparel stands in posture calibration distance, framed by soft ambient lighting, clean minimal aesthetics."
+                style="background-image: url('https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1920&q=80')">
+              </div>
+              <!-- Live HUD Overlay Overlay -->
+              <div class="absolute inset-0 p-space-md flex flex-col justify-between pointer-events-none z-10">
+                <div class="flex items-center justify-between">
+                  <span
+                    class="px-2.5 py-1 rounded-full bg-inverse-surface/80 text-inverse-on-surface font-mono font-caption text-caption">
+                    RESOLUTION: 1920x1080 @ 60FPS
+                  </span>
+                  <span
+                    class="px-2.5 py-1 rounded-full bg-secondary/90 text-on-secondary font-mono font-caption text-caption font-bold">
+                    CALIBRATED • FULL BODY IN FRAME
+                  </span>
+                </div>
+                <!-- Bounding Joint Crosshair Center -->
+                <div class="self-center flex flex-col items-center">
+                  <div
+                    class="w-48 h-64 border-2 border-dashed border-primary-fixed-dim/70 rounded-3xl flex items-center justify-center relative">
+                    <span class="w-3 h-3 bg-secondary rounded-full absolute top-8 left-12"></span>
+                    <span class="w-3 h-3 bg-secondary rounded-full absolute top-8 right-12"></span>
+                    <span class="w-3 h-3 bg-secondary rounded-full absolute top-28 left-8 animate-ping"></span>
+                    <span class="w-3 h-3 bg-primary rounded-full absolute top-28 right-8"></span>
+                    <span class="w-3 h-3 bg-secondary rounded-full absolute bottom-8 left-14"></span>
+                    <span class="w-3 h-3 bg-secondary rounded-full absolute bottom-8 right-14"></span>
+                    <div
+                      class="px-3 py-1 rounded-full bg-inverse-surface/90 text-inverse-on-surface font-caption text-caption">
+                      Body Alignment: 99.4%
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="flex items-center justify-between text-inverse-on-surface font-caption text-caption font-mono">
+                  <span class="">LIGHTING LUX: 480 (OPTIMAL)</span>
+                  <span class="">MODEL: PoseAI Edge-Nano v3.2</span>
+                </div>
+              </div>
+            </div>
+            <!-- Modal Footer -->
+            <div
+              class="p-space-lg flex flex-col sm:flex-row sm:items-center justify-between gap-space-md bg-surface-container-low">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-secondary text-[22px]">lock</span>
+                <span class="font-caption text-caption text-on-surface-variant">Video feed never leaves your local
+                  browser memory.</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <button
+                  class="px-space-lg py-2 rounded-full font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                  onclick="toggleLiveModal(false)" type="button">
+                  Cancel
+                </button>
+                <button
+                  class="px-space-xl py-2.5 rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md font-bold shadow hover:shadow-md transition-all"
+                  onclick="toggleLiveModal(false)" type="button">
+                  Begin Rep Tracking
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script src="/js/navbar.js"></script>
+      <script src="js/shell.js"></script>
+      <script>
+        // Desktop "More" dropdown is CLICK-toggled (hover made the items
+        // unreachable whenever the cursor left the trigger). Clicking the
+        // trigger, pressing Escape, or clicking outside closes it.
+        (function wireInlineMoreMenu() {
+          const container = document.getElementById("more-dropdown-container");
+          if (!container) return;
+          const btn = document.getElementById("moreBtn");
+          const dd = document.getElementById("moreDropdown");
+          const chevron = document.getElementById("moreChevron");
+          function setOpen(open) {
+            if (!dd) return;
+            dd.classList.toggle("hidden", !open);
+            if (btn) btn.setAttribute("aria-expanded", String(open));
+            if (chevron) chevron.textContent = open ? "expand_less" : "expand_more";
+          }
+          btn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            setOpen(dd.classList.contains("hidden"));
+          });
+          document.addEventListener("click", function () { setOpen(false); });
+          document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") setOpen(false);
+          });
+        })();
+      </script>
+      <script>
+        (async function loadRealDashboard() {
+          const $ = (id) => document.getElementById(id);
+          const setText = (id, v) => {
+            const el = $(id);
+            if (el) el.textContent = v;
+          };
+          const esc = (s) =>
+            String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[c]);
+
+          try {
+            const me = await window.api.get("/api/auth/me");
+            if (me && me.user) {
+              const name = (me.user.name || me.user.full_name || me.user.username || "").trim();
+              const hour = new Date().getHours();
+              const part = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
+              setText("greetingText", part + (name ? ", " + name : ""));
+            }
+          } catch (_) {}
+
+          let streak = {};
+          let stats = {};
+          let prog = {};
+          try { streak = (await window.api.get("/api/streak")).data || {}; } catch (_) {}
+          try { stats = (await window.api.get("/api/statistics")).data || {}; } catch (_) {}
+          try { prog = (await window.api.get("/api/progress?range=7d")).data || {}; } catch (_) {}
+
+          const totalWorkouts = stats.totalWorkouts || 0;
+          const hasData = totalWorkouts > 0;
+          const currentStreak = streak.currentStreak || 0;
+          const longestStreak = streak.longestStreak || stats.longestStreak || 0;
+          const avgForm = Math.round(stats.averageFormScore || 0);
+
+          setText("val-streak", currentStreak + " Day" + (currentStreak === 1 ? "" : "s"));
+          const badge = $("badge-streak");
+          if (badge) badge.classList.toggle("hidden", currentStreak <= 0);
+          setText("sub-streak", currentStreak > 0 ? "Longest " + longestStreak + " days" : "Complete a workout to start a streak");
+
+          setText("val-workouts", totalWorkouts + " Completed");
+          setText("sub-workouts", (stats.totalRepsAllTime || 0) + " total reps · " + Math.round(stats.totalCaloriesAllTime || 0) + " kcal burned");
+
+          setText("val-accuracy", avgForm > 0 ? avgForm + "%" : "--");
+          const badgeAcc = $("badge-accuracy");
+          if (badgeAcc) badgeAcc.classList.toggle("hidden", avgForm <= 0);
+          setText("sub-accuracy", avgForm > 0 ? "Average across all sessions" : (hasData ? "Not measured yet — sessions don't record form scores" : "Awaiting first form estimation"));
+
+          const days = prog.days || [];
+          const completedDays = days.filter((d) => (d.workouts || 0) > 0).length;
+          const weekPct = Math.min(100, Math.round((completedDays / 7) * 100));
+          setText("label-weekly-target", completedDays + " / 7 Days Completed");
+          setText("label-percent", weekPct + "%");
+          const cp = $("circle-progress");
+          if (cp) cp.setAttribute("stroke-dasharray", weekPct + ", 100");
+          const remaining = 7 - completedDays;
+          setText("text-motivation", completedDays >= 7 ? "Weekly goal achieved — outstanding!" : remaining + " day" + (remaining === 1 ? "" : "s") + " remaining to reach your weekly goal.");
+          setText("metric-window-label", "Last 7 days");
+
+          const ribbon = $("calendar-ribbon");
+          if (ribbon) {
+            const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+            const daySet = new Set(days.filter((d) => (d.workouts || 0) > 0).map((d) => d.date));
+            const todayIdx = (new Date().getDay() + 6) % 7;
+            ribbon.innerHTML = weekdays.map(function (name, i) {
+              const date = new Date();
+              date.setDate(date.getDate() - (todayIdx - i));
+              const iso = date.toISOString().slice(0, 10);
+              const done = daySet.has(iso);
+              const isToday = i === todayIdx;
+              const circle = (done && isToday) ? "bg-primary-container text-on-primary-container shadow-md" : done ? "bg-secondary-container text-on-secondary-container shadow-sm" : isToday ? "bg-surface-container-high text-on-surface-variant" : "bg-surface-container-low text-on-surface-variant";
+              const label = (done && isToday) ? "Today" : done ? "Done" : isToday ? "Today" : "Plan";
+              const glyph = done ? "check" : isToday ? "circle" : "event";
+              return '<div class="flex flex-col items-center gap-1.5 day-step">' +
+                '<span class="font-caption text-caption text-on-surface-variant">' + name + '</span>' +
+                '<div class="w-9 h-9 sm:w-11 sm:h-11 rounded-full ' + circle + ' flex items-center justify-center"><span class="material-symbols-outlined text-[18px]">' + glyph + '</span></div>' +
+                '<span class="font-caption text-[10px] text-on-surface-variant">' + label + '</span></div>';
+            }).join("");
+          }
+
+          const sessions = prog.recent_sessions || [];
+          const histActive = $("history-container-active");
+          const histEmpty = $("history-container-empty");
+          if (hasData && sessions.length && histActive) {
+            histActive.innerHTML = "";
+            sessions.slice(0, 5).forEach(function (s) {
+              const name = (s.exercise || "").toLowerCase();
+              const icon = /squat|lunge|leg/.test(name) ? "accessibility_new" : /press|push/.test(name) ? "fitness_center" : "sports_martial_arts";
+              const dateLabel = s.date ? new Date(s.date + "T00:00:00").toLocaleDateString(undefined, { month: "short", day: "numeric" }) : "";
+              const row = document.createElement("div");
+              row.className = "flex flex-col md:flex-row md:items-center justify-between p-4 rounded-2xl hover:bg-surface-container-low transition-colors duration-150 gap-2";
+              row.innerHTML =
+                '<div class="flex items-center gap-4">' +
+                '<div class="w-12 h-12 rounded-2xl bg-primary-fixed flex items-center justify-center text-primary flex-shrink-0"><span class="material-symbols-outlined text-[24px]">' + icon + '</span></div>' +
+                '<div><div class="flex items-center gap-2"><h4 class="text-sm font-bold text-on-surface">' + esc(s.exercise) + '</h4><span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold">' + Math.round(s.accuracy || 0) + '% Form</span></div>' +
+                '<div class="flex items-center gap-2 text-xs text-on-surface-variant mt-0.5"><span>' + (s.reps || 0) + ' reps • ' + (s.sets || 0) + ' sets</span><span>•</span><span>' + dateLabel + '</span></div></div></div>' +
+                '<a class="inline-flex items-center gap-1 text-sm text-primary px-3 py-1.5 rounded-full hover:bg-surface-container self-start" href="/analysis?workoutId=' + esc(s.id) + '">Analysis <span class="material-symbols-outlined text-[16px]">arrow_forward</span></a>';
+              histActive.appendChild(row);
+            });
+            if (histEmpty) histEmpty.classList.add("hidden");
+            histActive.classList.remove("hidden");
+          } else if (histActive && histEmpty) {
+            histActive.classList.add("hidden");
+            histEmpty.classList.remove("hidden");
+          }
+        })();
+      </script>
+      <script>
+        // ------------------------------------------------------------------
+        // Dashboard graph: real data from /api/progress?range=7d|14d|30d|90d
+        // ------------------------------------------------------------------
+        const GRAPH_RANGES = { "7d": 7, "14d": 14, "30d": 30, "90d": 90 };
+        const GRAPH_RANGE_LABEL = { "7d": "7 days", "14d": "14 days", "30d": "30 days", "90d": "90 days" };
+
+        const TAB_ACTIVE = "px-3 py-1 rounded-full font-label-md text-label-md bg-surface-container-lowest text-primary shadow-sm font-bold transition-all";
+        const TAB_IDLE = "px-3 py-1 rounded-full font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all";
+        const RANGE_ACTIVE = "px-2.5 py-1 rounded-full font-caption text-caption bg-surface-container-lowest text-primary font-bold shadow-xs";
+        const RANGE_IDLE = "px-2.5 py-1 rounded-full font-caption text-caption text-on-surface-variant hover:text-on-surface";
+
+        let currentMetric = "form";
+        let currentRange = "7d";
+
+        function setMetricTab(metric) {
+          const map = { form: "tab-form", variance: "tab-variance", cadence: "tab-cadence" };
+          for (const key in map) {
+            const btn = document.getElementById(map[key]);
+            if (!btn) continue;
+            btn.className = key === metric ? TAB_ACTIVE : TAB_IDLE;
+          }
+        }
+
+        function setRangeButtons(range) {
+          ["7d", "14d", "30d", "90d"].forEach((r) => {
+            const btn = document.getElementById("range-" + r);
+            if (!btn) return;
+            btn.className = r === range ? RANGE_ACTIVE : RANGE_IDLE;
+          });
+        }
+
+        function svgEl(tag, attrs) {
+          const el = document.createElementNS("http://www.w3.org/2000/svg", tag);
+          for (const k in attrs) el.setAttribute(k, attrs[k]);
+          return el;
+        }
+
+        function renderEmptyState(message) {
+          const chart = document.getElementById("metricChart");
+          const empty = document.getElementById("chartEmptyState");
+          const text = document.getElementById("chartEmptyText");
+          if (chart) chart.innerHTML = "";
+          if (text) text.textContent = message;
+          if (empty) empty.classList.remove("hidden");
+        }
+
+        function formatAxisDate(iso) {
+          const dt = new Date(iso + "T00:00:00");
+          return dt.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+        }
+
+        function renderGraph(points, rangeDays, hasWorkouts) {
+          const chart = document.getElementById("metricChart");
+          const empty = document.getElementById("chartEmptyState");
+          if (empty) empty.classList.add("hidden");
+          if (!chart) return;
+
+          const W = 960, H = 220, PAD_L = 48, PAD_R = 24, PAD_T = 16, PAD_B = 30;
+          const plotW = W - PAD_L - PAD_R;
+          const plotH = H - PAD_T - PAD_B;
+
+          const maxVal = 100;
+          const ticks = [100, 80, 60, 40, 20];
+          const y = (v) => PAD_T + plotH - (Math.max(0, Math.min(v, maxVal)) / maxVal) * plotH;
+          const xFor = (dayOffset) => PAD_L + (dayOffset / (rangeDays - 1)) * plotW;
+
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const start = new Date(today);
+          start.setDate(start.getDate() - (rangeDays - 1));
+
+          const valueByDate = {};
+          points.forEach((p) => { valueByDate[p.date] = p.form_score; });
+
+          const dayOffsets = [];
+          for (let i = 0; i < rangeDays; i++) {
+            const d = new Date(start);
+            d.setDate(start.getDate() + i);
+            const iso = d.toISOString().slice(0, 10);
+            dayOffsets.push(iso);
+          }
+
+          const dataPoints = [];
+          dayOffsets.forEach(function (iso) {
+            if (valueByDate[iso] !== undefined && valueByDate[iso] !== null) {
+              dataPoints.push({ x: xFor(dayOffsets.indexOf(iso)), iso: iso, value: valueByDate[iso] });
+            }
+          });
+
+          const svg = svgEl("svg", {
+            class: "w-full h-full overflow-visible",
+            viewBox: "0 0 " + W + " " + H, preserveAspectRatio: "none"
+          });
+
+          ticks.forEach((t) => {
+            svg.appendChild(svgEl("line", { x1: PAD_L, x2: W - PAD_R, y1: y(t), y2: y(t), stroke: "#dae2fd", "stroke-dasharray": "4 4", "stroke-width": 1 }));
+            const txt = svgEl("text", { x: PAD_L - 8, y: y(t) + 4, class: "fill-on-surface-variant text-[11px] font-mono", "text-anchor": "end" });
+            txt.textContent = t + "%";
+            svg.appendChild(txt);
+          });
+
+          const labelCount = Math.min(7, rangeDays);
+          const labelStep = Math.ceil(rangeDays / labelCount);
+          dayOffsets.forEach(function (iso, i) {
+            if (i % labelStep !== 0 && i !== rangeDays - 1) return;
+            const txt = svgEl("text", { x: xFor(i), y: H - 8, class: "fill-on-surface-variant text-[11px] font-medium text-center", "text-anchor": "middle" });
+            txt.textContent = formatAxisDate(iso);
+            svg.appendChild(txt);
+          });
+
+          if (dataPoints.length === 0) {
+            renderEmptyState(hasWorkouts
+              ? "Form accuracy is not measured yet for these sessions."
+              : "No workouts in this period. Complete a session to see form accuracy over time.");
+            return;
+          }
+
+          const line = (path) => svgEl("path", { d: path.join(" "), fill: "none", stroke: "#007bb9", "stroke-linecap": "round", "stroke-linejoin": "round", "stroke-width": 3.5 });
+
+          if (dataPoints.length >= 2) {
+            const area = [];
+            dataPoints.forEach((p, i) => {
+              area.push((i === 0 ? "M " : "L ") + p.x + " " + y(p.value));
+            });
+            const lastPt = dataPoints[dataPoints.length - 1];
+            area.push("L " + lastPt.x + " " + (PAD_T + plotH));
+            area.push("L " + dataPoints[0].x + " " + (PAD_T + plotH) + " Z");
+            const grad = svgEl("linearGradient", { id: "graphGrad", x1: "0%", y1: "0%", x2: "0%", y2: "100%" });
+            const stop1 = svgEl("stop", { offset: "0%", "stop-color": "#006194", "stop-opacity": "0.32" });
+            const stop2 = svgEl("stop", { offset: "100%", "stop-color": "#007bb9", "stop-opacity": "0.0" });
+            grad.appendChild(stop1); grad.appendChild(stop2);
+            const defs = svgEl("defs", {}); defs.appendChild(grad); svg.appendChild(defs);
+            svg.appendChild(svgEl("path", { d: area.join(" "), fill: "url(#graphGrad)" }));
+            svg.appendChild(line(dataPoints.map((p, i) => (i === 0 ? "M " : "L ") + p.x + " " + y(p.value))));
+          }
+
+          dataPoints.forEach((p, i) => {
+            const g = svgEl("g", { class: "cursor-pointer group" });
+            const isLast = i === dataPoints.length - 1;
+            const c = svgEl("circle", {
+              cx: p.x, cy: y(p.value), r: isLast ? 6 : 5,
+              class: isLast ? "fill-secondary" : "fill-surface-container-lowest",
+              stroke: isLast ? "#ffffff" : "#007bb9", "stroke-width": isLast ? 2 : 2.5
+            });
+            const title = svgEl("title", {});
+            title.textContent = formatAxisDate(p.iso) + ": " + p.value + "% form accuracy";
+            g.appendChild(c); g.appendChild(title);
+            svg.appendChild(g);
+          });
+
+          chart.innerHTML = "";
+          chart.appendChild(svg);
+        }
+
+        async function loadGraph(metric, range) {
+          currentMetric = metric;
+          currentRange = range;
+          setMetricTab(metric);
+          setRangeButtons(range);
+          const windowLabel = document.getElementById("metric-window-label");
+          if (windowLabel) windowLabel.textContent = (metric === "form" ? "Form Accuracy · " : "Live Telemetry · ") + GRAPH_RANGE_LABEL[range];
+
+          if (metric !== "form") {
+            renderEmptyState(currentMetric === "variance"
+              ? "Angular variance is not measured yet. This metric requires live joint-angle telemetry from a camera session."
+              : "Rep cadence is not measured yet. This metric requires live rep-timing telemetry from a camera session.");
+          }
+
+          let prog = {};
+          try {
+            prog = (await window.api.get("/api/progress?range=" + range)).data || {};
+          } catch (_) {
+            renderEmptyState("Could not load progress data.");
+            return;
+          }
+
+          const peak = prog.totals ? Math.round(prog.totals.best_form_score || 0) : 0;
+          const hasWorkoutsInRange = prog.totals ? Number(prog.totals.total_workouts || 0) > 0 : false;
+          const peakVal = document.getElementById("stat-peak-form");
+          const peakSub = document.getElementById("stat-peak-form-sub");
+          if (peakVal) peakVal.textContent = peak > 0 ? peak + "%" : "--";
+          if (peakSub) peakSub.textContent = peak > 0 ? "Top session · " + GRAPH_RANGE_LABEL[range] : (hasWorkoutsInRange ? "Not measured yet in this range" : "Awaiting first session");
+
+          if (metric === "form") {
+            renderGraph(prog.days || [], GRAPH_RANGES[range] || 7, hasWorkoutsInRange);
+          }
+        }
+
+        function toggleLiveModal(show) {
+          const modal = document.getElementById('live-camera-modal');
+          if (show) {
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+          } else {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+          }
+        }
+
+        async function loadNutritionSnapshot() {
+          try {
+            const res = await fetch("/api/nutrition/today", { credentials: "same-origin" });
+            const json = await res.json();
+            if (!json.success || !json.data) return;
+            const d = json.data;
+            const totals = d.totals || {};
+            const targets = d.targets || {};
+            const act = d.activity || {};
+
+            const foodEl = document.getElementById("dashFoodKcal");
+            const actEl = document.getElementById("dashActivityKcal");
+            const protEl = document.getElementById("dashProteinVal");
+            const insEl = document.getElementById("dashInsightText");
+
+            if (foodEl) foodEl.textContent = `${(totals.calories_kcal || 0).toLocaleString()} kcal`;
+            if (actEl) actEl.textContent = `${(act.estimated_workout_kcal || 0).toLocaleString()} kcal`;
+            if (protEl) {
+              const pEaten = Math.round(totals.protein_g || 0);
+              const pTarget = targets.protein_g || 120;
+              protEl.textContent = `${pEaten} / ${pTarget}g`;
+            }
+            if (insEl && d.daily_insight?.summary) {
+              insEl.textContent = d.daily_insight.summary;
+            }
+          } catch (_) {
+            /* snapshot keeps clean defaults */
+          }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+          document.getElementById("tab-form").addEventListener("click", () => loadGraph("form", currentRange));
+          document.getElementById("tab-variance").addEventListener("click", () => loadGraph("variance", currentRange));
+          document.getElementById("tab-cadence").addEventListener("click", () => loadGraph("cadence", currentRange));
+          ["7d", "14d", "30d", "90d"].forEach((r) => {
+            document.getElementById("range-" + r).addEventListener("click", () => loadGraph(currentMetric, r));
+          });
+          setMetricTab("form");
+          setRangeButtons("7d");
+          loadGraph("form", "7d");
+          loadNutritionSnapshot();
+        });
+      </script>
+    </div>
+  </main>
+  <footer class="w-full bg-surface-container-lowest border-t border-surface-container">
+    <div
+      class="max-w-7xl mx-auto px-margin-mobile md:px-margin py-space-xl flex flex-col md:flex-row items-center justify-between gap-space-md">
+      <div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary text-[22px]">fitness_center</span><span
+          class="font-label-lg text-label-lg text-on-surface-variant font-semibold">PoseAI</span><span
+          class="font-label-lg text-label-lg text-on-surface-variant">© 2024 PoseAI Systems Inc. All rights
+          reserved.</span></div>
+      <div class="flex items-center gap-space-lg"><a
+          class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
+          href="#">Privacy Policy</a><a
+          class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
+          href="#">Telemetry Terms</a><a
+          class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
+          href="#">System Status</a></div>
+    </div>
+  </footer>
+</body>
+
+</html>

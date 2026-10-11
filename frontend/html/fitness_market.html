@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fitness Market — PoseAI</title>
+
+  <!-- Google Fonts & Material Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+  </style>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/market.css">
+</head>
+
+<body data-page="market" class="poseai-market-body">
+  <!-- Unified Global Navbar Mount Point -->
+  <div id="app-header"></div>
+
+  <main class="market-main-container">
+
+    <!-- =========================================================================
+         ZONE 1 — HERO + SEARCH
+         ========================================================================= -->
+    <header class="market-hero-zone">
+      <div class="market-hero-content">
+        <div class="market-hero-badge">
+          <span class="material-symbols-outlined icon-bolt">bolt</span>
+          <span>POSEAI FITNESS STORE</span>
+          <span class="badge-dot">•</span>
+          <span class="badge-verified">Verified Quality</span>
+        </div>
+        <h1 class="market-hero-title">FITNESS MARKET</h1>
+        <p class="market-hero-subtitle">
+          Everything you need to train smarter. Shop fitness essentials, recovery products, training gear and nutrition products selected around your fitness journey.
+        </p>
+      </div>
+
+      <div class="market-hero-actions">
+        <!-- Search Input -->
+        <div class="market-search-wrap">
+          <span class="material-symbols-outlined search-icon">search</span>
+          <input type="search" id="marketSearchInput" placeholder="Search products, brands, supplements, equipment..." autocomplete="off">
+          <button type="button" id="clearSearchBtn" class="clear-search-btn" style="display: none;">&times;</button>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="market-quick-ctas">
+          <a href="/fitness-market/favorites" class="market-btn market-btn--secondary" id="heroWishlistBtn" title="View Wishlist">
+            <span class="material-symbols-outlined">favorite</span>
+            <span class="btn-text">Wishlist</span>
+            <span class="badge-pill" id="heroWishlistBadge" style="display: none;">0</span>
+          </a>
+          <a href="/cart" class="market-btn market-btn--primary" id="heroCartBtn" title="View Shopping Cart">
+            <span class="material-symbols-outlined">shopping_cart</span>
+            <span class="btn-text">VIEW CART</span>
+            <span class="badge-pill badge-pill--light" id="heroCartBadge">0</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- =========================================================================
+         ZONE 2 — SHOP BY CATEGORY
+         ========================================================================= -->
+    <section class="market-category-strip-section">
+      <div class="market-category-strip" id="categoryStrip">
+        <button class="cat-pill active" data-category="">
+          <span class="cat-pill-name">ALL</span>
+          <span class="cat-pill-sub">Browse everything</span>
+        </button>
+        <button class="cat-pill" data-category="supplements">
+          <span class="cat-pill-name">SUPPLEMENTS</span>
+          <span class="cat-pill-sub">Whey &amp; more</span>
+        </button>
+        <button class="cat-pill" data-category="protein">
+          <span class="cat-pill-name">PROTEIN</span>
+          <span class="cat-pill-sub">Protein &amp; bars</span>
+        </button>
+        <button class="cat-pill" data-category="performance">
+          <span class="cat-pill-name">PERFORMANCE</span>
+          <span class="cat-pill-sub">Pre-workout</span>
+        </button>
+        <button class="cat-pill" data-category="recovery">
+          <span class="cat-pill-name">RECOVERY</span>
+          <span class="cat-pill-sub">Recovery tools</span>
+        </button>
+        <button class="cat-pill" data-category="training-gear">
+          <span class="cat-pill-name">TRAINING GEAR</span>
+          <span class="cat-pill-sub">Equipment</span>
+        </button>
+        <button class="cat-pill" data-category="apparel">
+          <span class="cat-pill-name">APPAREL</span>
+          <span class="cat-pill-sub">Gym essentials</span>
+        </button>
+        <button class="cat-pill" data-category="accessories">
+          <span class="cat-pill-name">ACCESSORIES</span>
+          <span class="cat-pill-sub">Hydration &amp; gear</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         ZONE 3 — FOR YOUR TRAINING (PERSONALIZED RECOMMENDATIONS)
+         ========================================================================= -->
+    <section class="market-training-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">FOR YOUR TRAINING</h2>
+          <p class="section-subtitle" id="personalizationSubtitle">Based on your recent PoseAI activity and fitness goals.</p>
+        </div>
+      </div>
+
+      <div class="training-cards-grid">
+        <!-- STRENGTH CARD -->
+        <div class="training-card strength-card">
+          <div class="training-card-content">
+            <span class="training-card-tag">STRENGTH FOCUS</span>
+            <h3 class="training-card-heading">STRENGTH</h3>
+            <p class="training-card-desc">Products that support strength-focused training and progressive muscle growth.</p>
+            <div class="training-pills">
+              <span class="feature-tag">Protein</span>
+              <span class="feature-tag">Creatine</span>
+              <span class="feature-tag">Training Equipment</span>
+            </div>
+            <button type="button" class="market-btn market-btn--primary training-cta" data-action="explore-strength">
+              <span>EXPLORE STRENGTH</span>
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- RECOVERY CARD -->
+        <div class="training-card recovery-card">
+          <div class="training-card-content">
+            <span class="training-card-tag">REST &amp; REPAIR</span>
+            <h3 class="training-card-heading">RECOVERY</h3>
+            <p class="training-card-desc">Essentials to support your neuromuscular recovery and tissue repair between workouts.</p>
+            <div class="training-pills">
+              <span class="feature-tag">Recovery Tools</span>
+              <span class="feature-tag">Hydration</span>
+              <span class="feature-tag">Mobility</span>
+            </div>
+            <button type="button" class="market-btn market-btn--primary training-cta" data-action="explore-recovery">
+              <span>EXPLORE RECOVERY</span>
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         ZONE 4 — PROMOTIONAL BANNER
+         ========================================================================= -->
+    <section class="market-promo-banner">
+      <div class="promo-banner-text">
+        <span class="promo-pill">HIGH PERFORMANCE STANDARDS</span>
+        <h2 class="promo-title">TRAIN SMARTER.<br>RECOVER BETTER.</h2>
+        <p class="promo-desc">
+          Fitness essentials selected to support your workouts, recovery and everyday athletic performance.
+        </p>
+        <div class="promo-buttons">
+          <button type="button" class="market-btn market-btn--light" data-action="shop-supplements">
+            SHOP SUPPLEMENTS
+          </button>
+          <button type="button" class="market-btn market-btn--outline-white" data-action="shop-gear">
+            EXPLORE TRAINING GEAR
+          </button>
+        </div>
+      </div>
+      <div class="promo-banner-media">
+        <img src="/images/market_products/hero-4-3.jpg" alt="Technogym Smart Dumbbell Training Station" loading="lazy">
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         ZONE 5 — ALL PRODUCTS (MAIN CATALOG DISCOVERY + SIDEBAR FILTER)
+         ========================================================================= -->
+    <section class="market-catalog-section" id="catalogSection">
+      <!-- Section Header & Quick Bar -->
+      <div class="catalog-header-wrap">
+        <div>
+          <div class="catalog-title-row">
+            <h2 class="section-title">ALL PRODUCTS</h2>
+            <span class="products-count-badge" id="productsCountBadge">...</span>
+          </div>
+          <p class="section-subtitle">Everything available in the PoseAI Fitness Market.</p>
+        </div>
+
+        <!-- Quick Top Filter & Sort Bar -->
+        <div class="catalog-top-controls">
+          <div class="top-control-group">
+            <label for="sortSelect">Sort:</label>
+            <select id="sortSelect" class="market-select">
+              <option value="recommended">Featured / Relevant</option>
+              <option value="price_asc">Price: Low to High</option>
+              <option value="price_desc">Price: High to Low</option>
+              <option value="rating_desc">Top Customer Rated</option>
+              <option value="popularity">Most Popular</option>
+              <option value="newest">Newest Additions</option>
+            </select>
+          </div>
+          <button type="button" class="market-btn market-btn--secondary mobile-filter-toggle" id="mobileFilterToggle">
+            <span class="material-symbols-outlined">tune</span>
+            <span>Filters</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main 2-Column Discovery: Left Sidebar + Right Grid -->
+      <div class="catalog-layout">
+
+        <!-- Left Filter Sidebar -->
+        <aside class="market-filter-sidebar" id="filterSidebar">
+          <div class="filter-sidebar-header">
+            <h3>Filters</h3>
+            <button type="button" class="clear-filters-btn" id="clearFiltersBtn">CLEAR FILTERS</button>
+          </div>
+
+          <!-- Category Filter -->
+          <div class="filter-group">
+            <h4 class="filter-group-title">CATEGORY</h4>
+            <div class="filter-options">
+              <label class="filter-checkbox-label">
+                <input type="checkbox" name="filterCategory" value="supplements">
+                <span>Supplements</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" name="filterCategory" value="protein">
+                <span>Protein</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" name="filterCategory" value="performance">
+                <span>Performance</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" name="filterCategory" value="recovery">
+                <span>Recovery</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" name="filterCategory" value="training-gear">
+                <span>Training Gear</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" name="filterCategory" value="apparel">
+                <span>Apparel</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" name="filterCategory" value="accessories">
+                <span>Accessories</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Goal Filter -->
+          <div class="filter-group">
+            <h4 class="filter-group-title">GOAL</h4>
+            <div class="filter-options">
+              <label class="filter-checkbox-label">
+                <input type="checkbox" name="filterGoal" value="build-muscle">
+                <span>Muscle Gain</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" name="filterGoal" value="strength">
+                <span>Strength</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" name="filterGoal" value="recovery">
+                <span>Recovery</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" name="filterGoal" value="wellness">
+                <span>General Fitness</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Price Range Filter -->
+          <div class="filter-group">
+            <h4 class="filter-group-title">PRICE</h4>
+            <div class="filter-options">
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filterPrice" value="under-500">
+                <span>Under ₹500</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filterPrice" value="500-1000">
+                <span>₹500 – ₹1,000</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filterPrice" value="1000-2500">
+                <span>₹1,000 – ₹2,500</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filterPrice" value="above-2500">
+                <span>₹2,500+</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filterPrice" value="" checked>
+                <span>Any Price</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Rating Filter -->
+          <div class="filter-group">
+            <h4 class="filter-group-title">RATING</h4>
+            <div class="filter-options">
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filterRating" value="4">
+                <span>4.0+ Stars</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filterRating" value="3">
+                <span>3.0+ Stars</span>
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="radio" name="filterRating" value="" checked>
+                <span>All Ratings</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Availability -->
+          <div class="filter-group">
+            <h4 class="filter-group-title">AVAILABILITY</h4>
+            <div class="filter-options">
+              <label class="filter-checkbox-label">
+                <input type="checkbox" id="filterInStock" name="filterInStock" value="true">
+                <span>In Stock Only</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="filter-sidebar-footer">
+            <button type="button" class="market-btn market-btn--primary full-width" id="applyFiltersBtn">APPLY FILTERS</button>
+          </div>
+        </aside>
+
+        <!-- Right Product Grid -->
+        <div class="catalog-grid-area">
+          <!-- Active Filter Tags Display -->
+          <div class="active-filter-tags" id="activeFilterTags" style="display: none;"></div>
+
+          <!-- Skeleton Loading State -->
+          <div class="products-grid skeleton-grid" id="productsSkeleton" style="display: none;">
+            <div class="product-card skeleton-card"></div>
+            <div class="product-card skeleton-card"></div>
+            <div class="product-card skeleton-card"></div>
+            <div class="product-card skeleton-card"></div>
+            <div class="product-card skeleton-card"></div>
+            <div class="product-card skeleton-card"></div>
+          </div>
+
+          <!-- Empty State -->
+          <div class="market-empty-state" id="productsEmptyState" style="display: none;">
+            <div class="empty-state-icon">
+              <span class="material-symbols-outlined">inventory_2</span>
+            </div>
+            <h3>No products found</h3>
+            <p>No products match your selected search or filter criteria. Try adjusting your filters or search terms.</p>
+            <button type="button" class="market-btn market-btn--secondary" id="resetEmptyFiltersBtn">Reset Filters</button>
+          </div>
+
+          <!-- Products Grid -->
+          <div class="products-grid" id="productsGrid">
+            <!-- Dynamically populated from MongoDB -->
+          </div>
+
+          <!-- Load More Pagination -->
+          <div class="catalog-pagination-wrap" id="paginationWrap">
+            <button type="button" class="market-btn market-btn--secondary" id="loadMoreBtn" style="display: none;">
+              <span>LOAD MORE PRODUCTS</span>
+              <span class="material-symbols-outlined">expand_more</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         ZONE 6 — TRAINING COLLECTIONS
+         ========================================================================= -->
+    <section class="market-collections-section">
+      <div class="section-header">
+        <h2 class="section-title">TRAINING COLLECTIONS</h2>
+        <p class="section-subtitle">Specially curated product bundles designed for targeted outcomes.</p>
+      </div>
+
+      <div class="collections-grid">
+        <!-- BUILD STRENGTH -->
+        <div class="collection-card">
+          <div class="collection-content">
+            <span class="collection-tag">POWER &amp; MASS</span>
+            <h3 class="collection-title">BUILD STRENGTH</h3>
+            <p class="collection-desc">Protein, Creatine &amp; Heavy Training Equipment</p>
+            <button type="button" class="market-btn market-btn--light collection-cta" data-action="collection-strength">
+              SHOP COLLECTION
+            </button>
+          </div>
+        </div>
+
+        <!-- RECOVER & RESET -->
+        <div class="collection-card collection-card--recovery">
+          <div class="collection-content">
+            <span class="collection-tag">REST &amp; REPAIR</span>
+            <h3 class="collection-title">RECOVER &amp; RESET</h3>
+            <p class="collection-desc">Mobility Tools, Sleep Recovery &amp; Electrolytes</p>
+            <button type="button" class="market-btn market-btn--light collection-cta" data-action="collection-recovery">
+              SHOP COLLECTION
+            </button>
+          </div>
+        </div>
+
+        <!-- EVERYDAY FITNESS -->
+        <div class="collection-card collection-card--fitness">
+          <div class="collection-content">
+            <span class="collection-tag">LIFESTYLE &amp; GEAR</span>
+            <h3 class="collection-title">EVERYDAY FITNESS</h3>
+            <p class="collection-desc">Apparel, Shakers, Accessories &amp; Daily Essentials</p>
+            <button type="button" class="market-btn market-btn--light collection-cta" data-action="collection-fitness">
+              SHOP COLLECTION
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         ZONE 6B — RECENTLY VIEWED
+         ========================================================================= -->
+    <section class="market-recently-viewed-section" id="recentlyViewedSection">
+      <div class="section-header">
+        <h2 class="section-title">RECENTLY VIEWED</h2>
+        <p class="section-subtitle">Continue exploring products you viewed recently.</p>
+      </div>
+
+      <div class="recently-viewed-grid" id="recentlyViewedGrid">
+        <!-- Dynamically populated from backend or session -->
+      </div>
+
+      <div class="recently-viewed-empty" id="recentlyViewedEmpty" style="display: none;">
+        <p>Products you view will appear here.</p>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         ZONE 7 — WHY POSEAI MARKET?
+         ========================================================================= -->
+    <section class="market-why-section">
+      <div class="section-header centered">
+        <h2 class="section-title">WHY POSEAI MARKET?</h2>
+        <p class="section-subtitle">Engineered to complement your AI-guided fitness routine.</p>
+      </div>
+
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon-wrap">
+            <span class="material-symbols-outlined">verified</span>
+          </div>
+          <h3 class="why-card-title">CURATED PRODUCTS</h3>
+          <p class="why-card-desc">Authentic sports supplements and professional equipment selected and tested for real fitness performance.</p>
+        </div>
+
+        <div class="why-card">
+          <div class="why-icon-wrap">
+            <span class="material-symbols-outlined">analytics</span>
+          </div>
+          <h3 class="why-card-title">TRAINING CONTEXT</h3>
+          <p class="why-card-desc">Intelligent recommendations connected to your actual PoseAI workout frequency, goals, and nutrition targets.</p>
+        </div>
+
+        <div class="why-card">
+          <div class="why-icon-wrap">
+            <span class="material-symbols-outlined">shopping_bag</span>
+          </div>
+          <h3 class="why-card-title">SIMPLE SHOPPING</h3>
+          <p class="why-card-desc">Clean, transparent pricing with straightforward checkout, zero hidden fees, and lightning-fast delivery.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       GLOBAL PLATFORM FOOTER
+       ========================================================================= -->
+  <footer class="market-global-footer">
+    <div class="footer-container">
+      <div class="footer-brand-col">
+        <div class="footer-logo">
+          <span class="material-symbols-outlined logo-spark">bolt</span>
+          <span class="logo-text">POSEAI</span>
+        </div>
+        <p class="footer-tagline">Train smarter. Move better. Live stronger.</p>
+        <p class="footer-disclaimer">
+          PoseAI Market recommendations are shopping conveniences curated for active training and do not constitute medical advice.
+        </p>
+      </div>
+
+      <div class="footer-links-grid">
+        <div class="footer-col">
+          <h4>PLATFORM</h4>
+          <ul>
+            <li><a href="/">Dashboard</a></li>
+            <li><a href="/workout">Workout Studio</a></li>
+            <li><a href="/analysis">Workout Analysis</a></li>
+            <li><a href="/game">Fitness Game</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>FITNESS</h4>
+          <ul>
+            <li><a href="/nutrition">Nutrition Intelligence</a></li>
+            <li><a href="/exercises">Exercise Library</a></li>
+            <li><a href="/progress">Progress Tracker</a></li>
+            <li><a href="/achievements">Achievements</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>MARKET</h4>
+          <ul>
+            <li><a href="/fitness-market">All Products</a></li>
+            <li><a href="/fitness-market/products?category=supplements">Supplements</a></li>
+            <li><a href="/fitness-market/products?category=training-gear">Equipment</a></li>
+            <li><a href="/fitness-market/orders">Order History</a></li>
+            <li><a href="/fitness-market/favorites">Wishlist</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>ACCOUNT</h4>
+          <ul>
+            <li><a href="/profile">My Profile</a></li>
+            <li><a href="/profile">Settings</a></li>
+            <li><a href="/cart">Shopping Cart</a></li>
+            <li><a href="/login">Sign In</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom-bar">
+      <div class="footer-bottom-container">
+        <p>&copy; 2026 PoseAI Inc. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Security</a>
+          <a href="#">Contact Support</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/navbar.js"></script>
+  <script src="/js/shell.js"></script>
+  <script src="/js/market.js"></script>
+</body>
+
+</html>

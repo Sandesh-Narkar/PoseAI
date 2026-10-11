@@ -1,0 +1,6 @@
+-r requirements.txt
+
+# Dev/test-only dependencies (not needed in production).
+# mongomock backs the in-memory MongoDB fallback used by the automated
+# auth test suite and the MONGO_ALLOW_MOCK=1 dev mode.
+mongomock

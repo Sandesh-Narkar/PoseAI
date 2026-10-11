@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Fitness Products — PoseAI Fitness Market</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <link rel="stylesheet" href="/css/products.css">
+</head>
+
+<body>
+
+  <!-- =========================================================================
+       TOP NAVBAR (Sticky/Fixed, White BG, Bottom Border)
+       ========================================================================= -->
+  <header class="top-navbar">
+    <div class="nav-container">
+      
+      <!-- Left: Logo & Navigation Links -->
+      <div class="nav-left">
+        <a href="/" class="brand-logo" aria-label="PoseAI Home">
+          <div class="logo-icon">
+            <span class="material-symbols-outlined" style="font-size:20px;">fitness_center</span>
+          </div>
+          <span class="logo-text">PoseAI</span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="/" class="nav-link">Dashboard</a></li>
+          <li><a href="/workout" class="nav-link">Workout</a></li>
+          <li><a href="/analysis" class="nav-link">Analysis</a></li>
+          <li><a href="/progress" class="nav-link">Progress</a></li>
+          <li><a href="/game" class="nav-link">Game</a></li>
+          <li>
+            <a href="/fitness-market" class="nav-link nav-pill-market active">
+              Fitness Market
+              <span class="pill-badge">NEW</span>
+            </a>
+          </li>
+          <li style="position: relative;">
+            <button type="button" class="nav-link nav-dropdown-trigger" id="navMoreDropdownTrigger">
+              More <span class="material-symbols-outlined" style="font-size:16px;">expand_more</span>
+            </button>
+            <div class="dropdown-menu" id="navMoreDropdownMenu">
+              <a href="/fitness-market/favorites" class="dropdown-item">Saved Wishlist</a>
+              <a href="/fitness-market/orders" class="dropdown-item">Track Orders</a>
+              <a href="/profile" class="dropdown-item">Biometrics Profile</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Center: Search Input with Icon -->
+      <div class="nav-center">
+        <form class="search-box" id="navSearchForm" onsubmit="event.preventDefault();">
+          <span class="material-symbols-outlined search-icon">search</span>
+          <input type="search" id="navSearchInput" class="search-input" placeholder="Search supplements, gear, workouts" aria-label="Search" autocomplete="off">
+        </form>
+      </div>
+
+      <!-- Right: Notification, Cart Pill & User Avatar -->
+      <div class="nav-right">
+        <button type="button" class="icon-btn" aria-label="Notifications" onclick="window.location.assign('/achievements');">
+          <span class="material-symbols-outlined">notifications</span>
+          <span class="notif-dot"></span>
+        </button>
+
+        <button type="button" class="cart-pill-btn" id="navCartButton" aria-label="Open Cart Drawer">
+          <span class="material-symbols-outlined" style="font-size:18px;">shopping_cart</span>
+          Cart <span class="cart-count-badge" id="navCartCountBadge">0</span>
+        </button>
+
+        <div style="position: relative;">
+          <button type="button" class="user-profile-btn" id="navUserDropdownTrigger" aria-label="User Profile Menu">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80" alt="Athlete" class="user-avatar" id="navUserAvatar">
+            <span class="user-name" id="navUserName">Athlete</span>
+            <span class="material-symbols-outlined" style="font-size:16px; color:var(--color-text-muted);">expand_more</span>
+          </button>
+          <div class="dropdown-menu" id="navUserDropdownMenu" style="right: 0;">
+            <a href="/profile" class="dropdown-item">My Profile</a>
+            <a href="/fitness-market/orders" class="dropdown-item">My Orders</a>
+            <a href="/fitness-market/favorites" class="dropdown-item">Saved Wishlist</a>
+            <a href="/fitness-market/checkout" class="dropdown-item">Checkout</a>
+            <hr style="border:none; border-top:1px solid #f1f5f9; margin:4px 0;">
+            <button type="button" class="dropdown-item" id="navLogoutBtn" style="color:var(--color-danger); width:100%; text-align:left; background:none; border:none; cursor:pointer;">Logout</button>
+          </div>
+        </div>
+
+        <button type="button" class="mobile-hamburger-btn" id="mobileHamburgerBtn" aria-label="Toggle Mobile Menu">
+          <span class="material-symbols-outlined" style="font-size:24px;">menu</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Mobile Collapsible Navigation Menu (<768px) -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer">
+    <ul class="mobile-nav-links">
+      <li><a href="/" class="nav-link">Dashboard</a></li>
+      <li><a href="/workout" class="nav-link">Workout</a></li>
+      <li><a href="/analysis" class="nav-link">Analysis</a></li>
+      <li><a href="/progress" class="nav-link">Progress</a></li>
+      <li><a href="/game" class="nav-link">Game</a></li>
+      <li><a href="/fitness-market" class="nav-link active">Fitness Market (All Products)</a></li>
+      <li><a href="/fitness-market/orders" class="nav-link">My Orders</a></li>
+      <li><a href="/profile" class="nav-link">Profile &amp; Settings</a></li>
+    </ul>
+  </div>
+
+  <!-- =========================================================================
+       BREADCRUMB BAR
+       ========================================================================= -->
+  <div class="breadcrumb-bar">
+    <div class="breadcrumb-container">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span class="breadcrumb-sep">&gt;</span>
+        <a href="/fitness-market">Fitness Market</a>
+        <span class="breadcrumb-sep">&gt;</span>
+        <span class="breadcrumb-current">All Products</span>
+      </nav>
+
+      <div class="breadcrumb-badges">
+        <div class="verified-badge">
+          <span class="dot-icon"></span>
+          AI Biometric Verified Stock
+        </div>
+        <div class="express-badge">
+          <span class="material-symbols-outlined" style="font-size:15px; color:var(--color-success);">bolt</span>
+          Express 2-Day Delivery
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MAIN PAGE CONTAINER
+       ========================================================================= -->
+  <main class="page-main-wrapper">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header-row">
+      <div class="page-title-group">
+        <div class="page-title-badge-row">
+          <h1 class="page-main-heading">ALL FITNESS PRODUCTS</h1>
+          <span class="item-count-pill" id="headerProductCountBadge">LOADING...</span>
+        </div>
+        <p class="page-subtitle" id="headerSubtitleText">
+          Loading scientifically curated sports nutrition &amp; gear...
+        </p>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <button type="button" class="mobile-filter-trigger-btn" id="mobileFilterTriggerBtn">
+          <span class="material-symbols-outlined" style="font-size:18px;">tune</span> Filters
+        </button>
+
+        <div class="sort-container">
+          <span class="sort-label">Sort By:</span>
+          <select class="custom-sort-select" id="catalogSortSelect" aria-label="Sort products">
+            <option value="relevance">Relevance</option>
+            <option value="price_asc">Price: Low to High</option>
+            <option value="price_desc">Price: High to Low</option>
+            <option value="rating_desc">Highest Rated</option>
+            <option value="discount_desc">Biggest Discount</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- CATALOG CONTENT LAYOUT (Sidebar + Products Column) -->
+    <div class="catalog-content-layout">
+
+      <!-- =====================================================================
+           LEFT SIDEBAR FILTERS (~280px Fixed Width)
+           ===================================================================== -->
+      <aside class="catalog-sidebar" id="catalogSidebar">
+        
+        <!-- Sidebar Header -->
+        <div class="sidebar-header">
+          <div class="sidebar-title">
+            <span class="material-symbols-outlined" style="font-size:18px; color:var(--color-primary);">tune</span>
+            Filters
+          </div>
+          <button type="button" class="clear-all-link" id="clearAllFiltersLink">CLEAR ALL</button>
+        </div>
+
+        <!-- In Stock Only Toggle Switch -->
+        <label class="stock-toggle-card">
+          <span class="stock-toggle-label">In Stock Only</span>
+          <span class="switch-control">
+            <input type="checkbox" id="inStockOnlyCheckbox">
+            <span class="slider-round"></span>
+          </span>
+        </label>
+
+        <!-- Categories Accordion -->
+        <div class="filter-section">
+          <div class="filter-section-header" data-accordion-toggle="categoriesAccordionBody">
+            <span class="filter-section-title">Categories</span>
+            <div style="display:flex; align-items:center; gap:4px;">
+              <span class="filter-section-badge" id="categorySectionBadge">All</span>
+              <span class="material-symbols-outlined accordion-chevron">expand_more</span>
+            </div>
+          </div>
+
+          <div class="accordion-body" id="categoriesAccordionBody">
+            <!-- Group 1: Supplements -->
+            <div class="subgroup-title">Supplements</div>
+            <label class="checkbox-item">
+              <span class="checkbox-label-left">
+                <input type="checkbox" name="categoryFilter" value="whey" class="custom-checkbox">
+                Whey Protein
+              </span>
+              <span class="filter-count">16</span>
+            </label>
+            <label class="checkbox-item">
+              <span class="checkbox-label-left">
+                <input type="checkbox" name="categoryFilter" value="creatine" class="custom-checkbox">
+                Creatine Monohydrate
+              </span>
+              <span class="filter-count">8</span>
+            </label>
+            <label class="checkbox-item">
+              <span class="checkbox-label-left">
+                <input type="checkbox" name="categoryFilter" value="pre-workout" class="custom-checkbox">
+                Pre-Workout Stacks
+              </span>
+              <span class="filter-count">7</span>
+            </label>
+            <label class="checkbox-item">
+              <span class="checkbox-label-left">
+                <input type="checkbox" name="categoryFilter" value="bcaa" class="custom-checkbox">
+                BCAA &amp; EAAs
+              </span>
+              <span class="filter-count">5</span>
+            </label>
+
+            <!-- Group 2: Health & Wellness -->
+            <div class="subgroup-title">Health &amp; Wellness</div>
+            <label class="checkbox-item">
+              <span class="checkbox-label-left">
+                <input type="checkbox" name="categoryFilter" value="vitamins" class="custom-checkbox">
+                Multivitamins &amp; Minerals
+              </span>
+              <span class="filter-count">6</span>
+            </label>
+            <label class="checkbox-item">
+              <span class="checkbox-label-left">
+                <input type="checkbox" name="categoryFilter" value="electrolytes" class="custom-checkbox">
+                Electrolytes &amp; Hydration
+              </span>
+              <span class="filter-count">4</span>
+            </label>
+            <label class="checkbox-item">
+              <span class="checkbox-label-left">
+                <input type="checkbox" name="categoryFilter" value="gear" class="custom-checkbox">
+                Fitness Gear &amp; Straps
+              </span>
+              <span class="filter-count">5</span>
+            </label>
+            <label class="checkbox-item">
+              <span class="checkbox-label-left">
+                <input type="checkbox" name="categoryFilter" value="apparel" class="custom-checkbox">
+                Athletic Apparel
+              </span>
+              <span class="filter-count">4</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Price Range -->
+        <div class="filter-section">
+          <div class="filter-section-header">
+            <span class="filter-section-title">Price Range</span>
+            <span class="filter-section-badge">₹0 - ₹10,000</span>
+          </div>
+
+          <div class="price-range-options">
+            <label class="radio-item">
+              <input type="radio" name="priceRadio" value="all" checked> All Prices
+            </label>
+            <label class="radio-item">
+              <input type="radio" name="priceRadio" value="0-500"> Under ₹500
+            </label>
+            <label class="radio-item">
+              <input type="radio" name="priceRadio" value="500-1000"> ₹500 – ₹1,000
+            </label>
+            <label class="radio-item">
+              <input type="radio" name="priceRadio" value="1000-2500"> ₹1,000 – ₹2,500
+            </label>
+            <label class="radio-item">
+              <input type="radio" name="priceRadio" value="2500-5000"> ₹2,500 – ₹5,000
+            </label>
+            <label class="radio-item">
+              <input type="radio" name="priceRadio" value="5000+"> ₹5,000+
+            </label>
+
+            <!-- Dual Min/Max Inputs -->
+            <div class="price-inputs-row">
+              <div class="price-input-box">
+                <span class="currency-symbol">₹</span>
+                <input type="number" id="filterPriceMinInput" class="price-num-input" value="" placeholder="Min">
+              </div>
+              <span style="color:var(--color-text-light); font-size:11px;">to</span>
+              <div class="price-input-box">
+                <span class="currency-symbol">₹</span>
+                <input type="number" id="filterPriceMaxInput" class="price-num-input" value="" placeholder="Max">
+              </div>
+            </div>
+
+            <!-- Styled Range Slider -->
+            <input type="range" id="filterPriceSlider" class="price-range-slider" min="0" max="10000" value="10000" step="100" aria-label="Price range slider">
+          </div>
+        </div>
+
+        <!-- Brand -->
+        <div class="filter-section">
+          <div class="filter-section-header">
+            <span class="filter-section-title">Brand</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:7px;">
+            <label class="checkbox-item">
+              <span class="checkbox-label-left">
+                <input type="checkbox" name="brandFilter" value="OPTIMUM NUTRITION" class="custom-checkbox">
+                Optimum Nutrition
+              </span>
+              <span class="filter-count">14</span>
+            </label>
+            <label class="checkbox-item">
+              <span class="checkbox-label-left">
+                <input type="checkbox" name="brandFilter" value="MUSCLEBLAZE" class="custom-checkbox">
+                MuscleBlaze
+              </span>
+              <span class="filter-count">12</span>
+            </label>
+            <label class="checkbox-item">
+              <span class="checkbox-label-left">
+                <input type="checkbox" name="brandFilter" value="BOLDFIT" class="custom-checkbox">
+                Boldfit
+              </span>
+              <span class="filter-count">9</span>
+            </label>
+            <label class="checkbox-item">
+              <span class="checkbox-label-left">
+                <input type="checkbox" name="brandFilter" value="FAST&UP" class="custom-checkbox">
+                Fast&amp;Up
+              </span>
+              <span class="filter-count">8</span>
+            </label>
+            <label class="checkbox-item">
+              <span class="checkbox-label-left">
+                <input type="checkbox" name="brandFilter" value="THE WHOLE TRUTH" class="custom-checkbox">
+                The Whole Truth
+              </span>
+              <span class="filter-count">6</span>
+            </label>
+            <label class="checkbox-item">
+              <span class="checkbox-label-left">
+                <input type="checkbox" name="brandFilter" value="NIKE TRAINING" class="custom-checkbox">
+                Nike Training
+              </span>
+              <span class="filter-count">6</span>
+            </label>
+            <label class="checkbox-item">
+              <span class="checkbox-label-left">
+                <input type="checkbox" name="brandFilter" value="UNDER ARMOUR" class="custom-checkbox">
+                Under Armour
+              </span>
+              <span class="filter-count">4</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Rating -->
+        <div class="filter-section">
+          <div class="filter-section-header">
+            <span class="filter-section-title">Rating</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <label class="radio-item">
+              <input type="radio" name="ratingRadio" value="4.0">
+              <span>4.0+ Stars &amp; Above</span>
+            </label>
+            <label class="radio-item">
+              <input type="radio" name="ratingRadio" value="3.0">
+              <span>3.0+ Stars &amp; Above</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Discount -->
+        <div class="filter-section">
+          <div class="filter-section-header">
+            <span class="filter-section-title">Discount</span>
+          </div>
+          <div class="discount-chips-row">
+            <button type="button" class="discount-chip" data-discount="20">20% or more</button>
+            <button type="button" class="discount-chip" data-discount="30">30% or more</button>
+            <button type="button" class="discount-chip" data-discount="50">50% or more</button>
+          </div>
+        </div>
+
+        <!-- PoseAI Sync Tip Card -->
+        <div class="poseai-sync-card">
+          <div class="sync-card-header">
+            <span class="material-symbols-outlined" style="font-size:16px;">auto_awesome</span>
+            PoseAI Sync
+          </div>
+          <p class="sync-card-body">
+            Your current squat biomechanics indicate elevated hamstring recovery needs. Suggested: 5g Creapure &amp; Foam Roller.
+          </p>
+        </div>
+
+      </aside>
+
+      <!-- =====================================================================
+           RIGHT PRODUCTS COLUMN
+           ===================================================================== -->
+      <section class="products-content-column">
+        
+        <!-- Active Filter Chips Row -->
+        <div class="active-filters-row">
+          <div class="active-chips-container">
+            <span class="active-filter-label">Active:</span>
+            <div id="activeFilterChipsList" style="display:inline-flex; align-items:center; gap:6px; flex-wrap:wrap;"></div>
+          </div>
+          <button type="button" class="clear-all-chips-link" id="clearAllChipsLink">Clear all</button>
+        </div>
+
+        <!-- 4-Column Product Grid -->
+        <div class="product-grid" id="catalogProductGrid">
+          <!-- Dynamically populated by products.js -->
+        </div>
+
+        <!-- AI Curated Bundles Promo Banner -->
+        <div class="promo-banner">
+          <div class="promo-left">
+            <div class="promo-icon-box">
+              <span class="material-symbols-outlined">bolt</span>
+            </div>
+            <div class="promo-text-group">
+              <h3 class="promo-heading">Need AI-Curated Bundles for Your Goal?</h3>
+              <p class="promo-description">
+                Our vision tracking engine builds personalized stacks based on your joint angles, training volume, and velocity.
+              </p>
+            </div>
+          </div>
+          <a href="/analysis" class="promo-cta-btn">
+            Run Pose Diagnostic &rarr;
+          </a>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="pagination-row">
+          <span class="pagination-info" id="paginationInfoText">Showing 1-12 of 48 products</span>
+          <div class="pagination-controls" id="paginationControlsList"></div>
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- =========================================================================
+       SLIDE-OUT CART DRAWER (Fixed Right Side Panel with Backdrop)
+       ========================================================================= -->
+  <div class="drawer-backdrop" id="cartDrawerBackdrop"></div>
+
+  <aside class="cart-drawer-panel" id="cartDrawerPanel" aria-labelledby="drawerCartTitleCount">
+    
+    <!-- Drawer Header -->
+    <div class="drawer-header">
+      <div class="drawer-title-box">
+        <span class="material-symbols-outlined" style="font-size:22px; color:var(--color-primary);">shopping_cart</span>
+        <span id="drawerCartTitleCount">Your Cart (0)</span>
+      </div>
+      <button type="button" class="drawer-close-btn" id="cartDrawerCloseBtn" aria-label="Close Cart"><span class="material-symbols-outlined" style="font-size:18px;">close</span></button>
+    </div>
+
+    <!-- Drawer Items List -->
+    <div class="drawer-body-items" id="cartDrawerItemsList">
+      <!-- Populated dynamically via products.js -->
+    </div>
+
+    <!-- Delivery Row -->
+    <div class="drawer-delivery-box">
+      <span class="delivery-location-text">Delivery to Bengaluru, KA</span>
+      <span class="delivery-free-tag">FREE</span>
+    </div>
+
+    <!-- Drawer Summary & Checkout -->
+    <div class="drawer-footer">
+      <div class="drawer-summary-row">
+        <span>Subtotal</span>
+        <span id="drawerSubtotalAmount">₹0</span>
+      </div>
+      <div class="drawer-summary-row">
+        <span>Estimated GST (18%)</span>
+        <span id="drawerGstAmount">₹0</span>
+      </div>
+      <div class="drawer-total-row">
+        <span>Total Amount</span>
+        <span class="drawer-total-num" id="drawerTotalAmount">₹0</span>
+      </div>
+
+      <a href="/fitness-market/checkout" class="drawer-checkout-btn">
+        PROCEED TO CHECKOUT
+      </a>
+
+      <p class="drawer-trust-text">
+        100% Biometric Clearance Guarantee • Instant UPI / Cards
+      </p>
+    </div>
+
+  </aside>
+
+  <!-- =========================================================================
+       FOOTER (4 Columns Grid)
+       ========================================================================= -->
+  <footer class="main-site-footer">
+    <div class="footer-container">
+      <div class="footer-grid-4col">
+        
+        <!-- Brand Col -->
+        <div class="footer-brand-col">
+          <a href="/" class="brand-logo">
+            <div class="logo-icon">
+              <span class="material-symbols-outlined" style="font-size:20px;">fitness_center</span>
+            </div>
+            <span class="logo-text">PoseAI</span>
+          </a>
+          <p class="footer-brand-text">
+            Computer vision fitness tracking paired with high-performance sports nutrition and biometric gear. Real-time form correction meets instant athletic recovery.
+          </p>
+        </div>
+
+        <!-- MARKETPLACE -->
+        <div>
+          <h4 class="footer-col-title">Marketplace</h4>
+          <ul class="footer-link-list">
+            <li><a href="/fitness-market/products?category=protein" class="footer-link">Supplements</a></li>
+            <li><a href="/fitness-market/products?category=gear" class="footer-link">Biometric Gear</a></li>
+            <li><a href="/fitness-market/products?category=apparel" class="footer-link">Recovery Wear</a></li>
+            <li><a href="/fitness-market/products?category=vitamins" class="footer-link">AI Nutrition Bundles</a></li>
+          </ul>
+        </div>
+
+        <!-- ACCOUNT & HELP -->
+        <div>
+          <h4 class="footer-col-title">Account &amp; Help</h4>
+          <ul class="footer-link-list">
+            <li><a href="/fitness-market/orders" class="footer-link">Track Orders</a></li>
+            <li><a href="/profile" class="footer-link">Account Settings</a></li>
+            <li><a href="#" class="footer-link">Help Center</a></li>
+            <li><a href="#" class="footer-link">Contact Support</a></li>
+          </ul>
+        </div>
+
+        <!-- PLATFORM -->
+        <div>
+          <h4 class="footer-col-title">Platform</h4>
+          <ul class="footer-link-list">
+            <li><a href="/workout" class="footer-link">Pose Tracker</a></li>
+            <li><a href="/analysis" class="footer-link">Biomech Reports</a></li>
+            <li><a href="#" class="footer-link">Privacy Policy</a></li>
+            <li><a href="#" class="footer-link">Terms of Service</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom-bar">
+        <span>&copy; 2025 PoseAI Technologies India Pvt. Ltd. All rights reserved.</span>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Security</a>
+          <span class="safe-checkout-tag">
+            <span class="material-symbols-outlined" style="font-size:15px;">verified_user</span>
+            Safe Checkout
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/api-client.js"></script>
+  <script src="/js/products.js"></script>
+
+</body>
+
+</html>

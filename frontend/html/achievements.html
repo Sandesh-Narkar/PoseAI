@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Achievements — PoseAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = { darkMode: "class", theme: { extend: {
+      colors: { "primary":"#006194","on-primary":"#ffffff","primary-container":"#007bb9","on-primary-container":"#fdfcff","primary-fixed":"#cce5ff","primary-fixed-dim":"#93ccff","secondary":"#006c49","on-secondary":"#ffffff","secondary-container":"#6cf8bb","on-secondary-container":"#00714d","secondary-fixed":"#6ffbbe","secondary-fixed-dim":"#4edea3","tertiary":"#825100","on-tertiary":"#ffffff","tertiary-container":"#a36700","on-tertiary-container":"#fffbff","tertiary-fixed":"#ffddb8","tertiary-fixed-dim":"#ffb95f","on-tertiary-fixed":"#2a1700","on-tertiary-fixed-variant":"#653e00","error":"#ba1a1a","on-error":"#ffffff","error-container":"#ffdad6","on-error-container":"#93000a","surface":"#faf8ff","on-surface":"#131b2e","surface-variant":"#dae2fd","on-surface-variant":"#3f4850","outline":"#707881","outline-variant":"#bfc7d2","surface-container-lowest":"#ffffff","surface-container-low":"#f2f3ff","surface-container":"#eaedff","surface-container-high":"#e2e7ff","surface-container-highest":"#dae2fd","surface-dim":"#d2d9f4","surface-bright":"#faf8ff","background":"#faf8ff","inverse-surface":"#283044","inverse-on-surface":"#eef0ff","inverse-primary":"#93ccff","surface-tint":"#006398" },
+      borderRadius: { DEFAULT: "1rem", lg: "2rem", xl: "3rem", full: "9999px" },
+      fontFamily: { sans: ["Plus Jakarta Sans", "ui-sans-serif", "system-ui"] }
+    } } };
+  </script>
+  <style>
+    body { font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui; }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+  <link rel="stylesheet" href="/css/navbar.css">
+</head>
+
+<body data-page="achievements" class="bg-background min-h-screen antialiased flex flex-col">
+  <div id="app-header"></div>
+
+  <main class="w-full pt-20 bg-background flex-1">
+    <div class="max-w-7xl mx-auto px-4 md:px-10 py-6 md:py-10">
+      <div class="flex flex-col w-full gap-6">
+
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+          <div>
+            <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-on-surface">Achievements</h1>
+            <p class="text-sm text-on-surface-variant mt-1">Milestones earned from your stored workout history.</p>
+          </div>
+          <div class="flex items-center gap-3 self-start md:self-auto">
+            <div class="bg-surface-container-lowest rounded-2xl px-5 py-3 shadow-sm flex items-center gap-2">
+              <span class="material-symbols-outlined text-[22px] text-primary">bolt</span>
+              <div><span class="block text-2xl font-extrabold text-on-surface leading-none" id="xpValue">0</span><span class="text-[11px] text-on-surface-variant">XP</span></div>
+            </div>
+            <div class="bg-surface-container-lowest rounded-2xl px-5 py-3 shadow-sm flex items-center gap-2">
+              <span class="material-symbols-outlined text-[22px] text-secondary">emoji_events</span>
+              <div><span class="block text-2xl font-extrabold text-on-surface leading-none"><span id="unlockedValue">0</span>/<span id="totalValue">0</span></span><span class="text-[11px] text-on-surface-variant">Unlocked</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="achievementGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="sm:col-span-2 lg:col-span-3 flex items-center justify-center py-20 text-on-surface-variant">
+            <span class="material-symbols-outlined animate-spin text-3xl mr-2">progress_activity</span> Loading achievements…
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <div id="app-footer"></div>
+  <script src="js/shell.js"></script>
+  <script>
+    "use strict";
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+      });
+    }
+
+    function render(data) {
+      document.getElementById("xpValue").textContent = data.xp || 0;
+      document.getElementById("unlockedValue").textContent = data.unlocked || 0;
+      document.getElementById("totalValue").textContent = data.total || 0;
+
+      const grid = document.getElementById("achievementGrid");
+      const achievements = data.achievements || [];
+      grid.innerHTML = "";
+      if (!achievements.length) {
+        grid.innerHTML = '<p class="col-span-3 text-center text-on-surface-variant py-16">No achievements defined yet.</p>';
+        return;
+      }
+
+      achievements.forEach(function (a) {
+        const unlocked = Boolean(a.unlocked);
+        const progress = Math.min(100, Math.round(a.progress || 0));
+        const card = document.createElement("article");
+        card.className = unlocked
+          ? "bg-surface-container-lowest rounded-3xl p-5 shadow-sm border-2 border-secondary-container/60 flex flex-col"
+          : "bg-surface-container-lowest rounded-3xl p-5 shadow-sm flex flex-col opacity-80";
+
+        const icon = unlocked ? "emoji_events" : "lock";
+        const iconCls = unlocked ? "bg-secondary-container text-on-secondary-container" : "bg-surface-container-high text-on-surface-variant";
+        const badge = `<span class="px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-bold ${unlocked ? "bg-secondary-container text-on-secondary-container" : "bg-surface-container-low text-on-surface-variant"}">${escapeHtml(a.category)}</span>`;
+        const unlockedDate = a.unlocked_at
+          ? '<span class="text-[11px] text-on-surface-variant">Unlocked ' + new Date(a.unlocked_at).toLocaleDateString() + "</span>"
+          : "";
+
+        card.innerHTML =
+          '<div class="flex items-start justify-between mb-3">' +
+          '<div class="w-11 h-11 rounded-2xl ' + iconCls + ' flex items-center justify-center"><span class="material-symbols-outlined text-[22px]">' + icon + "</span></div>" +
+          badge +
+          "</div>" +
+          '<h2 class="text-base font-bold text-on-surface">' + escapeHtml(a.name) + "</h2>" +
+          '<p class="text-sm text-on-surface-variant mt-1 flex-1">' + escapeHtml(a.description) + "</p>" +
+          (unlocked
+            ? '<div class="mt-3 flex items-center justify-between text-xs">' +
+              '<span class="text-secondary font-bold">+ ' + (a.xp || 0) + " XP</span>" +
+              unlockedDate +
+              "</div>"
+            : '<div class="mt-3"><div class="w-full bg-surface-container-high rounded-full h-2 overflow-hidden"><div class="h-full rounded-full ' + (progress > 0 ? "bg-primary" : "bg-surface-container-highest") + '" style="width:' + progress + '%"></div></div>' +
+              '<div class="flex justify-between text-[11px] text-on-surface-variant mt-1"><span>' + progress + '%</span><span>target ' + (a.target ?? 1) + '</span></div></div>');
+        grid.appendChild(card);
+      });
+    }
+
+    async function load() {
+      try {
+        const res = await window.api.get("/api/achievements");
+        render(res.data || {});
+      } catch (err) {
+        const grid = document.getElementById("achievementGrid");
+        grid.innerHTML = '<p class="col-span-3 text-center text-error py-16">Failed to load achievements: ' + escapeHtml(err.message) + "</p>";
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", load);
+  </script>
+
+</body>
+
+</html>

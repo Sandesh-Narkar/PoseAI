@@ -1,0 +1,2050 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-surface-variant": "#3f4850",
+              "on-secondary-container": "#00714d",
+              primary: "#006194",
+              "on-surface": "#131b2e",
+              "surface-container-low": "#f2f3ff",
+              outline: "#707881",
+              secondary: "#006c49",
+              "on-secondary-fixed-variant": "#005236",
+              "surface-container-highest": "#dae2fd",
+              "on-tertiary-fixed-variant": "#653e00",
+              "surface-tint": "#006398",
+              "error-container": "#ffdad6",
+              "surface-container": "#eaedff",
+              "on-primary": "#ffffff",
+              "primary-fixed-dim": "#93ccff",
+              "inverse-primary": "#93ccff",
+              "on-secondary-fixed": "#002113",
+              "secondary-container": "#6cf8bb",
+              "surface-dim": "#d2d9f4",
+              surface: "#faf8ff",
+              "on-secondary": "#ffffff",
+              "surface-variant": "#dae2fd",
+              "surface-bright": "#faf8ff",
+              "tertiary-container": "#a36700",
+              "on-primary-fixed": "#001d31",
+              "inverse-on-surface": "#eef0ff",
+              "on-primary-fixed-variant": "#004b73",
+              error: "#ba1a1a",
+              "primary-container": "#007bb9",
+              "inverse-surface": "#283044",
+              tertiary: "#825100",
+              "primary-fixed": "#cce5ff",
+              "on-tertiary-container": "#fffbff",
+              "on-tertiary": "#ffffff",
+              "tertiary-fixed": "#ffddb8",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed-dim": "#4edea3",
+              "on-error-container": "#93000a",
+              "on-error": "#ffffff",
+              "on-tertiary-fixed": "#2a1700",
+              "on-background": "#131b2e",
+              "outline-variant": "#bfc7d2",
+              background: "#faf8ff",
+              "secondary-fixed": "#6ffbbe",
+              "tertiary-fixed-dim": "#ffb95f",
+              "on-primary-container": "#fdfcff",
+              "surface-container-high": "#e2e7ff",
+            },
+            borderRadius: {
+              DEFAULT: "1rem",
+              lg: "2rem",
+              xl: "3rem",
+              full: "9999px",
+            },
+            spacing: {
+              "space-xl": "2rem",
+              "margin-mobile": "1rem",
+              "gutter-mobile": "1rem",
+              margin: "2.5rem",
+              "space-lg": "1.5rem",
+              gutter: "1.5rem",
+              "space-md": "1rem",
+              "space-xs": "0.25rem",
+              "space-2xl": "3rem",
+              "space-sm": "0.5rem",
+            },
+            fontFamily: {
+              "label-md": ["Plus Jakarta Sans"],
+              "headline-lg": ["Plus Jakarta Sans"],
+              "metric-stat": ["Plus Jakarta Sans"],
+              "display-lg-mobile": ["Plus Jakarta Sans"],
+              "body-lg": ["Plus Jakarta Sans"],
+              "label-lg": ["Plus Jakarta Sans"],
+              "body-md": ["Plus Jakarta Sans"],
+              caption: ["Plus Jakarta Sans"],
+              "display-lg": ["Plus Jakarta Sans"],
+              "headline-sm": ["Plus Jakarta Sans"],
+              "headline-md": ["Plus Jakarta Sans"],
+            },
+            fontSize: {
+              "label-md": [
+                "12px",
+                {
+                  lineHeight: "16px",
+                  letterSpacing: "0.02em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-lg": [
+                "28px",
+                {
+                  lineHeight: "36px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+              "metric-stat": [
+                "32px",
+                {
+                  lineHeight: "36px",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "800",
+                },
+              ],
+              "display-lg-mobile": [
+                "30px",
+                {
+                  lineHeight: "38px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+              "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "label-lg": [
+                "14px",
+                {
+                  lineHeight: "20px",
+                  letterSpacing: "0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "body-md": ["14px", { lineHeight: "22px", fontWeight: "400" }],
+              caption: [
+                "11px",
+                {
+                  lineHeight: "14px",
+                  letterSpacing: "0.02em",
+                  fontWeight: "500",
+                },
+              ],
+              "display-lg": [
+                "40px",
+                {
+                  lineHeight: "48px",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "700",
+                },
+              ],
+              "headline-sm": [
+                "18px",
+                {
+                  lineHeight: "26px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-md": [
+                "22px",
+                {
+                  lineHeight: "30px",
+                  letterSpacing: "-0.015em",
+                  fontWeight: "600",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-background font-body-md text-on-surface min-h-screen antialiased flex flex-col"
+  >
+    <header
+      class="fixed top-0 left-0 right-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"
+    >
+      <div
+        class="h-20 max-w-7xl mx-auto px-margin-mobile md:px-margin flex items-center justify-between gap-space-md"
+      >
+        <div class="flex items-center gap-space-lg">
+          <a
+            class="flex items-center gap-space-sm focus:outline-none"
+            data-path="dashboard"
+            href="#"
+            ><img
+              alt="PoseAI Logo"
+              class="h-8 w-auto object-contain"
+              src="https://lh3.googleusercontent.com/aida/AEtjO1V-v98pUA9o4U6cX1--icYSOIleTEKxDWirF2zkkoLGotbzGV3ou0HBF2BtboSeEoQ-xSTjdnZLLeoW_qjDzoGXOpvQaRduN9-Jb1X9l2Jf3ejdOWIjb0rrmHHRC4AanbvLJYwYoiIHS3auOiGKsOaH34upGvpKLjhp4NoC8xBltTmnNYYw6KNwdUrA3tPND7tD9S5TIBmTRt1E7SQDRgMAJaLwGJLqFteSQqoBJeHQ8w7T7HSibZ0Yw4I"
+            /><span
+              class="font-headline-sm text-headline-sm tracking-tight text-on-surface"
+              >PoseAI</span
+            ></a
+          >
+          <nav
+            class="hidden lg:flex items-center gap-space-xs bg-surface-container-low p-space-xs rounded-full"
+            data-active-classes="bg-primary-container text-on-primary-container font-label-lg text-label-lg shadow-sm"
+          >
+            <a
+              aria-current="page"
+              class="px-space-md py-space-xs rounded-full transition-colors bg-primary-container text-on-primary-container font-label-lg text-label-lg shadow-sm"
+              data-path="dashboard"
+              href="#"
+              >Dashboard</a
+            ><a
+              class="px-space-md py-space-xs rounded-full font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+              data-path="workout"
+              href="#"
+              >Workout</a
+            ><a
+              class="px-space-md py-space-xs rounded-full font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+              data-path="analysis"
+              href="#"
+              >Analysis</a
+            ><a
+              class="px-space-md py-space-xs rounded-full font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+              data-path="progress"
+              href="#"
+              >Progress</a
+            >
+            <div class="relative group">
+              <button
+                class="flex items-center gap-1 px-space-md py-space-xs rounded-full font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors focus:outline-none"
+                type="button"
+              >
+                <span>More</span
+                ><span class="material-symbols-outlined text-[18px]"
+                  >expand_more</span
+                >
+              </button>
+              <div
+                class="absolute left-0 top-full mt-2 w-48 bg-surface-container-lowest rounded-xl shadow-[0_8px_32px_0_rgba(15,23,42,0.08)] py-2 hidden group-hover:block transition-all"
+              >
+                <a
+                  class="block px-4 py-2 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+                  data-path="achievements"
+                  href="#"
+                  >Achievements</a
+                ><a
+                  class="block px-4 py-2 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+                  data-path="exercises"
+                  href="#"
+                  >Exercises Library</a
+                ><a
+                  class="block px-4 py-2 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+                  data-path="settings"
+                  href="#"
+                  >Settings</a
+                >
+              </div>
+            </div>
+          </nav>
+        </div>
+        <div class="flex items-center gap-space-sm md:gap-space-md">
+          <div
+            class="hidden md:flex items-center bg-surface-container-low rounded-full px-space-md py-space-xs text-on-surface-variant focus-within:ring-2 focus-within:ring-primary focus-within:bg-surface-container-lowest transition-all"
+          >
+            <span
+              class="material-symbols-outlined text-[20px] mr-2 text-outline"
+              >search</span
+            ><input
+              class="bg-transparent border-none outline-none font-body-md text-body-md text-on-surface placeholder:text-outline w-44 lg:w-56"
+              placeholder="Search telemetry, plans..."
+              type="text"
+            />
+          </div>
+          <div
+            class="hidden sm:flex items-center gap-1 px-space-sm py-1 rounded-full bg-surface-container border border-surface-container-high"
+          >
+            <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span
+            ><span
+              class="font-caption text-caption text-secondary uppercase tracking-wider font-bold"
+              >CV Live</span
+            >
+          </div>
+          <button
+            aria-label="Notifications"
+            class="relative w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors focus:outline-none"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-[22px]"
+              >notifications</span
+            ><span
+              class="absolute top-2 right-2 w-2 h-2 rounded-full bg-primary ring-2 ring-surface-container-lowest"
+            ></span>
+          </button>
+          <div class="flex items-center gap-space-sm pl-space-xs">
+            <div
+              class="flex items-center gap-2 p-1 rounded-full hover:bg-surface-container-low transition-colors cursor-pointer"
+            >
+              <img
+                alt="Profile"
+                class="w-8 h-8 rounded-full object-cover ring-2 ring-surface-container-high"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDK0pe27buXIvLjbhnIXYF-qJRoOpNdSJwldWkj4gEA3Wcx6h5Pm534p-jX3jauLNRwXQgyMRH8QRaFQPPPPFNq4gYRY82B7JqcCats8h5vSvX659teNleFWLD6nDkGtgnWThFGShjWaA8fjd_8LLXol8E8QUsQExSTI3cnCQK-tcSOufIos_a8CRxOq5x_ylqRAdqVkyeBPg4wXHQn3nPiishJ4Pvc-DbmAQ6uavPCYSzBIwK8l-8u"
+              />
+              <div class="hidden xl:flex flex-col text-left">
+                <span
+                  class="font-label-md text-label-md text-on-surface leading-none"
+                  >Sandesh</span
+                ><span
+                  class="font-caption text-caption text-on-surface-variant leading-tight"
+                  >Pro Member</span
+                >
+              </div>
+            </div>
+          </div>
+          <button
+            aria-label="Toggle Menu"
+            class="lg:hidden w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors focus:outline-none"
+            onclick="
+              document
+                .getElementById('mobile-drawer')
+                .classList.toggle('hidden')
+            "
+            type="button"
+          >
+            <span class="material-symbols-outlined text-[24px]">menu</span>
+          </button>
+        </div>
+      </div>
+      <div
+        class="hidden lg:hidden border-t border-surface-container-high bg-surface-container-lowest px-margin-mobile py-space-lg shadow-lg"
+        id="mobile-drawer"
+      >
+        <nav
+          class="flex flex-col gap-space-xs"
+          data-active-classes="bg-primary-container text-on-primary-container font-bold"
+        >
+          <a
+            aria-current="page"
+            class="px-space-md py-space-sm rounded-lg bg-primary-container text-on-primary-container font-bold"
+            data-path="dashboard"
+            href="#"
+            >Dashboard</a
+          ><a
+            class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+            data-path="workout"
+            href="#"
+            >Workout</a
+          ><a
+            class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+            data-path="analysis"
+            href="#"
+            >Analysis</a
+          ><a
+            class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+            data-path="progress"
+            href="#"
+            >Progress</a
+          ><a
+            class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+            data-path="achievements"
+            href="#"
+            >Achievements</a
+          ><a
+            class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+            data-path="exercises"
+            href="#"
+            >Exercises</a
+          ><a
+            class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+            data-path="profile"
+            href="#"
+            >Profile</a
+          >
+        </nav>
+      </div>
+    </header>
+    <main class="w-full pt-20 bg-background flex-1">
+      <div
+        class="max-w-7xl mx-auto px-margin-mobile md:px-margin py-space-lg md:py-space-xl"
+      >
+        <div class="flex flex-col w-full">
+          <!-- Interactive State Simulator & Demo Switcher Bar -->
+          <aside
+            aria-label="Simulator Controls"
+            class="w-full bg-surface-container-low rounded-2xl p-space-sm mb-space-lg flex flex-wrap items-center justify-between gap-space-sm shadow-sm"
+          >
+            <div class="flex items-center gap-space-sm">
+              <div
+                class="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center text-primary"
+              >
+                <span class="material-symbols-outlined text-[16px]">tune</span>
+              </div>
+              <div>
+                <span class="font-label-md text-label-md text-on-surface"
+                  >Simulator Modes:</span
+                >
+                <span
+                  class="font-caption text-caption text-on-surface-variant hidden sm:inline ml-1"
+                  >Test edge telemetry and mock states</span
+                >
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <button
+                class="px-3 py-1 rounded-full font-label-md text-label-md bg-primary text-on-primary shadow-sm transition-all flex items-center gap-1"
+                id="state-btn-active"
+                onclick="setViewState('active')"
+                type="button"
+              >
+                <span class="w-2 h-2 rounded-full bg-secondary-fixed"></span>
+                <span>Active User</span>
+              </button>
+              <button
+                class="px-3 py-1 rounded-full font-label-md text-label-md bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all flex items-center gap-1"
+                id="state-btn-unsaved"
+                onclick="setViewState('unsaved')"
+                type="button"
+              >
+                <span class="w-2 h-2 rounded-full bg-tertiary"></span>
+                <span>Unsaved Changes</span>
+              </button>
+              <button
+                class="px-3 py-1 rounded-full font-label-md text-label-md bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all flex items-center gap-1"
+                id="state-btn-skeleton"
+                onclick="setViewState('skeleton')"
+                type="button"
+              >
+                <span class="w-2 h-2 rounded-full bg-outline-variant"></span>
+                <span>Skeleton Loading</span>
+              </button>
+              <button
+                class="px-3 py-1 rounded-full font-label-md text-label-md bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all flex items-center gap-1"
+                id="state-btn-error"
+                onclick="setViewState('error')"
+                type="button"
+              >
+                <span class="w-2 h-2 rounded-full bg-error"></span>
+                <span>Error State</span>
+              </button>
+            </div>
+          </aside>
+          <!-- Global Toast Feedback Message Container -->
+          <div
+            class="hidden fixed bottom-6 right-6 z-50 transition-all duration-300 transform translate-y-4 opacity-0 pointer-events-none"
+            id="toast-banner"
+          >
+            <div
+              class="flex items-center gap-space-sm bg-inverse-surface text-inverse-on-surface px-space-md py-space-sm rounded-full shadow-2xl"
+            >
+              <span
+                class="material-symbols-outlined text-secondary-fixed text-[20px]"
+                id="toast-icon"
+                >check_circle</span
+              >
+              <span class="font-label-md text-label-md" id="toast-text"
+                >Preferences saved successfully.</span
+              >
+              <button
+                class="text-inverse-on-surface/70 hover:text-inverse-on-surface ml-2"
+                onclick="hideToast()"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-[16px]">close</span>
+              </button>
+            </div>
+          </div>
+          <!-- Dynamic Error Display Container (Simulator Mode) -->
+          <div
+            class="hidden w-full mb-space-lg rounded-2xl bg-error-container p-space-md shadow-sm"
+            id="error-banner"
+          >
+            <div class="flex items-start gap-space-md">
+              <div
+                class="w-10 h-10 rounded-full bg-on-error flex items-center justify-center text-error shrink-0"
+              >
+                <span class="material-symbols-outlined text-[24px]">error</span>
+              </div>
+              <div class="flex-1">
+                <h4
+                  class="font-headline-sm text-headline-sm text-on-error-container"
+                >
+                  Telemetry Sync Failure
+                </h4>
+                <p
+                  class="font-body-md text-body-md text-on-error-container/80 mt-1"
+                >
+                  Unable to persist kinematics buffer to the remote pipeline.
+                  Local cache is holding current session coordinates.
+                </p>
+                <div class="mt-space-sm flex gap-space-sm">
+                  <button
+                    class="px-4 py-1.5 rounded-full bg-error text-on-error font-label-md text-label-md hover:opacity-90 transition-opacity"
+                    onclick="retrySync()"
+                    type="button"
+                  >
+                    Retry Handshake
+                  </button>
+                  <button
+                    class="px-4 py-1.5 rounded-full bg-on-error text-error font-label-md text-label-md"
+                    onclick="dismissError()"
+                    type="button"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Header Text Section -->
+          <div
+            class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-xl"
+          >
+            <div>
+              <div
+                class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed font-caption text-caption uppercase tracking-wider mb-space-xs"
+              >
+                <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                <span>Athlete Profile &amp; CV Engine</span>
+              </div>
+              <h1
+                class="font-display-lg text-display-lg text-on-surface tracking-tight"
+              >
+                User Profile &amp; Account Settings
+              </h1>
+              <p
+                class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mt-1"
+              >
+                Manage your athlete identity, biomechanical telemetry
+                preferences, credentials, and data privacy.
+              </p>
+            </div>
+            <div class="flex items-center gap-space-sm self-start md:self-auto">
+              <button
+                class="px-space-md py-2 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-all flex items-center gap-1.5 shadow-sm"
+                onclick="openModal('avatar-modal')"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-[18px]"
+                  >photo_camera</span
+                >
+                <span>Change Avatar</span>
+              </button>
+              <button
+                class="px-space-lg py-2 rounded-full bg-primary text-on-primary hover:bg-primary-container font-label-lg text-label-lg transition-all shadow-md flex items-center gap-1.5"
+                onclick="saveAllPreferences(true)"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-[18px]">save</span>
+                <span>Quick Save</span>
+              </button>
+            </div>
+          </div>
+          <!-- Main Content Flow (Active / Dynamic State) -->
+          <div class="flex flex-col gap-space-xl" id="content-container">
+            <!-- 1. PROFILE HERO CARD -->
+            <section
+              class="bg-surface-container-lowest rounded-3xl p-space-lg md:p-space-xl shadow-sm relative overflow-hidden"
+            >
+              <div
+                class="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-primary-fixed-dim/20 blur-3xl pointer-events-none"
+              ></div>
+              <div
+                class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg relative z-10"
+              >
+                <div
+                  class="flex flex-col sm:flex-row items-start sm:items-center gap-space-lg"
+                >
+                  <!-- Avatar with Camera Badge -->
+                  <div
+                    class="relative group cursor-pointer"
+                    onclick="openModal('avatar-modal')"
+                  >
+                    <div
+                      class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden bg-surface-container-low shadow-inner"
+                    >
+                      <img
+                        alt="Sandesh Narkar Profile"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        id="profile-avatar-img"
+                        src="https://lh3.googleusercontent.com/aida/AEtjO1WnuN-mYomLjxOWLN7fMF6gDr7Pa7tydqC8E4dSlHpga5AAakpxSq7jKYrdQ-TXaITSo3nfNVc4IpWjAsuWSqskrfQ25cDmCwOll-xzr5uYrtI0KKPLgq-5iYQ3jfI1kwvrxrgb3zBCfbZHyzP2EY_GAi4lSRuEX60dOe7e93BAOJF4nP4loanniS4TA8ZRSzx5y2yNWouPfqwK2VrxSmkM9fsZ58xPWN4RlHLWqCpr1c-uQffRSEhhtPc"
+                      />
+                    </div>
+                    <button
+                      aria-label="Edit Profile Picture"
+                      class="absolute bottom-0 right-0 w-9 h-9 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-md group-hover:bg-primary-container transition-colors"
+                      type="button"
+                    >
+                      <span class="material-symbols-outlined text-[18px]"
+                        >photo_camera</span
+                      >
+                    </button>
+                  </div>
+                  <!-- Identification Information -->
+                  <div class="flex flex-col">
+                    <div class="flex items-center gap-2 flex-wrap">
+                      <h2
+                        class="font-headline-lg text-headline-lg text-on-surface"
+                        data-field="display_name"
+                      >
+                        Sandesh Narkar
+                      </h2>
+                      <span
+                        class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-caption text-caption uppercase tracking-wider font-bold"
+                      >
+                        <span class="material-symbols-outlined text-[13px]"
+                          >verified</span
+                        >
+                        <span>Pro Athlete</span>
+                      </span>
+                    </div>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant flex items-center gap-2 mt-0.5"
+                    >
+                      <span
+                        class="font-semibold text-primary"
+                        data-field="username"
+                        >@sandesh</span
+                      >
+                      <span class="text-outline-variant">•</span>
+                      <span>PoseAI Active Member</span>
+                    </p>
+                    <div
+                      class="flex items-center gap-3 mt-2 font-caption text-caption text-outline flex-wrap"
+                    >
+                      <span class="flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[15px]"
+                          >calendar_month</span
+                        >
+                        Member since September 2026
+                      </span>
+                      <span class="text-outline-variant">•</span>
+                      <span class="flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[15px]"
+                          >location_on</span
+                        >
+                        San Francisco, CA
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Hero Actions -->
+                <div class="flex items-center gap-space-sm flex-wrap">
+                  <button
+                    class="px-space-md py-2.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-all flex items-center gap-1.5 shadow-sm"
+                    onclick="openModal('avatar-modal')"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >edit</span
+                    >
+                    <span>Edit Avatar</span>
+                  </button>
+                  <a
+                    class="px-space-md py-2.5 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg transition-all flex items-center gap-1.5"
+                    href="#"
+                    onclick="
+                      showToast('Public biometric summary opened in preview');
+                      return false;
+                    "
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >open_in_new</span
+                    >
+                    <span>View Public Profile</span>
+                  </a>
+                </div>
+              </div>
+            </section>
+            <!-- 2. QUICK FITNESS OVERVIEW STATS -->
+            <section
+              aria-label="Biomechanical Overview"
+              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md"
+            >
+              <!-- CARD 1: STREAK -->
+              <div
+                class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow"
+              >
+                <div class="flex items-center justify-between">
+                  <span
+                    class="font-caption text-caption uppercase font-bold text-outline tracking-wider"
+                    >Streak</span
+                  >
+                  <div
+                    class="w-9 h-9 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed"
+                  >
+                    <span class="material-symbols-outlined text-[20px]"
+                      >local_fire_department</span
+                    >
+                  </div>
+                </div>
+                <div class="mt-space-md">
+                  <div
+                    class="font-metric-stat text-metric-stat text-on-surface"
+                    data-metric="streak_days"
+                  >
+                    7 Days
+                  </div>
+                  <div
+                    class="flex items-center gap-1 font-caption text-caption text-on-surface-variant mt-1"
+                  >
+                    <span
+                      class="material-symbols-outlined text-[14px] text-tertiary"
+                      >star</span
+                    >
+                    <span>Personal Best: 12 days</span>
+                  </div>
+                </div>
+              </div>
+              <!-- CARD 2: WORKOUTS -->
+              <div
+                class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow"
+              >
+                <div class="flex items-center justify-between">
+                  <span
+                    class="font-caption text-caption uppercase font-bold text-outline tracking-wider"
+                    >Workouts</span
+                  >
+                  <div
+                    class="w-9 h-9 rounded-full bg-primary-fixed flex items-center justify-center text-primary"
+                  >
+                    <span class="material-symbols-outlined text-[20px]"
+                      >fitness_center</span
+                    >
+                  </div>
+                </div>
+                <div class="mt-space-md">
+                  <div
+                    class="font-metric-stat text-metric-stat text-on-surface"
+                    data-metric="total_sessions"
+                  >
+                    24 Sessions
+                  </div>
+                  <div
+                    class="flex items-center gap-1 font-caption text-caption text-on-surface-variant mt-1"
+                  >
+                    <span
+                      class="material-symbols-outlined text-[14px] text-primary"
+                      >analytics</span
+                    >
+                    <span>8,420 kg volume logged</span>
+                  </div>
+                </div>
+              </div>
+              <!-- CARD 3: AVG FORM ACCURACY -->
+              <div
+                class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow"
+              >
+                <div class="flex items-center justify-between">
+                  <span
+                    class="font-caption text-caption uppercase font-bold text-outline tracking-wider"
+                    >Avg Form</span
+                  >
+                  <div
+                    class="w-9 h-9 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary"
+                  >
+                    <span class="material-symbols-outlined text-[20px]"
+                      >target</span
+                    >
+                  </div>
+                </div>
+                <div class="mt-space-md">
+                  <div
+                    class="font-metric-stat text-metric-stat text-secondary"
+                    data-metric="form_accuracy"
+                  >
+                    92% Accuracy
+                  </div>
+                  <div
+                    class="flex items-center gap-1 font-caption text-caption text-secondary mt-1"
+                  >
+                    <span class="material-symbols-outlined text-[14px]"
+                      >trending_up</span
+                    >
+                    <span>+6% vs last month</span>
+                  </div>
+                </div>
+              </div>
+              <!-- CARD 4: BADGES -->
+              <div
+                class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm flex flex-col justify-between group hover:shadow-md transition-shadow"
+              >
+                <div class="flex items-center justify-between">
+                  <span
+                    class="font-caption text-caption uppercase font-bold text-outline tracking-wider"
+                    >Badges</span
+                  >
+                  <div
+                    class="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center text-primary"
+                  >
+                    <span class="material-symbols-outlined text-[20px]"
+                      >military_tech</span
+                    >
+                  </div>
+                </div>
+                <div class="mt-space-md">
+                  <div
+                    class="font-metric-stat text-metric-stat text-on-surface"
+                    data-metric="badges_unlocked"
+                  >
+                    8 / 12 Unlocked
+                  </div>
+                  <div
+                    class="flex items-center gap-1 font-caption text-caption text-on-surface-variant mt-1"
+                  >
+                    <span
+                      class="material-symbols-outlined text-[14px] text-primary"
+                      >workspace_premium</span
+                    >
+                    <span>Level 4 CV Biomechanical Elite</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- 3. PERSONAL INFORMATION -->
+            <section
+              class="bg-surface-container-lowest rounded-3xl p-space-lg md:p-space-xl shadow-sm"
+            >
+              <div class="flex items-center justify-between mb-space-lg">
+                <div>
+                  <h3 class="font-headline-md text-headline-md text-on-surface">
+                    Personal Information
+                  </h3>
+                  <p
+                    class="font-body-md text-body-md text-on-surface-variant mt-0.5"
+                  >
+                    Update your personal and contact details across PoseAI.
+                  </p>
+                </div>
+                <span
+                  class="hidden sm:inline-flex items-center gap-1 text-outline font-caption text-caption"
+                >
+                  <span class="material-symbols-outlined text-[16px]"
+                    >lock</span
+                  >
+                  Encrypted &amp; Private
+                </span>
+              </div>
+              <form
+                class="grid grid-cols-1 md:grid-cols-2 gap-space-lg"
+                id="form-personal-info"
+                onsubmit="
+                  event.preventDefault();
+                  savePersonalInfo();
+                "
+              >
+                <!-- Full Name -->
+                <div class="flex flex-col gap-1.5">
+                  <label
+                    class="font-label-md text-label-md text-on-surface-variant"
+                    for="input-fullname"
+                    >Full Name</label
+                  >
+                  <div
+                    class="flex items-center bg-surface-container-low rounded-2xl px-space-md py-2.5 focus-within:bg-surface-container-lowest focus-within:shadow-md transition-all"
+                  >
+                    <span
+                      class="material-symbols-outlined text-outline text-[20px] mr-2"
+                      >person</span
+                    >
+                    <input
+                      class="bg-transparent border-none outline-none font-body-md text-body-md text-on-surface w-full"
+                      data-field="name"
+                      id="input-fullname"
+                      oninput="markUnsaved()"
+                      type="text"
+                      value="Sandesh Narkar"
+                    />
+                  </div>
+                </div>
+                <!-- Email Address -->
+                <div class="flex flex-col gap-1.5">
+                  <div class="flex items-center justify-between">
+                    <label
+                      class="font-label-md text-label-md text-on-surface-variant"
+                      for="input-email"
+                      >Email Address</label
+                    >
+                    <button
+                      class="font-caption text-caption text-primary hover:underline"
+                      onclick="
+                        showToast(
+                          'Email verification link dispatched to new address',
+                        )
+                      "
+                      type="button"
+                    >
+                      Change Email
+                    </button>
+                  </div>
+                  <div
+                    class="flex items-center justify-between bg-surface-container-low rounded-2xl px-space-md py-2.5 focus-within:bg-surface-container-lowest focus-within:shadow-md transition-all"
+                  >
+                    <div class="flex items-center flex-1 mr-2">
+                      <span
+                        class="material-symbols-outlined text-outline text-[20px] mr-2"
+                        >mail</span
+                      >
+                      <input
+                        class="bg-transparent border-none outline-none font-body-md text-body-md text-on-surface w-full"
+                        data-field="email"
+                        id="input-email"
+                        oninput="markUnsaved()"
+                        type="email"
+                        value="sandesh@example.com"
+                      />
+                    </div>
+                    <span
+                      class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-caption text-caption"
+                    >
+                      <span class="material-symbols-outlined text-[12px]"
+                        >check</span
+                      >
+                      Verified
+                    </span>
+                  </div>
+                </div>
+                <!-- Username -->
+                <div class="flex flex-col gap-1.5">
+                  <label
+                    class="font-label-md text-label-md text-on-surface-variant"
+                    for="input-username"
+                    >Username</label
+                  >
+                  <div
+                    class="flex items-center bg-surface-container-low rounded-2xl px-space-md py-2.5 focus-within:bg-surface-container-lowest focus-within:shadow-md transition-all"
+                  >
+                    <span class="font-body-md text-body-md text-outline mr-1"
+                      >poseai.com/</span
+                    >
+                    <input
+                      class="bg-transparent border-none outline-none font-body-md text-body-md text-on-surface w-full"
+                      data-field="username"
+                      id="input-username"
+                      oninput="markUnsaved()"
+                      type="text"
+                      value="@sandesh"
+                    />
+                  </div>
+                </div>
+                <!-- Account Status Badge -->
+                <div class="flex flex-col gap-1.5">
+                  <span
+                    class="font-label-md text-label-md text-on-surface-variant"
+                    >Account Membership Status</span
+                  >
+                  <div
+                    class="flex items-center justify-between bg-surface-container-low rounded-2xl px-space-md py-3"
+                  >
+                    <div class="flex items-center gap-2">
+                      <span
+                        class="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse"
+                      ></span>
+                      <span
+                        class="font-body-md text-body-md font-semibold text-on-surface"
+                        >Pro Tier Subscription</span
+                      >
+                    </div>
+                    <span class="font-caption text-caption text-outline"
+                      >Renews Sep 2027</span
+                    >
+                  </div>
+                </div>
+              </form>
+            </section>
+            <!-- 4. WORKOUT & APP PREFERENCES -->
+            <section
+              class="bg-surface-container-lowest rounded-3xl p-space-lg md:p-space-xl shadow-sm"
+            >
+              <div class="flex items-center justify-between mb-space-lg">
+                <div>
+                  <h3 class="font-headline-md text-headline-md text-on-surface">
+                    Workout &amp; App Preferences
+                  </h3>
+                  <p
+                    class="font-body-md text-body-md text-on-surface-variant mt-0.5"
+                  >
+                    Fine-tune your computer vision detection engine and training
+                    targets.
+                  </p>
+                </div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+                <!-- Default Tracking Exercise -->
+                <div class="flex flex-col gap-1.5">
+                  <label
+                    class="font-label-md text-label-md text-on-surface-variant"
+                    for="pref-exercise"
+                    >Default Tracking Exercise</label
+                  >
+                  <div class="relative">
+                    <select
+                      class="w-full bg-surface-container-low text-on-surface font-body-md text-body-md rounded-2xl px-space-md py-3 appearance-none border-none outline-none focus:bg-surface-container-lowest focus:shadow-md transition-all cursor-pointer"
+                      id="pref-exercise"
+                      onchange="markUnsaved()"
+                    >
+                      <option selected="" value="bicep-curl">
+                        Bicep Curl (Bilateral)
+                      </option>
+                      <option value="barbell-squat">Barbell Squat</option>
+                      <option value="overhead-press">
+                        Overhead Shoulder Press
+                      </option>
+                      <option value="lateral-raise">Lateral Raise</option>
+                      <option value="core-plank">Core Plank</option>
+                    </select>
+                    <span
+                      class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-outline"
+                      >expand_more</span
+                    >
+                  </div>
+                </div>
+                <!-- Weekly Goal Target -->
+                <div class="flex flex-col gap-1.5">
+                  <label
+                    class="font-label-md text-label-md text-on-surface-variant"
+                    for="pref-weekly-goal"
+                    >Weekly Goal Target</label
+                  >
+                  <div class="relative">
+                    <select
+                      class="w-full bg-surface-container-low text-on-surface font-body-md text-body-md rounded-2xl px-space-md py-3 appearance-none border-none outline-none focus:bg-surface-container-lowest focus:shadow-md transition-all cursor-pointer"
+                      id="pref-weekly-goal"
+                      onchange="markUnsaved()"
+                    >
+                      <option value="3">3 Workouts / Week</option>
+                      <option value="4">4 Workouts / Week</option>
+                      <option value="5">5 Workouts / Week</option>
+                      <option selected="" value="7">
+                        7 Workouts / Week (Pro Daily)
+                      </option>
+                    </select>
+                    <span
+                      class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-outline"
+                      >expand_more</span
+                    >
+                  </div>
+                </div>
+                <!-- Measurement System -->
+                <div class="flex flex-col gap-1.5">
+                  <label
+                    class="font-label-md text-label-md text-on-surface-variant"
+                    for="pref-units"
+                    >Measurement System</label
+                  >
+                  <div class="relative">
+                    <select
+                      class="w-full bg-surface-container-low text-on-surface font-body-md text-body-md rounded-2xl px-space-md py-3 appearance-none border-none outline-none focus:bg-surface-container-lowest focus:shadow-md transition-all cursor-pointer"
+                      id="pref-units"
+                      onchange="markUnsaved()"
+                    >
+                      <option selected="" value="metric">
+                        Metric (kg, meters)
+                      </option>
+                      <option value="imperial">Imperial (lbs, feet)</option>
+                    </select>
+                    <span
+                      class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-outline"
+                      >expand_more</span
+                    >
+                  </div>
+                </div>
+                <!-- Biomechanical Camera Feed -->
+                <div class="flex flex-col gap-1.5">
+                  <label
+                    class="font-label-md text-label-md text-on-surface-variant"
+                    for="pref-camera"
+                    >Biomechanical Camera Feed</label
+                  >
+                  <div class="relative">
+                    <select
+                      class="w-full bg-surface-container-low text-on-surface font-body-md text-body-md rounded-2xl px-space-md py-3 appearance-none border-none outline-none focus:bg-surface-container-lowest focus:shadow-md transition-all cursor-pointer"
+                      id="pref-camera"
+                      onchange="markUnsaved()"
+                    >
+                      <option selected="" value="60fps">
+                        High FPS / Low Latency (60fps • &lt;12ms)
+                      </option>
+                      <option value="30fps">Standard HD (30fps)</option>
+                      <option value="15fps">Battery Saver Mode (15fps)</option>
+                    </select>
+                    <span
+                      class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-outline"
+                      >expand_more</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <!-- Action & Unsaved Indicator Bar -->
+              <div
+                class="mt-space-xl pt-space-lg flex flex-col sm:flex-row sm:items-center justify-between gap-space-md border-t border-surface-container"
+              >
+                <div
+                  class="flex items-center gap-2 text-tertiary font-label-md text-label-md opacity-0 transition-opacity"
+                  id="unsaved-indicator"
+                >
+                  <span
+                    class="w-2 h-2 rounded-full bg-tertiary animate-pulse"
+                  ></span>
+                  <span
+                    >You have unsaved changes in telemetry preferences.</span
+                  >
+                </div>
+                <div
+                  class="flex items-center gap-space-sm self-end sm:self-auto"
+                >
+                  <button
+                    class="px-space-md py-2.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-all"
+                    onclick="resetPreferences()"
+                    type="button"
+                  >
+                    Reset
+                  </button>
+                  <button
+                    class="px-space-xl py-2.5 rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg transition-all shadow-md flex items-center gap-2"
+                    id="save-pref-btn"
+                    onclick="saveAllPreferences()"
+                    type="button"
+                  >
+                    <span
+                      class="material-symbols-outlined text-[18px]"
+                      id="save-pref-spinner"
+                      >save</span
+                    >
+                    <span id="save-pref-label">Save Preferences</span>
+                  </button>
+                </div>
+              </div>
+            </section>
+            <!-- 5. SECURITY & PRIVACY SETTINGS -->
+            <section
+              class="bg-surface-container-lowest rounded-3xl p-space-lg md:p-space-xl shadow-sm"
+            >
+              <div class="mb-space-lg">
+                <h3 class="font-headline-md text-headline-md text-on-surface">
+                  Security &amp; Privacy Settings
+                </h3>
+                <p
+                  class="font-body-md text-body-md text-on-surface-variant mt-0.5"
+                >
+                  Protect your account credentials and control your biometric
+                  workout telemetry.
+                </p>
+              </div>
+              <div class="flex flex-col divide-y divide-surface-container">
+                <!-- ROW 1: Password -->
+                <div
+                  class="py-space-md first:pt-0 flex flex-col sm:flex-row sm:items-center justify-between gap-space-md"
+                >
+                  <div class="flex items-start gap-space-md">
+                    <div
+                      class="w-10 h-10 rounded-2xl bg-surface-container-low flex items-center justify-center text-primary shrink-0 mt-0.5"
+                    >
+                      <span class="material-symbols-outlined text-[22px]"
+                        >lock_reset</span
+                      >
+                    </div>
+                    <div>
+                      <h4 class="font-label-lg text-label-lg text-on-surface">
+                        Password
+                      </h4>
+                      <p
+                        class="font-body-md text-body-md text-on-surface-variant"
+                      >
+                        Last changed 30 days ago •
+                        <span class="text-secondary font-semibold"
+                          >Strong score</span
+                        >
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    class="px-space-md py-2 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-all self-start sm:self-auto"
+                    onclick="openModal('password-modal')"
+                    type="button"
+                  >
+                    Update
+                  </button>
+                </div>
+                <!-- ROW 2: Two-Factor Auth -->
+                <div
+                  class="py-space-md flex flex-col sm:flex-row sm:items-center justify-between gap-space-md"
+                >
+                  <div class="flex items-start gap-space-md">
+                    <div
+                      class="w-10 h-10 rounded-2xl bg-surface-container-low flex items-center justify-center text-primary shrink-0 mt-0.5"
+                    >
+                      <span class="material-symbols-outlined text-[22px]"
+                        >security</span
+                      >
+                    </div>
+                    <div>
+                      <h4 class="font-label-lg text-label-lg text-on-surface">
+                        Two-Factor Auth (2FA)
+                      </h4>
+                      <p
+                        class="font-body-md text-body-md text-on-surface-variant"
+                      >
+                        SMS &amp; Authenticator App (TOTP) recommended for
+                        telemetry vaults.
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    class="px-space-md py-2 rounded-full bg-primary-fixed hover:bg-primary-fixed-dim text-on-primary-fixed font-label-md text-label-md transition-all self-start sm:self-auto"
+                    onclick="openModal('2fa-modal')"
+                    type="button"
+                  >
+                    Enable
+                  </button>
+                </div>
+                <!-- ROW 3: Email Notifications -->
+                <div
+                  class="py-space-md flex flex-col sm:flex-row sm:items-center justify-between gap-space-md"
+                >
+                  <div class="flex items-start gap-space-md">
+                    <div
+                      class="w-10 h-10 rounded-2xl bg-surface-container-low flex items-center justify-center text-primary shrink-0 mt-0.5"
+                    >
+                      <span class="material-symbols-outlined text-[22px]"
+                        >notifications_active</span
+                      >
+                    </div>
+                    <div>
+                      <h4 class="font-label-lg text-label-lg text-on-surface">
+                        Email Notifications
+                      </h4>
+                      <p
+                        class="font-body-md text-body-md text-on-surface-variant"
+                      >
+                        Weekly telemetry digest, streak alerts, and milestone
+                        updates.
+                      </p>
+                    </div>
+                  </div>
+                  <!-- Toggle Switch -->
+                  <label
+                    class="relative inline-flex items-center cursor-pointer self-start sm:self-auto"
+                  >
+                    <input
+                      checked=""
+                      class="sr-only peer"
+                      id="toggle-notifications"
+                      onchange="toggleNotifyState(this)"
+                      type="checkbox"
+                    />
+                    <div
+                      class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"
+                    ></div>
+                  </label>
+                </div>
+                <!-- ROW 4: Export Personal Data -->
+                <div
+                  class="py-space-md last:pb-0 flex flex-col sm:flex-row sm:items-center justify-between gap-space-md"
+                >
+                  <div class="flex items-start gap-space-md">
+                    <div
+                      class="w-10 h-10 rounded-2xl bg-surface-container-low flex items-center justify-center text-primary shrink-0 mt-0.5"
+                    >
+                      <span class="material-symbols-outlined text-[22px]"
+                        >download_for_offline</span
+                      >
+                    </div>
+                    <div>
+                      <h4 class="font-label-lg text-label-lg text-on-surface">
+                        Export Personal Data
+                      </h4>
+                      <p
+                        class="font-body-md text-body-md text-on-surface-variant"
+                      >
+                        Download complete JSON history of joint kinematics, rep
+                        logs, and achievements.
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    class="px-space-md py-2 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-all flex items-center gap-1.5 self-start sm:self-auto"
+                    onclick="exportDataJSON()"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-[16px]"
+                      >terminal</span
+                    >
+                    <span>Export JSON</span>
+                  </button>
+                </div>
+              </div>
+            </section>
+            <!-- 6. DANGER ZONE -->
+            <section
+              class="bg-error-container/40 rounded-3xl p-space-lg md:p-space-xl shadow-sm border border-error/20"
+            >
+              <div
+                class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg"
+              >
+                <div class="flex items-start gap-space-md">
+                  <div
+                    class="w-12 h-12 rounded-2xl bg-error text-on-error flex items-center justify-center shrink-0"
+                  >
+                    <span class="material-symbols-outlined text-[26px]"
+                      >warning</span
+                    >
+                  </div>
+                  <div>
+                    <div
+                      class="inline-block px-2.5 py-0.5 rounded-full bg-error/10 text-error font-caption text-caption uppercase font-bold tracking-wider mb-1"
+                    >
+                      Danger Zone
+                    </div>
+                    <h3
+                      class="font-headline-md text-headline-md text-on-surface"
+                    >
+                      Delete Account &amp; Erase Biometric History
+                    </h3>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant max-w-2xl mt-1"
+                    >
+                      This action is permanent and cannot be undone. All
+                      33-point skeletal landmark telemetry, workout sessions,
+                      streak records, and achievements will be immediately
+                      expunged from the database.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  class="px-space-lg py-3 rounded-full bg-error hover:bg-error/90 text-on-error font-label-lg text-label-lg transition-all shadow-sm flex items-center justify-center gap-2 self-start lg:self-auto shrink-0"
+                  onclick="openModal('delete-modal')"
+                  type="button"
+                >
+                  <span class="material-symbols-outlined text-[20px]"
+                    >delete_forever</span
+                  >
+                  <span>Delete Account</span>
+                </button>
+              </div>
+            </section>
+          </div>
+          <!-- SKELETON LOADING VIEW (Simulator State) -->
+          <div
+            class="hidden flex-col gap-space-xl animate-pulse"
+            id="skeleton-container"
+          >
+            <!-- Hero Skeleton -->
+            <div
+              class="bg-surface-container-low rounded-3xl p-space-xl h-44 w-full"
+            ></div>
+            <!-- Stats Skeleton -->
+            <div
+              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md"
+            >
+              <div class="bg-surface-container-low rounded-2xl h-32"></div>
+              <div class="bg-surface-container-low rounded-2xl h-32"></div>
+              <div class="bg-surface-container-low rounded-2xl h-32"></div>
+              <div class="bg-surface-container-low rounded-2xl h-32"></div>
+            </div>
+            <!-- Information Skeleton -->
+            <div
+              class="bg-surface-container-low rounded-3xl p-space-xl h-64 w-full"
+            ></div>
+            <div
+              class="bg-surface-container-low rounded-3xl p-space-xl h-64 w-full"
+            ></div>
+          </div>
+          <!-- ========================================== -->
+          <!-- MODALS                                     -->
+          <!-- ========================================== -->
+          <!-- MODAL 1: Edit Avatar Modal -->
+          <div
+            class="hidden fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-sm flex items-center justify-center p-4 transition-all"
+            id="avatar-modal"
+          >
+            <div
+              class="bg-surface-container-lowest rounded-3xl max-w-md w-full p-space-xl shadow-2xl relative"
+            >
+              <div class="flex items-center justify-between mb-space-md">
+                <h3 class="font-headline-md text-headline-md text-on-surface">
+                  Update Athlete Avatar
+                </h3>
+                <button
+                  class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface"
+                  onclick="closeModal('avatar-modal')"
+                  type="button"
+                >
+                  <span class="material-symbols-outlined text-[18px]"
+                    >close</span
+                  >
+                </button>
+              </div>
+              <p
+                class="font-body-md text-body-md text-on-surface-variant mb-space-lg"
+              >
+                Select a modern avatar preset or drop a new high-resolution
+                profile portrait.
+              </p>
+              <!-- Dropzone -->
+              <div
+                class="rounded-2xl border-2 border-dashed border-outline-variant bg-surface-container-low p-space-lg text-center hover:bg-surface-container transition-all cursor-pointer mb-space-md"
+              >
+                <span class="material-symbols-outlined text-[36px] text-primary"
+                  >cloud_upload</span
+                >
+                <p class="font-label-lg text-label-lg text-on-surface mt-1">
+                  Drag and drop file here
+                </p>
+                <span class="font-caption text-caption text-outline"
+                  >JPG, PNG, WebP up to 5MB</span
+                >
+              </div>
+              <!-- Presets -->
+              <div class="flex items-center justify-between gap-3 mb-space-xl">
+                <button
+                  class="w-14 h-14 rounded-full overflow-hidden ring-2 ring-primary ring-offset-2"
+                  onclick="
+                    selectPresetAvatar(
+                      'https://lh3.googleusercontent.com/aida/AEtjO1WnuN-mYomLjxOWLN7fMF6gDr7Pa7tydqC8E4dSlHpga5AAakpxSq7jKYrdQ-TXaITSo3nfNVc4IpWjAsuWSqskrfQ25cDmCwOll-xzr5uYrtI0KKPLgq-5iYQ3jfI1kwvrxrgb3zBCfbZHyzP2EY_GAi4lSRuEX60dOe7e93BAOJF4nP4loanniS4TA8ZRSzx5y2yNWouPfqwK2VrxSmkM9fsZ58xPWN4RlHLWqCpr1c-uQffRSEhhtPc',
+                    )
+                  "
+                  type="button"
+                >
+                  <img
+                    alt="Preset 1"
+                    class="w-full h-full object-cover"
+                    src="https://lh3.googleusercontent.com/aida/AEtjO1WnuN-mYomLjxOWLN7fMF6gDr7Pa7tydqC8E4dSlHpga5AAakpxSq7jKYrdQ-TXaITSo3nfNVc4IpWjAsuWSqskrfQ25cDmCwOll-xzr5uYrtI0KKPLgq-5iYQ3jfI1kwvrxrgb3zBCfbZHyzP2EY_GAi4lSRuEX60dOe7e93BAOJF4nP4loanniS4TA8ZRSzx5y2yNWouPfqwK2VrxSmkM9fsZ58xPWN4RlHLWqCpr1c-uQffRSEhhtPc"
+                  />
+                </button>
+                <button
+                  class="w-14 h-14 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center text-primary hover:bg-surface-container"
+                  onclick="selectPresetAvatar('placeholder')"
+                  type="button"
+                >
+                  <img
+                    class="w-full h-full object-cover"
+                    data-alt="High tech athletic avatar silhouette in neon cyan on deep navy fitness background"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQe1e74JHd4fZ-itP18x508Vb1PsOFU65bF3mQDKtYYCOqef_-W0i1TA7z8ctTSM4FSHZ6fSiaKGcM1uHxFilKGyOo37bEHq_bmc-k2tlWqrKB9v4ty6zKEqiN3H7Vhq1Y3rjndISj1K9l-HzuSy2zBb76wk2VALATX2suduAFLAhjITrvp7mrGqjBFz9cGJk-v0bSvAde-FIzTxDMJUFmbpsDtncMS9OL_Hk2JSL6Vv1rdHtUwa8W"
+                  />
+                </button>
+                <button
+                  class="w-14 h-14 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center text-primary hover:bg-surface-container"
+                  onclick="selectPresetAvatar('placeholder')"
+                  type="button"
+                >
+                  <img
+                    class="w-full h-full object-cover"
+                    data-alt="Minimalist female runner avatar portrait in clean studio lighting with warm athletic tone"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfQveaOevakLKHDsvJk8m0qdQMsgkDkBdrE-2h2SsTgjM-3BMv1pUdXWC8p6w4arFKOtsUSf4sHg30-ZpTXLYr8HJbpp9VOlP-hS_C1zgsWrlJk8QWPMJpfjXdCWF1yfftjfMqAZZBcez2hXKo7MgwYV_Ju_WplyU1LgVPtSJeUQe2xEuhI8wnqRvoJRmk50Bo-5TIrZAXA58jcaO4TuPVd-pxAZdHNZ5jYVRvfDHgdYbPahsUAg0D"
+                  />
+                </button>
+                <button
+                  class="w-14 h-14 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center text-primary hover:bg-surface-container"
+                  onclick="selectPresetAvatar('placeholder')"
+                  type="button"
+                >
+                  <img
+                    class="w-full h-full object-cover"
+                    data-alt="Stylized geometric vector athlete portrait with subtle blue holographic elements"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6h3Wha9TSOZKsVixBhDOCKH1wDNriXbPvhNSigc02UTE6Uz5PAsXkpjKYjiRR1V3lArW3ZSSZBevChl7R9H_wJnU8q4LyL0I5Kh03JosmVco757gArgsO1VCjuiesCxn28S-8HaOOzN8uc_fApFXSygyGgObev8tuXECLJk-GN6lKFvDrEfEp0iVuKEtNzCQtzpxGv2160Fke_7KLB4pxd-BtN65kNpNNKf9diFFIPkV0XNNuvtcA"
+                  />
+                </button>
+              </div>
+              <div class="flex justify-end gap-space-sm">
+                <button
+                  class="px-space-md py-2 rounded-full bg-surface-container text-on-surface font-label-md text-label-md"
+                  onclick="closeModal('avatar-modal')"
+                  type="button"
+                >
+                  Cancel
+                </button>
+                <button
+                  class="px-space-lg py-2 rounded-full bg-primary text-on-primary font-label-md text-label-md shadow-md"
+                  onclick="confirmAvatarChange()"
+                  type="button"
+                >
+                  Apply Avatar
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- MODAL 2: Password Change Modal -->
+          <div
+            class="hidden fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-sm flex items-center justify-center p-4 transition-all"
+            id="password-modal"
+          >
+            <div
+              class="bg-surface-container-lowest rounded-3xl max-w-md w-full p-space-xl shadow-2xl relative"
+            >
+              <div class="flex items-center justify-between mb-space-md">
+                <h3 class="font-headline-md text-headline-md text-on-surface">
+                  Update Password
+                </h3>
+                <button
+                  class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface"
+                  onclick="closeModal('password-modal')"
+                  type="button"
+                >
+                  <span class="material-symbols-outlined text-[18px]"
+                    >close</span
+                  >
+                </button>
+              </div>
+              <form
+                class="flex flex-col gap-space-md"
+                onsubmit="
+                  event.preventDefault();
+                  submitPasswordChange();
+                "
+              >
+                <div>
+                  <label
+                    class="font-label-md text-label-md text-on-surface-variant"
+                    >Current Password</label
+                  >
+                  <input
+                    class="w-full mt-1 bg-surface-container-low rounded-2xl px-space-md py-2.5 outline-none font-body-md text-body-md"
+                    placeholder="••••••••••••"
+                    required=""
+                    type="password"
+                  />
+                </div>
+                <div>
+                  <label
+                    class="font-label-md text-label-md text-on-surface-variant"
+                    >New Password</label
+                  >
+                  <input
+                    class="w-full mt-1 bg-surface-container-low rounded-2xl px-space-md py-2.5 outline-none font-body-md text-body-md"
+                    id="new-pw-input"
+                    oninput="checkPwStrength(this.value)"
+                    placeholder="Min. 8 chars, 1 symbol"
+                    required=""
+                    type="password"
+                  />
+                  <!-- Password Strength Meter -->
+                  <div
+                    class="w-full bg-surface-container h-1.5 rounded-full mt-2 overflow-hidden"
+                  >
+                    <div
+                      class="h-full bg-secondary transition-all"
+                      id="pw-strength-bar"
+                      style="width: 30%"
+                    ></div>
+                  </div>
+                  <span
+                    class="font-caption text-caption text-outline mt-1 block"
+                    id="pw-strength-text"
+                    >Password Strength: Moderate</span
+                  >
+                </div>
+                <div>
+                  <label
+                    class="font-label-md text-label-md text-on-surface-variant"
+                    >Confirm New Password</label
+                  >
+                  <input
+                    class="w-full mt-1 bg-surface-container-low rounded-2xl px-space-md py-2.5 outline-none font-body-md text-body-md"
+                    placeholder="••••••••••••"
+                    required=""
+                    type="password"
+                  />
+                </div>
+                <div class="flex justify-end gap-space-sm mt-space-sm">
+                  <button
+                    class="px-space-md py-2 rounded-full bg-surface-container text-on-surface font-label-md text-label-md"
+                    onclick="closeModal('password-modal')"
+                    type="button"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    class="px-space-lg py-2 rounded-full bg-primary text-on-primary font-label-md text-label-md shadow-md"
+                    type="submit"
+                  >
+                    Save Password
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- MODAL 3: Two-Factor Auth Setup Modal -->
+          <div
+            class="hidden fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-sm flex items-center justify-center p-4 transition-all"
+            id="2fa-modal"
+          >
+            <div
+              class="bg-surface-container-lowest rounded-3xl max-w-md w-full p-space-xl shadow-2xl relative"
+            >
+              <div class="flex items-center justify-between mb-space-md">
+                <h3 class="font-headline-md text-headline-md text-on-surface">
+                  Enable 2FA Protection
+                </h3>
+                <button
+                  class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface"
+                  onclick="closeModal('2fa-modal')"
+                  type="button"
+                >
+                  <span class="material-symbols-outlined text-[18px]"
+                    >close</span
+                  >
+                </button>
+              </div>
+              <p
+                class="font-body-md text-body-md text-on-surface-variant mb-space-md"
+              >
+                Scan the QR code with an Authenticator app (e.g., Google
+                Authenticator, 1Password).
+              </p>
+              <!-- Mock QR code container -->
+              <div
+                class="flex flex-col items-center justify-center bg-surface-container-low rounded-2xl p-space-lg mb-space-md"
+              >
+                <div
+                  class="w-44 h-44 bg-surface-container-lowest rounded-xl flex items-center justify-center shadow-sm p-3"
+                >
+                  <!-- Inline Minimal SVG QR Pattern -->
+                  <svg
+                    class="w-full h-full text-on-surface fill-current"
+                    viewbox="0 0 100 100"
+                  >
+                    <rect height="25" rx="2" width="25" x="10" y="10"></rect>
+                    <rect
+                      fill="#faf8ff"
+                      height="15"
+                      width="15"
+                      x="15"
+                      y="15"
+                    ></rect>
+                    <rect height="9" width="9" x="18" y="18"></rect>
+                    <rect height="25" rx="2" width="25" x="65" y="10"></rect>
+                    <rect
+                      fill="#faf8ff"
+                      height="15"
+                      width="15"
+                      x="70"
+                      y="15"
+                    ></rect>
+                    <rect height="9" width="9" x="73" y="18"></rect>
+                    <rect height="25" rx="2" width="25" x="10" y="65"></rect>
+                    <rect
+                      fill="#faf8ff"
+                      height="15"
+                      width="15"
+                      x="15"
+                      y="70"
+                    ></rect>
+                    <rect height="9" width="9" x="18" y="73"></rect>
+                    <rect height="8" width="8" x="42" y="15"></rect>
+                    <rect height="8" width="8" x="42" y="35"></rect>
+                    <rect height="8" width="8" x="42" y="55"></rect>
+                    <rect height="8" width="8" x="42" y="75"></rect>
+                    <rect height="8" width="8" x="65" y="50"></rect>
+                    <rect height="12" width="12" x="78" y="65"></rect>
+                    <rect height="10" width="10" x="58" y="75"></rect>
+                  </svg>
+                </div>
+                <span
+                  class="font-caption text-caption text-outline mt-2 tracking-widest uppercase"
+                  >Secret: POSE-8492-CV01-BIOX</span
+                >
+              </div>
+              <div>
+                <label
+                  class="font-label-md text-label-md text-on-surface-variant"
+                  >Enter 6-digit Code</label
+                >
+                <input
+                  class="w-full mt-1 tracking-widest text-center font-metric-stat text-headline-lg bg-surface-container-low rounded-2xl py-2 outline-none"
+                  maxlength="6"
+                  placeholder="000000"
+                  type="text"
+                />
+              </div>
+              <div class="flex justify-end gap-space-sm mt-space-lg">
+                <button
+                  class="px-space-md py-2 rounded-full bg-surface-container text-on-surface font-label-md text-label-md"
+                  onclick="closeModal('2fa-modal')"
+                  type="button"
+                >
+                  Cancel
+                </button>
+                <button
+                  class="px-space-lg py-2 rounded-full bg-secondary text-on-secondary font-label-md text-label-md shadow-md"
+                  onclick="verify2FA()"
+                  type="button"
+                >
+                  Verify &amp; Activate
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- MODAL 4: Delete Account Confirmation Modal -->
+          <div
+            class="hidden fixed inset-0 z-50 bg-inverse-surface/60 backdrop-blur-sm flex items-center justify-center p-4 transition-all"
+            id="delete-modal"
+          >
+            <div
+              class="bg-surface-container-lowest rounded-3xl max-w-md w-full p-space-xl shadow-2xl relative"
+            >
+              <div
+                class="w-12 h-12 rounded-full bg-error-container text-error flex items-center justify-center mb-space-sm"
+              >
+                <span class="material-symbols-outlined text-[28px]"
+                  >report</span
+                >
+              </div>
+              <h3 class="font-headline-md text-headline-md text-on-surface">
+                Delete your PoseAI Account?
+              </h3>
+              <p
+                class="font-body-md text-body-md text-on-surface-variant mt-2 mb-space-md"
+              >
+                This action cannot be undone. To verify, please type
+                <span class="font-bold text-error">DELETE</span> into the
+                confirmation box below.
+              </p>
+              <input
+                class="w-full bg-surface-container-low rounded-2xl px-space-md py-2.5 font-body-md text-body-md outline-none focus:bg-surface-container-lowest focus:shadow-md mb-space-lg"
+                id="delete-confirm-input"
+                oninput="checkDeleteConfirmation(this.value)"
+                placeholder="Type DELETE to confirm"
+                type="text"
+              />
+              <div class="flex justify-end gap-space-sm">
+                <button
+                  class="px-space-md py-2 rounded-full bg-surface-container text-on-surface font-label-md text-label-md"
+                  onclick="closeModal('delete-modal')"
+                  type="button"
+                >
+                  Cancel
+                </button>
+                <button
+                  class="px-space-lg py-2 rounded-full bg-error/50 cursor-not-allowed text-on-error font-label-md text-label-md shadow-sm transition-all"
+                  disabled=""
+                  id="confirm-delete-btn"
+                  onclick="executeAccountDeletion()"
+                  type="button"
+                >
+                  Delete Account
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Client-Side Micro-Interactions & State Controller -->
+          <script>
+            // State management for testing simulator
+            function setViewState(state) {
+              const content = document.getElementById("content-container");
+              const skeleton = document.getElementById("skeleton-container");
+              const errBanner = document.getElementById("error-banner");
+              const unsavedIndicator =
+                document.getElementById("unsaved-indicator");
+
+              // Reset button styles
+              ["active", "unsaved", "skeleton", "error"].forEach((s) => {
+                const btn = document.getElementById(`state-btn-${s}`);
+                if (btn) {
+                  btn.className =
+                    "px-3 py-1 rounded-full font-label-md text-label-md bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all flex items-center gap-1";
+                }
+              });
+
+              const activeBtn = document.getElementById(`state-btn-${state}`);
+              if (activeBtn) {
+                activeBtn.className =
+                  "px-3 py-1 rounded-full font-label-md text-label-md bg-primary text-on-primary shadow-sm transition-all flex items-center gap-1";
+              }
+
+              if (state === "skeleton") {
+                content.classList.add("hidden");
+                skeleton.classList.remove("hidden");
+                skeleton.classList.add("flex");
+                errBanner.classList.add("hidden");
+              } else if (state === "error") {
+                content.classList.remove("hidden");
+                skeleton.classList.add("hidden");
+                skeleton.classList.remove("flex");
+                errBanner.classList.remove("hidden");
+              } else if (state === "unsaved") {
+                content.classList.remove("hidden");
+                skeleton.classList.add("hidden");
+                skeleton.classList.remove("flex");
+                errBanner.classList.add("hidden");
+                unsavedIndicator.classList.remove("opacity-0");
+                showToast("Telemetry edits detected: Unsaved status flagged");
+              } else {
+                // active default
+                content.classList.remove("hidden");
+                skeleton.classList.add("hidden");
+                skeleton.classList.remove("flex");
+                errBanner.classList.add("hidden");
+                unsavedIndicator.classList.add("opacity-0");
+              }
+            }
+
+            function markUnsaved() {
+              const unsavedIndicator =
+                document.getElementById("unsaved-indicator");
+              if (unsavedIndicator)
+                unsavedIndicator.classList.remove("opacity-0");
+            }
+
+            function resetPreferences() {
+              document.getElementById("pref-exercise").value = "bicep-curl";
+              document.getElementById("pref-weekly-goal").value = "7";
+              document.getElementById("pref-units").value = "metric";
+              document.getElementById("pref-camera").value = "60fps";
+              const unsavedIndicator =
+                document.getElementById("unsaved-indicator");
+              if (unsavedIndicator) unsavedIndicator.classList.add("opacity-0");
+              showToast("Preferences restored to athlete defaults");
+            }
+
+            function saveAllPreferences(isQuick) {
+              const btn = document.getElementById("save-pref-btn");
+              const icon = document.getElementById("save-pref-spinner");
+              const label = document.getElementById("save-pref-label");
+
+              icon.textContent = "progress_activity";
+              icon.classList.add("animate-spin");
+              label.textContent = "Syncing...";
+
+              setTimeout(() => {
+                icon.classList.remove("animate-spin");
+                icon.textContent = "check";
+                label.textContent = "Saved!";
+                const unsaved = document.getElementById("unsaved-indicator");
+                if (unsaved) unsaved.classList.add("opacity-0");
+
+                showToast("Preferences saved successfully.");
+
+                setTimeout(() => {
+                  icon.textContent = "save";
+                  label.textContent = "Save Preferences";
+                }, 1800);
+              }, 600);
+            }
+
+            function savePersonalInfo() {
+              showToast("Personal profile parameters synced.");
+            }
+
+            function toggleNotifyState(el) {
+              if (el.checked) {
+                showToast(
+                  "Notifications enabled for weekly kinematics digests.",
+                );
+              } else {
+                showToast("Notifications silenced.");
+              }
+            }
+
+            function exportDataJSON() {
+              const dataPayload = {
+                athlete: "Sandesh Narkar",
+                handle: "@sandesh",
+                membership: "Pro Member",
+                lastSync: new Date().toISOString(),
+                metrics: {
+                  streak: 7,
+                  totalWorkouts: 24,
+                  volumeKg: 8420,
+                  formAccuracy: 0.92,
+                },
+                jointKinematicsSamples: [
+                  { joint: "elbow_left", angle: 88.4, rep: 1 },
+                  { joint: "elbow_left", angle: 162.1, rep: 2 },
+                ],
+              };
+
+              const blob = new Blob([JSON.stringify(dataPayload, null, 2)], {
+                type: "application/json",
+              });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = url;
+              a.download = "poseai_telemetry_export.json";
+              a.click();
+              URL.revokeObjectURL(url);
+              showToast("poseai_telemetry_export.json downloaded");
+            }
+
+            // Modal helpers
+            function openModal(id) {
+              const modal = document.getElementById(id);
+              if (modal) modal.classList.remove("hidden");
+            }
+
+            function closeModal(id) {
+              const modal = document.getElementById(id);
+              if (modal) modal.classList.add("hidden");
+            }
+
+            function selectPresetAvatar(src) {
+              const avatar = document.getElementById("profile-avatar-img");
+              if (avatar && src !== "placeholder") {
+                avatar.src = src;
+              }
+              showToast("Preset avatar selected");
+            }
+
+            function confirmAvatarChange() {
+              closeModal("avatar-modal");
+              showToast("Avatar updated successfully");
+            }
+
+            function checkPwStrength(val) {
+              const bar = document.getElementById("pw-strength-bar");
+              const text = document.getElementById("pw-strength-text");
+              if (val.length < 6) {
+                bar.style.width = "20%";
+                bar.className = "h-full bg-error transition-all";
+                text.textContent = "Password Strength: Weak";
+              } else if (val.length < 10) {
+                bar.style.width = "60%";
+                bar.className = "h-full bg-tertiary transition-all";
+                text.textContent = "Password Strength: Moderate";
+              } else {
+                bar.style.width = "100%";
+                bar.className = "h-full bg-secondary transition-all";
+                text.textContent = "Password Strength: Excellent";
+              }
+            }
+
+            function submitPasswordChange() {
+              closeModal("password-modal");
+              showToast("Password credentials updated successfully.");
+            }
+
+            function verify2FA() {
+              closeModal("2fa-modal");
+              showToast("Two-Factor Authentication activated.");
+            }
+
+            function checkDeleteConfirmation(val) {
+              const btn = document.getElementById("confirm-delete-btn");
+              if (val.trim().toUpperCase() === "DELETE") {
+                btn.disabled = false;
+                btn.className =
+                  "px-space-lg py-2 rounded-full bg-error text-on-error font-label-md text-label-md shadow-md transition-all cursor-pointer";
+              } else {
+                btn.disabled = true;
+                btn.className =
+                  "px-space-lg py-2 rounded-full bg-error/50 cursor-not-allowed text-on-error font-label-md text-label-md shadow-sm transition-all";
+              }
+            }
+
+            function executeAccountDeletion() {
+              closeModal("delete-modal");
+              showToast("Biometric account purged. Redirecting...");
+              setTimeout(() => {
+                window.location.href = "index.html";
+              }, 1500);
+            }
+
+            function retrySync() {
+              document.getElementById("error-banner").classList.add("hidden");
+              showToast("Edge connection restored. Telemetry synced.");
+            }
+
+            function dismissError() {
+              document.getElementById("error-banner").classList.add("hidden");
+            }
+
+            // Toast helpers
+            let toastTimer;
+            function showToast(msg) {
+              const toast = document.getElementById("toast-banner");
+              const label = document.getElementById("toast-text");
+              if (!toast || !label) return;
+              label.textContent = msg;
+              toast.classList.remove("hidden", "translate-y-4", "opacity-0");
+              toast.classList.add("translate-y-0", "opacity-100");
+              clearTimeout(toastTimer);
+              toastTimer = setTimeout(() => {
+                hideToast();
+              }, 3500);
+            }
+
+            function hideToast() {
+              const toast = document.getElementById("toast-banner");
+              if (!toast) return;
+              toast.classList.add("translate-y-4", "opacity-0");
+              setTimeout(() => {
+                toast.classList.add("hidden");
+              }, 300);
+            }
+          </script>
+        </div>
+      </div>
+    </main>
+    <footer
+      class="w-full bg-surface-container-lowest border-t border-surface-container"
+    >
+      <div
+        class="max-w-7xl mx-auto px-margin-mobile md:px-margin py-space-xl flex flex-col md:flex-row items-center justify-between gap-space-md"
+      >
+        <div class="flex items-center gap-space-sm">
+          <img
+            alt="PoseAI Logo"
+            class="h-6 w-auto object-contain opacity-80"
+            src="https://lh3.googleusercontent.com/aida/AEtjO1V-v98pUA9o4U6cX1--icYSOIleTEKxDWirF2zkkoLGotbzGV3ou0HBF2BtboSeEoQ-xSTjdnZLLeoW_qjDzoGXOpvQaRduN9-Jb1X9l2Jf3ejdOWIjb0rrmHHRC4AanbvLJYwYoiIHS3auOiGKsOaH34upGvpKLjhp4NoC8xBltTmnNYYw6KNwdUrA3tPND7tD9S5TIBmTRt1E7SQDRgMAJaLwGJLqFteSQqoBJeHQ8w7T7HSibZ0Yw4I"
+          /><span class="font-label-lg text-label-lg text-on-surface-variant"
+            >© 2024 PoseAI Systems Inc. All rights reserved.</span
+          >
+        </div>
+        <div class="flex items-center gap-space-lg">
+          <a
+            class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
+            href="#"
+            >Privacy Policy</a
+          ><a
+            class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
+            href="#"
+            >Telemetry Terms</a
+          ><a
+            class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
+            href="#"
+            >System Status</a
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

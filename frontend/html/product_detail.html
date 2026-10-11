@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details — PoseAI Market</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = { darkMode: "class", theme: { extend: {
+      colors: { "primary":"#006194","on-primary":"#ffffff","primary-container":"#007bb9","on-primary-container":"#fdfcff","secondary":"#006c49","on-secondary":"#ffffff","surface":"#ffffff","on-surface":"#0f172a","surface-container-low":"#f8fafc","surface-container":"#f1f5f9","surface-container-high":"#e2e8f0","background":"#f8fafc" },
+      borderRadius: { DEFAULT: "0.75rem", lg: "1rem", xl: "1.25rem", full: "9999px" },
+      fontFamily: { sans: ["Plus Jakarta Sans", "ui-sans-serif", "system-ui"] }
+    } } };
+  </script>
+  <style>
+    body { font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui; }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+  <link rel="stylesheet" href="/css/market.css">
+</head>
+
+<body data-page="market" class="bg-[#fafafa] min-h-screen antialiased flex flex-col text-slate-900">
+  <div id="app-header"></div>
+
+  <main class="w-full pt-20 flex-1">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-6 space-y-8">
+
+      <!-- BREADCRUMBS (Reference Image 2) -->
+      <nav id="productBreadcrumbs" class="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+        <a href="/" class="hover:text-blue-600 transition-colors">Home</a>
+        <span>&rsaquo;</span>
+        <a href="/fitness-market" class="hover:text-blue-600 transition-colors">Fitness Market</a>
+        <span>&rsaquo;</span>
+        <a href="/fitness-market/products" class="hover:text-blue-600 transition-colors capitalize" id="crumbCategory">Category</a>
+        <span>&rsaquo;</span>
+        <span class="text-slate-900 font-bold truncate max-w-xs" id="crumbProductName">Loading…</span>
+      </nav>
+
+      <!-- MAIN PRODUCT DETAIL & PURCHASE CONTAINER -->
+      <div id="detailContainer" class="flex flex-col lg:flex-row gap-8 items-start">
+        <!-- Injected via product-detail.js -->
+        <div class="w-full lg:w-1/2 flex flex-col items-center justify-center py-20">
+          <span class="material-symbols-outlined text-4xl text-blue-600 animate-spin">progress_activity</span>
+          <p class="text-xs text-slate-400 mt-2 font-bold">Loading product details…</p>
+        </div>
+      </div>
+
+      <!-- FREQUENTLY BOUGHT TOGETHER / SYNERGY STACK (Reference Image 2) -->
+      <section id="synergyStackContainer" class="space-y-4"></section>
+
+      <!-- TABBED SPECIFICATIONS & NUTRITION TABLE (Reference Image 2) -->
+      <section id="tabsContainer" class="space-y-6"></section>
+
+      <!-- RECOMMENDED PRODUCTS (Reference Image 2) -->
+      <section class="space-y-4 pt-6 border-t border-slate-200/80">
+        <div class="flex items-center justify-between gap-2">
+          <div>
+            <span class="text-[10px] font-black uppercase tracking-wider text-blue-600">EXPLORE MORE</span>
+            <h2 class="text-lg md:text-xl font-black text-slate-900 tracking-tight">Recommended Proteins &amp; Recovery Gear</h2>
+          </div>
+          <a href="/fitness-market/products" class="text-xs font-bold text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1">
+            View All <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+          </a>
+        </div>
+        <div id="relatedGrid" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Populated via product-detail.js -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+
+
+  <div id="marketFooterSlot"></div>
+
+  <script src="/js/navbar.js"></script>
+  <script src="/js/shell.js"></script>
+  <script src="/js/api-client.js"></script>
+  <script src="/js/market-widgets.js"></script>
+  <script src="/js/product-detail.js"></script>
+</body>
+
+</html>

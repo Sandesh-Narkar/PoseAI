@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile — PoseAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = { darkMode: "class", theme: { extend: {
+      colors: { "primary":"#006194","on-primary":"#ffffff","primary-container":"#007bb9","on-primary-container":"#fdfcff","primary-fixed":"#cce5ff","primary-fixed-dim":"#93ccff","secondary":"#006c49","on-secondary":"#ffffff","secondary-container":"#6cf8bb","on-secondary-container":"#00714d","secondary-fixed":"#6ffbbe","secondary-fixed-dim":"#4edea3","tertiary":"#825100","on-tertiary":"#ffffff","tertiary-container":"#a36700","on-tertiary-container":"#fffbff","tertiary-fixed":"#ffddb8","tertiary-fixed-dim":"#ffb95f","on-tertiary-fixed":"#2a1700","on-tertiary-fixed-variant":"#653e00","error":"#ba1a1a","on-error":"#ffffff","error-container":"#ffdad6","on-error-container":"#93000a","surface":"#faf8ff","on-surface":"#131b2e","surface-variant":"#dae2fd","on-surface-variant":"#3f4850","outline":"#707881","outline-variant":"#bfc7d2","surface-container-lowest":"#ffffff","surface-container-low":"#f2f3ff","surface-container":"#eaedff","surface-container-high":"#e2e7ff","surface-container-highest":"#dae2fd","surface-dim":"#d2d9f4","surface-bright":"#faf8ff","background":"#faf8ff","inverse-surface":"#283044","inverse-on-surface":"#eef0ff","inverse-primary":"#93ccff","surface-tint":"#006398" },
+      borderRadius: { DEFAULT: "1rem", lg: "2rem", xl: "3rem", full: "9999px" },
+      fontFamily: { sans: ["Plus Jakarta Sans", "ui-sans-serif", "system-ui"] }
+    } } };
+  </script>
+  <style>
+    body { font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui; }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+  <link rel="stylesheet" href="/css/navbar.css">
+</head>
+
+<body data-page="profile" class="bg-background min-h-screen antialiased flex flex-col">
+  <div id="app-header"></div>
+
+  <main class="w-full pt-20 bg-background flex-1">
+    <div class="max-w-5xl mx-auto px-4 md:px-10 py-6 md:py-10">
+      <div class="flex flex-col w-full gap-6">
+
+        <div>
+          <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-on-surface">My Profile</h1>
+          <p class="text-sm text-on-surface-variant mt-1">Manage your account, preferences, and data.</p>
+        </div>
+
+        <!-- Account card -->
+        <div class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+          <div class="flex items-center gap-4">
+            <div id="bigAvatar" class="w-16 h-16 rounded-full bg-primary text-on-primary flex items-center justify-center text-xl font-extrabold ring-4 ring-surface-container-high">U</div>
+            <div>
+              <h2 class="text-xl font-bold text-on-surface" id="profileName">—</h2>
+              <p class="text-sm text-on-surface-variant" id="profileEmail">—</p>
+              <span class="px-2 py-0.5 rounded-full bg-surface-container-low text-[11px] text-on-surface-variant mt-1 inline-block" id="profileMeta"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- UPDATE PROFILE -->
+        <div class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+          <h2 class="text-lg font-bold text-on-surface mb-1">Update Profile</h2>
+          <p class="text-sm text-on-surface-variant mb-5">These details personalise your workout recommendations. All fields are optional.</p>
+          <form id="profileForm" class="flex flex-col gap-6">
+            <div>
+              <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-3">Basic information</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wide" for="fieldName">Full name</label>
+                  <input id="fieldName" type="text"
+                    class="mt-1 w-full px-4 py-2.5 rounded-2xl bg-surface-container-low border border-surface-container-high text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+                <div>
+                  <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wide" for="fieldUsername">Username</label>
+                  <input id="fieldUsername" type="text"
+                    class="mt-1 w-full px-4 py-2.5 rounded-2xl bg-surface-container-low border border-surface-container-high text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+                <div>
+                  <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wide" for="fieldAge">Age</label>
+                  <input id="fieldAge" type="number" min="13" max="120"
+                    class="mt-1 w-full px-4 py-2.5 rounded-2xl bg-surface-container-low border border-surface-container-high text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+                <div>
+                  <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wide" for="fieldLifeStage">Life stage / profile context</label>
+                  <select id="fieldLifeStage"
+                    class="mt-1 w-full px-4 py-2.5 rounded-2xl bg-surface-container-low border border-surface-container-high text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary">
+                    <option value="">Not specified</option>
+                    <option>Young adult</option>
+                    <option>Adult</option>
+                    <option>Older adult</option>
+                    <option>Prefer not to say</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wide" for="fieldGender">Gender</label>
+                  <select id="fieldGender"
+                    class="mt-1 w-full px-4 py-2.5 rounded-2xl bg-surface-container-low border border-surface-container-high text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary">
+                    <option value="">Not specified</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Non-binary</option>
+                    <option>Prefer not to say</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-3">Fitness information</h3>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wide" for="fieldWeight">Weight (kg)</label>
+                  <input id="fieldWeight" type="number" step="0.1" min="0.1" max="500"
+                    class="mt-1 w-full px-4 py-2.5 rounded-2xl bg-surface-container-low border border-surface-container-high text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+                <div>
+                  <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wide" for="fieldHeight">Height (cm)</label>
+                  <input id="fieldHeight" type="number" step="0.1" min="30" max="300"
+                    class="mt-1 w-full px-4 py-2.5 rounded-2xl bg-surface-container-low border border-surface-container-high text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+                <div>
+                  <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wide" for="fieldWeeklyGoal">Weekly workout goal (days)</label>
+                  <input id="fieldWeeklyGoal" type="number" step="1" min="0" max="21"
+                    class="mt-1 w-full px-4 py-2.5 rounded-2xl bg-surface-container-low border border-surface-container-high text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-3">Training preferences</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wide" for="fieldFitnessGoal">Primary goal</label>
+                  <select id="fieldFitnessGoal" class="mt-1 w-full px-4 py-2.5 rounded-2xl bg-surface-container-low border border-surface-container-high text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary">
+                    <option value="">Not specified</option>
+                    <option>Lose weight</option>
+                    <option>Maintain weight</option>
+                    <option>Gain weight</option>
+                    <option>Improve strength</option>
+                    <option>Improve mobility</option>
+                    <option>Improve general fitness</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wide" for="fieldExperience">Experience level</label>
+                  <select id="fieldExperience" class="mt-1 w-full px-4 py-2.5 rounded-2xl bg-surface-container-low border border-surface-container-high text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary">
+                    <option value="">Not specified</option>
+                    <option>New</option>
+                    <option>Beginner</option>
+                    <option>Intermediate</option>
+                    <option>Advanced</option>
+                    <option>Expert</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wide" for="fieldCategory">Preferred exercise category</label>
+                  <select id="fieldCategory" class="mt-1 w-full px-4 py-2.5 rounded-2xl bg-surface-container-low border border-surface-container-high text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary">
+                    <option value="">Not specified</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wide" for="fieldDefaultExercise">Default exercise</label>
+                  <select id="fieldDefaultExercise" class="mt-1 w-full px-4 py-2.5 rounded-2xl bg-surface-container-low border border-surface-container-high text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary">
+                    <option value="">Not specified</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3">
+              <button type="submit"
+                class="px-6 py-2.5 rounded-full bg-primary hover:bg-primary-container text-on-primary text-sm font-bold shadow-sm transition-all">SAVE PROFILE</button>
+            </div>
+          </form>
+          <p id="profileFormMsg" class="text-sm hidden"></p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+          <!-- Preferences -->
+          <div class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+            <h2 class="text-lg font-bold text-on-surface mb-4">Preferences</h2>
+            <div class="flex flex-col gap-4">
+              <label class="flex items-center justify-between gap-3 cursor-pointer">
+                <span class="text-sm text-on-surface">Email workout summaries</span>
+                <input id="prefEmails" type="checkbox" class="w-5 h-5 rounded accent-[#006194]">
+              </label>
+              <label class="flex items-center justify-between gap-3 cursor-pointer">
+                <span class="text-sm text-on-surface">Metric units (kg / km)</span>
+                <input id="prefMetric" type="checkbox" class="w-5 h-5 rounded accent-[#006194]">
+              </label>
+              <button onclick="App.savePrefs()"
+                class="self-start px-6 py-2 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface text-sm font-bold transition-all">Save Preferences</button>
+              <p id="prefsMsg" class="text-sm hidden"></p>
+            </div>
+          </div>
+
+          <!-- Change password -->
+          <div class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+            <h2 class="text-lg font-bold text-on-surface mb-4">Change Password</h2>
+            <form id="passwordForm" class="flex flex-col gap-4">
+              <input id="pwCurrent" type="password" placeholder="Current password"
+                class="w-full px-4 py-2.5 rounded-2xl bg-surface-container-low border border-surface-container-high text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+              <input id="pwNew" type="password" placeholder="New password (min 8 characters)"
+                class="w-full px-4 py-2.5 rounded-2xl bg-surface-container-low border border-surface-container-high text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+              <input id="pwConfirm" type="password" placeholder="Confirm new password"
+                class="w-full px-4 py-2.5 rounded-2xl bg-surface-container-low border border-surface-container-high text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+              <button type="submit"
+                class="self-start px-6 py-2.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface text-sm font-bold transition-all">Update Password</button>
+              <p id="passwordMsg" class="text-sm hidden"></p>
+            </form>
+          </div>
+
+          <!-- Workout data (fitness-only exports) -->
+          <div class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+            <h3 class="text-base font-bold text-on-surface mb-1">Workout Reports</h3>
+            <p class="text-sm text-on-surface-variant mb-4">Download your workout history and performance reports. These exports contain fitness data only - never passwords, tokens or account details.</p>
+            <div class="flex flex-wrap items-center gap-3">
+              <button onclick="App.exportWorkoutReport()"
+                class="flex items-center gap-2 px-6 py-2.5 rounded-full bg-primary hover:bg-primary-container text-on-primary text-sm font-bold transition-all">
+                <span class="material-symbols-outlined text-[18px]">download</span>DOWNLOAD WORKOUT REPORT
+              </button>
+              <button onclick="App.exportWorkoutHistory()"
+                class="flex items-center gap-2 px-6 py-2.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface text-sm font-bold transition-all">
+                <span class="material-symbols-outlined text-[18px]">data_object</span>EXPORT WORKOUT HISTORY (JSON)
+              </button>
+            </div>
+            <p id="exportMsg" class="text-sm hidden mt-3"></p>
+          </div>
+
+          <!-- Danger zone -->
+          <div class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm border border-error-container">
+            <h3 class="text-base font-bold text-error mb-2">Danger Zone</h3>
+            <p class="text-sm text-on-surface-variant mb-4">Permanently delete your account and all associated data. This cannot be undone.</p>
+            <button onclick="App.openDelete()"
+              class="flex items-center gap-2 px-6 py-2.5 rounded-full bg-error hover:bg-error-container text-on-error text-sm font-bold transition-all">
+              <span class="material-symbols-outlined text-[18px]">delete_forever</span>Delete account
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Delete confirmation modal -->
+  <div class="fixed inset-0 z-50 hidden bg-inverse-surface/70 backdrop-blur-md flex items-center justify-center p-4" id="deleteModal">
+    <div class="w-full max-w-md bg-surface-container-lowest rounded-3xl p-8 shadow-2xl">
+      <div class="w-12 h-12 rounded-2xl bg-error-container text-error flex items-center justify-center mb-4"><span class="material-symbols-outlined text-[26px]">warning</span></div>
+      <h2 class="text-xl font-bold text-on-surface tracking-tight">Delete your account?</h2>
+      <p class="text-sm text-on-surface-variant mt-1 mb-5">This permanently removes your profile, workouts, stats, and achievements.</p>
+      <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wide" for="deleteConfirm">Type DELETE to confirm</label>
+      <input id="deleteConfirm" type="text" placeholder="DELETE"
+        class="mt-1 w-full px-4 py-2.5 rounded-2xl bg-surface-container-low border border-surface-container-high text-sm focus:outline-none focus:ring-2 focus:ring-error">
+      <div class="flex flex-col sm:flex-row items-center gap-2 mt-5">
+        <button class="w-full sm:flex-1 py-2.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface text-sm font-semibold" onclick="App.closeDelete()">Cancel</button>
+        <button id="deleteBtn" class="w-full sm:flex-1 py-2.5 rounded-full bg-error hover:bg-error-container text-on-error text-sm font-bold" onclick="App.confirmDelete()">Delete Forever</button>
+      </div>
+      <p id="deleteMsg" class="text-sm hidden mt-3"></p>
+    </div>
+  </div>
+
+  <div id="app-footer"></div>
+  <script src="js/shell.js"></script>
+  <script>
+    "use strict";
+
+    const App = (function () {
+      let profile = null;
+
+      function initials(name) {
+        return (name || "U").trim().split(/\s+/).slice(0, 2).map(function (w) { return w.charAt(0).toUpperCase(); }).join("") || "U";
+      }
+
+      function populate(user) {
+        if (!user) return;
+        profile = user;
+        document.getElementById("profileName").textContent = user.name || user.full_name || user.username;
+        document.getElementById("profileEmail").textContent = user.email || "";
+        document.getElementById("bigAvatar").textContent = initials(user.name || user.full_name || user.username);
+        document.getElementById("profileMeta").textContent =
+          (user.auth_provider === "google" ? "Google account" : "Email account") +
+          (user.email_verified ? " · Verified" : " · Not verified");
+        setValue("fieldName", user.full_name || user.name || "");
+        setValue("fieldUsername", user.username || "");
+        setValue("fieldAge", user.age);
+        setValue("fieldGender", user.gender);
+        setValue("fieldLifeStage", user.life_stage);
+        setValue("fieldWeight", user.weight);
+        setValue("fieldHeight", user.height);
+        setValue("fieldWeeklyGoal", user.weekly_workout_goal);
+        setValue("fieldFitnessGoal", user.fitness_goal);
+        setValue("fieldExperience", user.experience_level);
+        setValue("fieldCategory", user.exercise_category);
+        setValue("fieldDefaultExercise", user.default_exercise);
+        const prefs = user.preferences || {};
+        document.getElementById("prefEmails").checked = prefs.emailSummary !== false;
+        document.getElementById("prefMetric").checked = prefs.metricUnits !== false;
+      }
+
+      function setValue(id, value) {
+        const el = document.getElementById(id);
+        if (el) el.value = value == null ? "" : value;
+      }
+
+      // Fills the exercise selects from the real exercise catalogue.
+      async function loadExerciseOptions() {
+        try {
+          const res = await window.api.get("/api/exercises");
+          const exercises = res.data || [];
+          const category = document.getElementById("fieldCategory");
+          const target = document.getElementById("fieldDefaultExercise");
+          exercises.forEach(function (ex) {
+            if (category) {
+              const exists = Array.prototype.some.call(category.options, function (o) { return o.value === ex.name; });
+              if (!exists) {
+                const option = document.createElement("option");
+                option.value = ex.name;
+                option.textContent = ex.name;
+                category.appendChild(option);
+              }
+            }
+            if (target) {
+              const exists = Array.prototype.some.call(target.options, function (o) { return o.value === ex.id; });
+              if (!exists) {
+                const option = document.createElement("option");
+                option.value = ex.id;
+                option.textContent = ex.name;
+                target.appendChild(option);
+              }
+            }
+          });
+        } catch (_) {
+          /* the selects keep only the "Not specified" option */
+        }
+      }
+
+      function show(elId, message, ok) {
+        const el = document.getElementById(elId);
+        el.textContent = message;
+        el.className = "text-sm " + (ok ? "text-secondary" : "text-error") + " mt-2";
+      }
+
+      async function load() {
+        try {
+          const res = await window.api.get("/api/profile");
+          populate(res.data || {});
+        } catch (err) {
+          show("profileFormMsg", "Failed to load profile: " + err.message, false);
+        }
+      }
+
+      async function saveProfile(e) {
+        e.preventDefault();
+        try {
+          const numberField = function (id) {
+            const raw = document.getElementById(id).value.trim();
+            return raw === "" ? "" : Number(raw);
+          };
+          const res = await window.api.patch("/api/profile", {
+            full_name: document.getElementById("fieldName").value.trim(),
+            username: document.getElementById("fieldUsername").value.trim(),
+            age: numberField("fieldAge"),
+            gender: document.getElementById("fieldGender").value,
+            life_stage: document.getElementById("fieldLifeStage").value,
+            weight: numberField("fieldWeight"),
+            height: numberField("fieldHeight"),
+            weekly_workout_goal: numberField("fieldWeeklyGoal"),
+            fitness_goal: document.getElementById("fieldFitnessGoal").value,
+            experience_level: document.getElementById("fieldExperience").value,
+            exercise_category: document.getElementById("fieldCategory").value,
+            default_exercise: document.getElementById("fieldDefaultExercise").value,
+          });
+          show("profileFormMsg", res.message || "Profile updated successfully.", true);
+          load();
+        } catch (err) {
+          show("profileFormMsg", err.message, false);
+        }
+      }
+
+      async function exportWorkoutHistory() {
+        try {
+          const res = await window.api.get("/api/analysis");
+          const data = (res && res.data) || {};
+          if (data.hasData === false && !data.id) {
+            show("exportMsg", "No workout history found. Complete a workout first.", false);
+            return;
+          }
+          show("exportMsg", "Preparing your workout history export...", true);
+          window.location.href = "/api/workouts/export/history";
+        } catch (err) {
+          show("exportMsg", "Export failed: " + err.message, false);
+        }
+      }
+
+      async function savePrefs() {
+        try {
+          const payload = {
+            preferences: {
+              emailSummary: document.getElementById("prefEmails").checked,
+              metricUnits: document.getElementById("prefMetric").checked,
+            },
+          };
+          const res = await window.api.patch("/api/profile", payload);
+          show("prefsMsg", res.message || "Preferences saved.", true);
+        } catch (err) {
+          show("prefsMsg", err.message, false);
+        }
+      }
+
+      async function changePassword(e) {
+        e.preventDefault();
+        const msg = document.getElementById("passwordMsg");
+        show("passwordMsg", "", true);
+        try {
+          const res = await window.api.post("/api/auth/change-password", {
+            current_password: document.getElementById("pwCurrent").value,
+            new_password: document.getElementById("pwNew").value,
+            confirm_password: document.getElementById("pwConfirm").value,
+          });
+          show("passwordMsg", res.message || "Password changed.", true);
+          document.getElementById("pwCurrent").value = "";
+          document.getElementById("pwNew").value = "";
+          document.getElementById("pwConfirm").value = "";
+        } catch (err) {
+          show("passwordMsg", err.message, false);
+        }
+      }
+
+      async function exportWorkoutReport() {
+        try {
+          const res = await window.api.get("/api/analysis");
+          const data = res.data || {};
+          if (!data || data.hasData === false || !data.id) {
+            show("exportMsg", "No workout history found. Complete a workout first.", false);
+            return;
+          }
+          // Existing sanitised report endpoint (reused, not duplicated).
+          window.location.href = "/api/workouts/" + encodeURIComponent(data.id) + "/report/download";
+        } catch (err) {
+          show("exportMsg", "Export failed: " + err.message, false);
+        }
+      }
+
+      function openDelete() { document.getElementById("deleteModal").classList.remove("hidden"); }
+      function closeDelete() { document.getElementById("deleteModal").classList.add("hidden"); }
+
+      async function confirmDelete() {
+        const value = document.getElementById("deleteConfirm").value.trim();
+        if (value !== "DELETE") {
+          show("deleteMsg", "Please type DELETE to confirm.", false);
+          return;
+        }
+        const btn = document.getElementById("deleteBtn");
+        btn.disabled = true;
+        btn.textContent = "DELETING…";
+        try {
+          await window.api.delete("/api/profile", { confirmation: "DELETE" });
+          window.location.href = "/login";
+        } catch (err) {
+          btn.disabled = false;
+          btn.textContent = "Delete Forever";
+          show("deleteMsg", err.message, false);
+        }
+      }
+
+      function wire() {
+        document.getElementById("profileForm").addEventListener("submit", saveProfile);
+        document.getElementById("passwordForm").addEventListener("submit", changePassword);
+      }
+
+      function init() {
+        wire();
+        load();
+        loadExerciseOptions();
+      }
+
+      return {
+        init,
+        saveProfile,
+        changePassword,
+        savePrefs,
+        exportWorkoutReport,
+        exportWorkoutHistory,
+        openDelete,
+        closeDelete,
+        confirmDelete,
+      };
+    })();
+
+    document.addEventListener("DOMContentLoaded", App.init);
+  </script>
+
+</body>
+
+</html>
